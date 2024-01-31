@@ -6,7 +6,7 @@
 #    By: vduchi <vduchi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/22 22:11:19 by vduchi            #+#    #+#              #
-#    Updated: 2023/08/24 17:45:36 by vduchi           ###   ########.fr        #
+#    Updated: 2024/01/31 18:52:42 by mehernan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,28 +18,7 @@
 -include mk_files/sources_execute.mk
 -include mk_files/sources_built_ins.mk
 -include mk_files/sources_general.mk
-
-#=-=-=-=-=-=-=- COLORS DEFINITION =-=-=-=-=-=-=-=-=-#
-
-DEL_LINE		=	\033[2K
-ITALIC			=	\033[3m
-BOLD			=	\033[1m
-DEF_COLOR		=	\033[0;39m
-GRAY			=	\033[0;90m
-RED				=	\033[0;91m
-GREEN			=	\033[0;92m
-YELLOW			=	\033[0;93m
-BLUE			=	\033[0;94m
-MAGENTA			=	\033[0;95m
-CYAN			=	\033[0;96m
-WHITE			=	\033[0;97m
-BLACK			=	\033[0;99m
-ORANGE			=	\033[38;5;209m
-BROWN			=	\033[38;2;184;143;29m
-DARK_GRAY		=	\033[38;5;234m
-MID_GRAY		=	\033[38;5;245m
-DARK_GREEN		=	\033[38;2;75;179;82m
-DARK_YELLOW		=	\033[38;5;143m
+-include mk_files/colors_definition.mk
 
 #=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-#
 
@@ -51,7 +30,7 @@ RD_PATH			=	readline/libreadline.a
 #=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-#
 
 CFLAGS			+= 	-Wall -Werror -Wextra -DREADLINE_LIBRARY -g -O3 $(addprefix -I , $(INC_DIR)) #-fsanitize=address
-LDFLAGS			= 	-L libft -L readline -lft -lreadline -lncurses
+LDFLAGS			=	-L libft -L readline -lft -lreadline -lncurses
 DFLAGS_MS		=	-MMD -MP -MF $(DEP_DIR_MS)/$*.d
 DFLAGS_BI		=	-MMD -MP -MF $(DEP_DIR_BI)/$*.d
 DFLAGS_EXEC		=	-MMD -MP -MF $(DEP_DIR_EXEC)/$*.d
