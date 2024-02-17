@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "libft/libft.a"
+#include "libft/libft.h"
 #include "readline/readline.h"
 #include "readline/history.h"
 
@@ -18,77 +18,67 @@ int main()
 	t_test	*list;
 	t_test	*new;
 	int		i;
+	int 	j;
+	int		count_for_malloc;
 	char	*div_str;
 
 	list = NULL;
 	i = 0;
-
-	new = ft_calloc(1, sizeof(t_test));
-	new->pos = 0; // no es 0 pero un contador
-	new->str = ft_strdup("Primero");
-
-	if (list == NULL);
-		list = new; list = 0x3
-
-	new = ft_calloc(1, sizeof(t_test));
-	new->pos = 1;
-	new->str = ft_strdup("Segundo");
-
-	list->next = new;
-	new->prev = list;
-
-	new = ft_calloc(1, sizeof(t_test));
-	new->pos = 2;
-	new->str = ft_strdup("Tercero");
-
-	list->next->next = new;
-	new->prev = list->next;
+	div_str = NULL;
+	count_for_malloc = 0;
 
 	// Loop to continuously read input until "exit" is entered
 	while(1)
 	{
-/*A ver, lo que quiero hacer es que cada vez que se encuentre con | que pare y haya almacenado lo
- necesario en div_str. Esa variable guarta la string dividida por pos. Es decir cada ves que haya
- un comando distito lo guarda ahi para mandarlo a la estructura. El problema es que new debe tener
- el de despues y list el actual. A parte que hay que vaciar div_str para que no se haga un lio.
- Por no hablar que estoy haciendo tropocientas variables y es un poco cahotico. Espero que manana
- te ubiques.*/
+/*Sigue sin ir pero esta mas encaminado, lo del malloc esta solucionado pero habria que mirarlo bien con printf y cosas*/
 		input = readline("Enter a command: ");
-		while(input[i] != '|')
-		{
-			div_str[i] = input[i]
-			i++;
-		}
-		new = ft_calloc(1, sizeof(t_test));
-		new->pos = 0; // no es 0 pero un contador
-		new->str = div_str[i];
-
-		list->next = new;
-		new->prev = list;
-
-		new = ft_calloc(1, sizeof(t_test));
-		new->pos = 1;
-		new->str = div_str[i];
-
-		list->next->next = new;
-		new->prev = list->next;
-		// Read a line of input using readline
-		input = readline("Enter a command: ");
-		// Check if input is NULL (usually happens on EOF or Ctrl+D)
 		if (input == NULL)
 		{
 		    printf("\nExiting...\n");
 		    break;
 		}
-		
+		j = 0;
+		while(input[i] != '|')
+			count_for_malloc++;
+		div_str = malloc((count_for_malloc + 1) * (sizeof(char)));
+		while(input[i] != '|')//to safe every comand on string
+		{
+			div_str[j] = input[i];
+			i++;
+		}
+		new = ft_calloc(1, sizeof(t_test));
+		new->pos = 0; // no es 0 pero un contador
+		new->str = div_str;
+
+		list->next = new;
+		new->prev = list;
+
+		new = ft_calloc(1, sizeof(t_test));
+		new->pos = new->pos++; //no se si es asi o +1
+		if(new->pos > list->pos)
+		{
+			j = 0;
+			free(div_str);
+			if(input[i] == '|')//solo servira si solo hay un | por cada
+				i++;
+			while(input[i] != '|')
+			{
+				div_str[j] = input[i];
+				i++;
+			}
+			new->str = div_str;
+		}
+
+		list->next->next = new;
+		new->prev = list->next;
 		// Add the input to history
 		add_history(input);
 		
 		// Check if the user wants to exit
-		if (strcmp(input, "exit") == 0)
+		if (strcmp(list->str, "exit") == 0)
 		{
 		    printf("Exiting...\n");
-		    free(input); // Free the memory allocated by readline
+		    free(input);// Free the memory allocated by readline
 		    break;
 		}
 		
