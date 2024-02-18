@@ -26,37 +26,48 @@ int main()
 	i = 0;
 	div_str = NULL;
 	count_for_malloc = 0;
-
+	//printf("antes de entrar en el while\n");
 	// Loop to continuously read input until "exit" is entered
 	while(1)
 	{
-/*Sigue sin ir pero esta mas encaminado, lo del malloc esta solucionado pero habria que mirarlo bien con printf y cosas*/
 		input = readline("Enter a command: ");
+	//	printf("pre if null\n");
 		if (input == NULL)
 		{
+			printf("if de null\n");
 		    printf("\nExiting...\n");
 		    break;
 		}
+	//	printf("post if\n");
 		j = 0;
-		while(input[i] != '|')
-			count_for_malloc++;
-		div_str = malloc((count_for_malloc + 1) * (sizeof(char)));
-		while(input[i] != '|')//to safe every comand on string
+	//	printf("post j\n");
+		while(input[count_for_malloc] != '|' && input[count_for_malloc] != '\0')
 		{
+			printf("en el while\n");
+			count_for_malloc++;
+		}
+	//	printf("cout_for_malloc: %d\n", count_for_malloc);
+		div_str = malloc((count_for_malloc + 1) * (sizeof(char)));
+		while(input[i] != '|'&& input[i] != '\0')//to safe every comand on string
+		{
+			printf("bucando pipe\n");
 			div_str[j] = input[i];
 			i++;
 		}
 		new = ft_calloc(1, sizeof(t_test));
 		new->pos = 0; // no es 0 pero un contador
 		new->str = div_str;
-
-		list->next = new;
-		new->prev = list;
-
+		//printf("metido en new\n");
+		list = new;
+		printf("metido en list\n");
+		new->prev = NULL;
+		printf("new->prev ahora es list\n");
 		new = ft_calloc(1, sizeof(t_test));
-		new->pos = new->pos++; //no se si es asi o +1
+		new->pos++; //no se si es asi o +1
+		printf("pos++ que me he inventado\n");
 		if(new->pos > list->pos)
 		{
+			printf("entro en el if para liberar la div_str y meter la nueva en newmientras list tiene la vieja\n");
 			j = 0;
 			free(div_str);
 			if(input[i] == '|')//solo servira si solo hay un | por cada
@@ -69,14 +80,16 @@ int main()
 			new->str = div_str;
 		}
 
-		list->next->next = new;
-		new->prev = list->next;
+		list->next = new;
+		new->prev = list;
+		printf("se ha anadido lo nuevo\n");
 		// Add the input to history
 		add_history(input);
-		
+/*Hay un problema con el exit que no te lo coje, ademas que quizas hay que quitar los espacios de las palabras*/
 		// Check if the user wants to exit
 		if (strcmp(list->str, "exit") == 0)
 		{
+			printf("if del exit\n");
 		    printf("Exiting...\n");
 		    free(input);// Free the memory allocated by readline
 		    break;
