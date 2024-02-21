@@ -31,78 +31,88 @@ int main()
 	// Loop to continuously read input until "exit" is entered
 	while(1)
 	{
-/*el problema es que cuando se hace contineu pierde el resto del input porque hace readline, hay buscar
-una manera de que no haga readline si input tiene algo mas despues de un. Lo que ha ahora NO VA. Hace
-loop infinito|*/
-		if(controll_readline != 1)
+		input = readline("Enter a command: ");
+		if (input == NULL)
 		{
-			input = readline("Enter a command: ");
-			controll_readline = 1;
+			printf("\nExiting...\n");
+			break;
 		}
-		if(ft_strcmp(input, "\0") == 0)//in case you enter nothing it has to show you the promp again
+		else if(ft_strcmp(input, "\0") == 0)//in case you enter nothing it has to show you the promp again
 		{
 			free(input);
 			continue;
 		}
-		if (input == NULL)
-		{
-			 printf("\nExiting...\n");
-			break;
-		}
-		j = 0;
-		while(input[count_for_malloc] != '|' && input[count_for_malloc] != '\0')//to reservate memory with malloc
-			count_for_malloc++;
-		div_str = malloc((count_for_malloc + 1) * (sizeof(char)));
-		while(input[i] != '|'&& input[i] != '\0')//to safe every comand on strinig (not necessery to controlle space
-		{
-			printf("bucando pipe\n");
-			div_str[j] = input[i];
-			i++;
-			j++;
-		}
-		if(list == NULL)
-		{
-			new = ft_calloc(1, sizeof(t_test));
-			new->pos = 0; // no es 0 pero un contador pero hay que hacer ++ o buscar alguna manera.
-			new->str = div_str;
-			printf("metido en new: %s\n", div_str);
-			list = new;
-			new->prev = NULL;
-			new = ft_calloc(1, sizeof(t_test));
-		}
-		printf("cuanto es pos: %d\n", new->pos);
-		if(list != NULL)
-		{
-			new = ft_calloc(1, sizeof(t_test));
-			new->str = div_str;
-			printf("segundo metido en new: %s\n", div_str);
-			list->next = new;
-			new->prev = list;
-			new = ft_calloc(1, sizeof(t_test));
-		}
-		new->pos++; //no se si es asi o +1
-		free(div_str);
-		printf("cuanto es pos2: %d\n", new->pos);
-		if (ft_strcmp(div_str, "exit") == 0)//check if user wnts to exit
+	//	list = NULL;// esto en verdad no se si hace algo que este aqui abajo(antes estaba declarado arriba)
+	//	new = NULL;
+	//	free(new->str);
+		if (ft_strcmp(input, "exit") == 0)//check if user wnts to exit
 		{
 			printf("if del exit\n");
 			printf("Exiting...\n");
 			free(input);// Free the memory allocated by readline
 			break;
 		}
-		if(input[i] == '|')
+		add_history(input);
+		while (input[i])
 		{
-			printf("IF DEL DIV\n");
-			i++;
-			continue;
-			printf("div ahora es: %s\n", div_str);
-		}
-		else if(input[0] == '\0')
-		{
-			add_history(input);
-			free(div);
-			free(input);
-			break;
+			count_for_malloc = i;
+			while(input[count_for_malloc] != '|' && input[count_for_malloc] != '\0')//to reservate memory with malloc
+				count_for_malloc++;
+			free(div_str);
+			div_str = malloc((count_for_malloc - i + 1) * (sizeof(char)));
+			j = 0;
+			while(input[i] != '|' && input[i] != '\0')//to safe every comand on strinig (not necessery to controlle space
+			{
+				printf("bucando pipe\n");
+				div_str[j] = input[i];
+				i++;
+				j++;
+			}
+			
+			if(list == NULL)
+			{
+				new = ft_calloc(1, sizeof(t_test));
+			//	new->pos = 0;
+				new->str = div_str;
+				printf("metido en new: %s\n", div_str);
+				list = new;
+				new->prev = NULL;
+				i++;
+			//	new = ft_calloc(1, sizeof(t_test));
+				continue;
+			}
+		//	printf("cuanto es pos: %d\n", new->pos);
+			if(list != NULL && (input[i] == '|' || input[i] == '\0'))
+			{
+				new = ft_calloc(1, sizeof(t_test));
+				new->pos++;
+				new->str = div_str;
+				printf("segundo metido en new: %s\n", div_str);
+				list->next = new;
+				new->prev = list;
+			//	new = ft_calloc(1, sizeof(t_test));
+				i++;
+				continue;
+			}
+			printf("cuanto es pos: %d\n", new->pos);
+			printf("\n");
+
+			if(input[i] == '|')//pass the pipe
+			{
+				printf("pos era: %d\n", new->pos);
+				new->pos++;
+				i++;
+				printf("pos es: %d\n", new->pos);
+				continue;
+			}
+		//	if(input[i] == '\0')
+		//	{
+		//		add_history(input);
+		//		free(div);
+		//		free(input);
+		//		break;
+		//	}
+		free(input);
 		}
 	}
 	return 0;
