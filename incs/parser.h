@@ -6,7 +6,7 @@
 /*   By: vduchi <vduchi@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 17:41:42 by vduchi            #+#    #+#             */
-/*   Updated: 2024/03/08 20:56:18 by mehernan         ###   ########.fr       */
+/*   Updated: 2024/03/11 14:24:33 by mehernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 //# include "minishell.h"
 typedef struct s_test
 {
-    int pos;
+  //  int pos;
     char *str;
     struct s_test *prev;
     struct s_test *next;

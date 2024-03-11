@@ -6,7 +6,7 @@
 /*   By: mehernan <mehernan@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 19:07:02 by mehernan          #+#    #+#             */
-/*   Updated: 2024/03/08 21:08:44 by mehernan         ###   ########.fr       */
+/*   Updated: 2024/03/11 14:24:28 by mehernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,12 @@ static void	dividing(char *input, int i)
 			j++;
 		}
 		printf("%s\n", div_str);
-		free(div_str);
+//		free(div_str);
 		if (input[i] != '\0')
 			i++;
 	}
 	free(input);
+	pos_num(input, div_str);//para meterlo en la lista
 }
 
 int	main(void)
