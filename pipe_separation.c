@@ -6,7 +6,7 @@
 /*   By: mehernan <mehernan@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 19:07:02 by mehernan          #+#    #+#             */
-/*   Updated: 2024/03/11 14:24:28 by mehernan         ###   ########.fr       */
+/*   Updated: 2024/03/11 17:21:34 by mehernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@ static void	dividing(char *input, int i)
 	int		j;
 	int		count_for_malloc;
 	char	*div_str;
+	t_test	*list;
 
+	list = NULL;
 	while (input[i])
 	{
 		count_for_malloc = i;
@@ -37,12 +39,13 @@ static void	dividing(char *input, int i)
 			j++;
 		}
 		printf("%s\n", div_str);
+		put_list(&list, div_str);//para meterlo en la lista, ns si es necesario poner el t_test
 //		free(div_str);
 		if (input[i] != '\0')
 			i++;
 	}
 	free(input);
-	pos_num(input, div_str);//para meterlo en la lista
+	print_list(&list);
 }
 
 int	main(void)
@@ -50,7 +53,7 @@ int	main(void)
 	char	*input;
 	int		i;
 
-	i = 0;
+//	i = 0;
 	while (1)
 	{
 		input = readline("Enter a command: ");

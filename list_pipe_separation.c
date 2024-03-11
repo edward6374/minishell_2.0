@@ -6,7 +6,7 @@
 /*   By: mehernan <mehernan@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 19:04:56 by mehernan          #+#    #+#             */
-/*   Updated: 2024/03/11 14:24:25 by mehernan         ###   ########.fr       */
+/*   Updated: 2024/03/11 17:21:31 by mehernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdio.h>
@@ -15,18 +15,12 @@
 #include "readline/readline.h"
 #include "parser.h"
 
-void	*put_list(t_test **list, char *div_str)//a ver
+void	put_list(t_test **list, char *div_str)//a ver
 {
-//    t_test	*list;
 	t_test	*tmp;
 	t_test	*new;
-//	t_test	pos;
 
-	list = NULL;
-//	pos = .
-	if(!div_str)
-		break;
-	new = ft_calloc(1, t_test);
+	new = ft_calloc(1, sizeof(t_test));
 	new->str = div_str;
 	if (!(*list))
 		*list = new;
@@ -41,11 +35,14 @@ void	*put_list(t_test **list, char *div_str)//a ver
 }
 
 // funcion para printear la lista, esto va mas arriba
-void	print_list(t_test **temp)
+void	print_list(t_test **list)
 {
-	 while (temp != NULL)
+	t_test *temp;
+
+	temp = *list;
+	while (temp != NULL)
     {
-        printf("%s\n", temp->str);
+        printf("Que hay en la lista: -%s-\n", temp->str);
         temp = temp->next;
     }
 }
