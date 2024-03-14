@@ -6,7 +6,7 @@
 /*   By: mehernan <mehernan@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 19:07:02 by mehernan          #+#    #+#             */
-/*   Updated: 2024/03/11 17:21:34 by mehernan         ###   ########.fr       */
+/*   Updated: 2024/03/14 20:13:10 by mehernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "readline/history.h"
 #include "parser.h"
 
-static void	dividing(char *input, int i)
+static void	dividing_pipe(char *input, int i)
 {
 	int		j;
 	int		count_for_malloc;
@@ -40,7 +40,7 @@ static void	dividing(char *input, int i)
 		}
 		printf("%s\n", div_str);
 		put_list(&list, div_str);//para meterlo en la lista, ns si es necesario poner el t_test
-//		free(div_str);
+		dividing_words(div_str);
 		if (input[i] != '\0')
 			i++;
 	}
@@ -53,7 +53,6 @@ int	main(void)
 	char	*input;
 	int		i;
 
-//	i = 0;
 	while (1)
 	{
 		input = readline("Enter a command: ");
@@ -72,7 +71,7 @@ int	main(void)
 		}
 		add_history(input);
 		i = 0;
-		dividing(input, i);
+		dividing_pipe(input, i);
 	}
 	return (0);
 }

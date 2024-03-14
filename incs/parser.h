@@ -6,7 +6,7 @@
 /*   By: vduchi <vduchi@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 17:41:42 by vduchi            #+#    #+#             */
-/*   Updated: 2024/03/11 17:23:00 by mehernan         ###   ########.fr       */
+/*   Updated: 2024/03/14 20:13:10 by mehernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,13 @@ typedef struct s_test
 
 typedef struct s_word // lo usaremos para separar palabrras
 {
-    char *str;
+    char *word;
     struct s_test *prev;
     struct s_test *next;
 } t_word;
 
 void	put_list(t_test **list, char *div_str);
 void	print_list(t_test **list);
+void	dividing_words(char *div_str);//pot ser no cal
 
 #endif
