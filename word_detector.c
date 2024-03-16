@@ -6,7 +6,7 @@
 /*   By: mehernan <mehernan@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 17:25:10 by mehernan          #+#    #+#             */
-/*   Updated: 2024/03/16 14:00:54 by mehernan         ###   ########.fr       */
+/*   Updated: 2024/03/16 17:44:29 by mehernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 #include "libft/libft.h"
 #include "readline/readline.h"
 #include "parser.h"
-//compila pero no funciona
+
 int		check_quotes(char *div_str)
 {
 	int i;
-	int j;
+	int quotes;
 
 	i = 0;
 	j = 0;
@@ -45,8 +45,9 @@ void	print_word(char *div_str, char *word, int *i, int j)
 		(*i)++;
 	}
 	word[j] = '\0';
-	ft_bzero(word, j);
 	printf("%s\n", word);
+	ft_bzero(word, j);
+//	printf("%s\n", word);
 }
 
 void	print_word_between_quotes(char *div_str, char *word, int *i, int j)
