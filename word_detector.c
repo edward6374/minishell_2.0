@@ -6,7 +6,7 @@
 /*   By: mehernan <mehernan@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 17:25:10 by mehernan          #+#    #+#             */
-/*   Updated: 2024/03/14 20:13:10 by mehernan         ###   ########.fr       */
+/*   Updated: 2024/03/16 14:00:54 by mehernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,51 +23,59 @@ int		check_quotes(char *div_str)
 
 	i = 0;
 	j = 0;
+	printf("entro en check_quotes\n");
 	while(div_str[i])
 	{
 		if(div_str[i] == '\"' || div_str[i] == '\'')
 			j++;
 		i++;
 	}
+	printf("quotes: %d\n", j);
 	return(j);
 }
 
 void	print_word(char *div_str, char *word, int *i, int j)
 {
+//	printf("entro en print word\n");
 	while(div_str[*i])
 	{
-		if((div_str[*i] == '\"' || div_str[*i] == '\'') || div_str[*i] == ' ')
-		{
-			printf("%s\n", word);
-			j = 0;
-			free(word);
-			break;
-		}
 		word[j] = div_str[*i];
+		printf("word leter added: %c\n", word[j]);
+		j++;
 		(*i)++;
 	}
+	word[j] = '\0';
+	ft_bzero(word, j);
+	printf("%s\n", word);
 }
 
 void	print_word_between_quotes(char *div_str, char *word, int *i, int j)
 {
 	int quote;
-
+	
+	printf("entro es print between\n");
 	quote = check_quotes(div_str);
 	while(div_str[*i])
 	{
 		j = 0;
 		if(div_str[*i] == '\"' || div_str[*i] == '\'')
+		{
 			quote--;
+			i++;
+		}
 		word[j] = div_str[*i];
+		printf("word leter added 2: %c\n", word[j]);
 		if((div_str[*i] == ' ' && quote == 0) || quote == 0)
 		{
-			printf("%s\n", word);
+			printf("word before free: %s\n", word);
 			j = 0;
-			free(word);
+			ft_bzero(word, j);
 			break;
 		}
 		(*i)++;
 	}
+	word[j] = '\0';
+	printf("%s\n", word);
 }
 
 void	dividing_words(char *div_str)
@@ -87,8 +95,8 @@ void	dividing_words(char *div_str)
 		else
 			print_word(div_str, word, &i, j);
 	}
-	if(div_str[i] == '\0')
-		printf("word: %s\n", word);
+//	if(div_str[i] == '\0')
+//		printf("word: %s\n", word);
 	
 }
 
