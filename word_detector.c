@@ -15,11 +15,11 @@
 #include "libft/libft.h"
 #include "readline/readline.h"
 #include "parser.h"
-
-int		check_quotes(char *div_str)
+/* si pongo: "hola" adios, no va correctarmente*/
+int	check_quotes(char *div_str)
 {
 	int i;
-	int quotes;
+	int j;
 
 	i = 0;
 	j = 0;
@@ -34,20 +34,34 @@ int		check_quotes(char *div_str)
 	return(j);
 }
 
+void	end_word(char *div_str, char *word, int *i, int *j)
+{
+	word[*j] = div_str[*i];
+	printf("last letter added: %c\n", word[*j]);
+	(*j)++;
+	word[*j] = '\0';
+	printf("%s\n", word);
+	ft_bzero(word, *j);
+	*j = 0;
+	(*i)++;
+}
+
 void	print_word(char *div_str, char *word, int *i, int j)
 {
-//	printf("entro en print word\n");
 	while(div_str[*i])
 	{
-		word[j] = div_str[*i];
-		printf("word leter added: %c\n", word[j]);
-		j++;
-		(*i)++;
+		if(div_str[*i] == ' ')
+			(*i)++;
+		if(div_str[*i] != ' ' && (div_str[*i+1] == ' ' || div_str[*i+1] == '\0'))
+			end_word(div_str, word, i, &j);
+		else
+		{
+			word[j] = div_str[*i];
+			printf("word leter added: %c\n", word[j]);
+			j++;
+			(*i)++;
+		}
 	}
-	word[j] = '\0';
-	printf("%s\n", word);
-	ft_bzero(word, j);
-//	printf("%s\n", word);
 }
 
 void	print_word_between_quotes(char *div_str, char *word, int *i, int j)
@@ -58,25 +72,21 @@ void	print_word_between_quotes(char *div_str, char *word, int *i, int j)
 	quote = check_quotes(div_str);
 	while(div_str[*i])
 	{
-		j = 0;
 		if(div_str[*i] == '\"' || div_str[*i] == '\'')
 		{
+			
 			quote--;
-			i++;
+			(*i)++;
 		}
 		word[j] = div_str[*i];
-		printf("word leter added 2: %c\n", word[j]);
+		printf("word leter added : %c\n", word[j]);
 		if((div_str[*i] == ' ' && quote == 0) || quote == 0)
-		{
-			printf("word before free: %s\n", word);
-			j = 0;
-			ft_bzero(word, j);
-			break;
-		}
+			end_word(div_str, word, i, &j);
 		(*i)++;
+		j++;
 	}
-	word[j] = '\0';
-	printf("%s\n", word);
+	//word[j] = '\0';
+	//printf("%s\n", word);
 }
 
 void	dividing_words(char *div_str)
