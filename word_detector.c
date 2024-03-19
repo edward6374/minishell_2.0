@@ -16,23 +16,6 @@
 #include "readline/readline.h"
 #include "parser.h"
 /* si pongo: "hola" adios, no va correctarmente*/
-int	check_quotes(char *div_str)
-{
-	int i;
-	int j;
-
-	i = 0;
-	j = 0;
-	printf("entro en check_quotes\n");
-	while(div_str[i])
-	{
-		if(div_str[i] == '\"' || div_str[i] == '\'')
-			j++;
-		i++;
-	}
-	printf("quotes: %d\n", j);
-	return(j);
-}
 
 void	end_word(char *div_str, char *word, int *i, int *j)
 {
@@ -64,23 +47,23 @@ void	print_word(char *div_str, char *word, int *i, int j)
 	}
 }
 
-void	print_word_between_quotes(char *div_str, char *word, int *i, int j)
+void	print_word_simple_quotes(char *div_str, char *word, int *i)
 {
-	int quote;
+	int j;
 	
-	printf("entro es print between\n");
-	quote = check_quotes(div_str);
+	printf("simple quotes\n");
+	j = 0;
 	while(div_str[*i])
 	{
 		if(div_str[*i] == '\"' || div_str[*i] == '\'')
-		{
+	//	{
 			
 			quote--;
-			(*i)++;
-		}
+			//(*i)++;
+	//	}
 		word[j] = div_str[*i];
 		printf("word leter added : %c\n", word[j]);
-		if((div_str[*i] == ' ' && quote == 0) || quote == 0)
+		if((div_str[*i] == ' ' && quote % 
 			end_word(div_str, word, i, &j);
 		(*i)++;
 		j++;
@@ -92,15 +75,16 @@ void	print_word_between_quotes(char *div_str, char *word, int *i, int j)
 void	dividing_words(char *div_str)
 {
 	int i;
-	int j;
+	//int j;
 	char word[200];
 
 	i = 0;
-	j = 0;
+	//j = 0;
 	while(div_str[i])
 	{
-		if(div_str[i] == '\"' || div_str[i] == '\'')//cuando encuentre comillas
-			print_word_between_quotes(div_str, word, &i, j);
+		if(div_str[i] == '\"' || div_str[i] == '\'')
+			//print_word_between_quotes(div_str, word, &i, j);i
+			check_quotes(div_str, word, i);
 		else if(div_str[i] == ' ')
 			i++;
 		else
