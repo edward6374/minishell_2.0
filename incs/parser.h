@@ -31,5 +31,9 @@ typedef struct s_word // lo usaremos para separar palabrras
 void	put_list(t_test **list, char *div_str);
 void	print_list(t_test **list);
 void	dividing_words(char *div_str);//pot ser no cal
-
+void	print_word(char *div_str, char *word, int *i);
+void	end_word(char *div_str, char *word, int *i, int *j);
+void	print_word_double_quotes(char *div_str, char *word, int *i);
+void	print_word_simple_quotes(char *div_str, char *word, int *i);
+void	check_quotes(char *div_str, char *word, int *i);
 #endif

@@ -15,22 +15,27 @@
 #include "libft/libft.h"
 #include "readline/readline.h"
 #include "parser.h"
-/* si pongo: "hola" adios, no va correctarmente*/
 
 void	end_word(char *div_str, char *word, int *i, int *j)
 {
 	word[*j] = div_str[*i];
-	printf("last letter added: %c\n", word[*j]);
+	printf("(end word) last letter added: %c\n", word[*j]);
 	(*j)++;
 	word[*j] = '\0';
 	printf("%s\n", word);
 	ft_bzero(word, *j);
 	*j = 0;
 	(*i)++;
+	if(div_str[*i] != '\0')
+		check_quotes(div_str, word, i);
+
 }
 
-void	print_word(char *div_str, char *word, int *i, int j)
+void	print_word(char *div_str, char *word, int *i)
 {
+	int j;
+
+	j = 0;
 	while(div_str[*i])
 	{
 		if(div_str[*i] == ' ')
@@ -40,59 +45,31 @@ void	print_word(char *div_str, char *word, int *i, int j)
 		else
 		{
 			word[j] = div_str[*i];
-			printf("word leter added: %c\n", word[j]);
+			printf("(print word) word leter added: %c\n", word[j]);
 			j++;
 			(*i)++;
 		}
 	}
 }
 
-void	print_word_simple_quotes(char *div_str, char *word, int *i)
-{
-	int j;
-	
-	printf("simple quotes\n");
-	j = 0;
-	while(div_str[*i])
-	{
-		if(div_str[*i] == '\"' || div_str[*i] == '\'')
-	//	{
-			
-			quote--;
-			//(*i)++;
-	//	}
-		word[j] = div_str[*i];
-		printf("word leter added : %c\n", word[j]);
-		if((div_str[*i] == ' ' && quote % 
-			end_word(div_str, word, i, &j);
-		(*i)++;
-		j++;
-	}
-	//word[j] = '\0';
-	//printf("%s\n", word);
-}
-
 void	dividing_words(char *div_str)
 {
 	int i;
-	//int j;
 	char word[200];
 
 	i = 0;
-	//j = 0;
 	while(div_str[i])
 	{
 		if(div_str[i] == '\"' || div_str[i] == '\'')
-			//print_word_between_quotes(div_str, word, &i, j);i
-			check_quotes(div_str, word, i);
+		{
+			i = 0;
+			check_quotes(div_str, word, &i);
+		}
 		else if(div_str[i] == ' ')
 			i++;
 		else
-			print_word(div_str, word, &i, j);
+			print_word(div_str, word, &i);
 	}
-//	if(div_str[i] == '\0')
-//		printf("word: %s\n", word);
-	
 }
 
 //como lo voy a hacer con pasos
