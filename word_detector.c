@@ -22,7 +22,7 @@ void	end_word(char *div_str, char *word, int *i, int *j)
 	printf("(end word) last letter added: %c\n", word[*j]);
 	(*j)++;
 	word[*j] = '\0';
-	printf("%s\n", word);
+	printf("-%s-\n", word);
 	ft_bzero(word, *j);
 	*j = 0;
 	(*i)++;
@@ -34,13 +34,17 @@ void	end_word(char *div_str, char *word, int *i, int *j)
 void	print_word(char *div_str, char *word, int *i)
 {
 	int j;
+	int quote;
 
 	j = 0;
+	quote = 0;
 	while(div_str[*i])
 	{
-		if(div_str[*i] == ' ')
+		if(div_str[*i] == '\'' || div_str[*i] == '\"' )
+			quote++;
+		if(div_str[*i] == ' ' && quote == 0)
 			(*i)++;
-		if(div_str[*i] != ' ' && (div_str[*i+1] == ' ' || div_str[*i+1] == '\0'))
+		if((div_str[*i] != ' ' && (div_str[*i+1] == ' ' || div_str[*i+1] == '\0' || div_str[*i+1] == '<' || div_str[*i+1] == '>'))&& quote % 2 == 0)
 			end_word(div_str, word, i, &j);
 		else
 		{
@@ -60,7 +64,7 @@ void	dividing_words(char *div_str)
 	i = 0;
 	while(div_str[i])
 	{
-		if(div_str[i] == '\"' || div_str[i] == '\'')
+		if(div_str[i] == '\"' || div_str[i] == '\'' || div_str[i] == '<' || div_str[i] == '>')
 		{
 			i = 0;
 			check_quotes(div_str, word, &i);
@@ -73,18 +77,7 @@ void	dividing_words(char *div_str)
 }
 
 //como lo voy a hacer con pasos
-//1. coger las palabras separadas por espacios
-//	1.1 espacio al inicio y al final se quitan
-//		_hola_ --> hola
-//	1.2 si hay muchos espacios al inicio y al final da igual, lo de dentro es una palabra
-//		 _____hola___adios______ --> hola adios (dos palabras)
-//	1.3 si los espacios estan entre comillas se cuentan como palabra
-//		(recordemos que las comillas se quitan, pero eso mas adelante)
-//		_"___hola__adios_"___ --> ___hola__adios_
-//	1.4 en el pipe_separation no habra cosas raras como comillas sinn cerrar o errores
-//		estranos porque voy a hacer un corrector de errores, asi que nah.
-//	1.5 los espacios definen las palabras
-//		"hola_que_tal"_"bien_y_tu"_"pues_mal" --> hola_que_tal bien_y_tu pues_mal (3)
+//1. coger las palabras separadas por espacios y <> ✅
 //2. borrar comillas
 //3. meter las palabras en la lista
 //4. hacer el prev y el next y todo
