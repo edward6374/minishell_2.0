@@ -6,7 +6,7 @@
 /*   By: mehernan <mehernan@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 19:07:02 by mehernan          #+#    #+#             */
-/*   Updated: 2024/03/16 17:44:29 by mehernan         ###   ########.fr       */
+/*   Updated: 2024/03/26 12:33:21 by mehernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	dividing_pipe(char *input, int i)
 		}
 		printf("%s\n", div_str);
 		put_list(&list, div_str);//para meterlo en la lista, ns si es necesario poner el t_test
-		dividing_words(div_str);
+		dividing_words(list, div_str);
 		if (input[i] != '\0')
 			i++;
 	}

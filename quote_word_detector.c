@@ -1,13 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   quote_word_detector.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mehernan <mehernan@student.42barcel>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/26 10:45:59 by mehernan          #+#    #+#             */
+/*   Updated: 2024/03/26 14:04:43 by mehernan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "libft/libft.h"
 #include "readline/readline.h"
 #include "parser.h"
-void print_redirection(char *div_str,char *word, int *i)
+void print_redirection(t_word **list, char *div_str, char *word, int *i)
 {
-	int j;
+	int		j;
+	//t_word	*list;
 
 	j = 0;
+	list = NULL;
 	while(div_str[*i] == '<' || div_str[*i] == '>')
 	{
 		word[j] = div_str[*i];
@@ -15,15 +29,16 @@ void print_redirection(char *div_str,char *word, int *i)
 		(*i)++;
 		j++;
 	}
-		word[j] = '\0';
+	word[j] = '\0';
+	put_word_list(list, word);//poner en la lista
 	printf("-%s-\n", word);
 	ft_bzero(word, j);
 	j = 0;
 	if(div_str[*i] != '\0')
-		check_quotes(div_str, word, i);
+		check_quotes(list, div_str, word, i);
 }
 
-void	print_word_double_quotes(char *div_str, char *word, int *i)
+void	print_word_double_quotes(t_word **list, char *div_str, char *word, int *i)
 {
 	int j;
 	int quote;
@@ -37,7 +52,7 @@ void	print_word_double_quotes(char *div_str, char *word, int *i)
 			quote--;
 		if(quote == 0)
 		{
-			end_word(div_str, word, i, &j);
+			end_word(list, div_str, word, i);
 			break;
 		}
 		word[j] = div_str[*i];
@@ -47,7 +62,7 @@ void	print_word_double_quotes(char *div_str, char *word, int *i)
 	}
 }
 
-void	print_word_simple_quotes(char *div_str, char *word, int *i)
+void	print_word_simple_quotes(t_word **list, char *div_str, char *word, int *i)
 {
 	int j;
 	int quote;
@@ -61,7 +76,7 @@ void	print_word_simple_quotes(char *div_str, char *word, int *i)
 			quote--;
 		if(quote == 0)
 		{
-			end_word(div_str, word, i, &j);
+			end_word(list, div_str, word, i);
 			break;
 		}
 		word[j] = div_str[*i];
@@ -71,7 +86,7 @@ void	print_word_simple_quotes(char *div_str, char *word, int *i)
 	}
 }
 
-void	check_quotes(char *div_str, char *word, int *i)
+void	check_quotes(t_word **list, char *div_str, char *word, int *i)
 {
 	int 	count;
 
@@ -80,20 +95,20 @@ void	check_quotes(char *div_str, char *word, int *i)
 	{
 		if(div_str[count] == '\'')
 		{
-			print_word_simple_quotes(div_str, word, i);
+			print_word_simple_quotes(list, div_str, word, i);
 			break;
 		}
 		else if(div_str[count] == '\"')
 		{
-			print_word_double_quotes(div_str, word, i);
+			print_word_double_quotes(list, div_str, word, i);
 			break;
 		}
 		else if (div_str[count] == '<' || div_str[count] == '>')
 		{
-			print_redirection(div_str, word, i);
+			print_redirection(list, div_str, word, i);
 			break ;
 		}
 		count++;
 	}
-	print_word(div_str, word, i);
+	print_word(list, div_str, word, i);
 }

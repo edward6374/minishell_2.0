@@ -6,7 +6,7 @@
 /*   By: mehernan <mehernan@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 17:25:10 by mehernan          #+#    #+#             */
-/*   Updated: 2024/03/16 17:44:29 by mehernan         ###   ########.fr       */
+/*   Updated: 2024/03/26 14:06:25 by mehernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,39 @@
 #include "libft/libft.h"
 #include "readline/readline.h"
 #include "parser.h"
-
-void	end_word(char *div_str, char *word, int *i, int *j)
+/*LA cosa ya esta mejor, ahora queda hacer un while con las listas te comento
+ * (ves a la linea 78) */
+void	clean_word(char *div_str, char *word, int *i, int *j)
 {
 	word[*j] = div_str[*i];
 	printf("(end word) last letter added: %c\n", word[*j]);
 	(*j)++;
 	word[*j] = '\0';
+//	put_word_list(&list, word);//poner en la lista
 	printf("-%s-\n", word);
-	ft_bzero(word, *j);
+//	ft_bzero(word, *j);
 	*j = 0;
-	(*i)++;
-	if(div_str[*i] != '\0')
-		check_quotes(div_str, word, i);
-
 }
 
-void	print_word(char *div_str, char *word, int *i)
+void	end_word(t_word **list, char *div_str, char *word, int *i)
+{
+//	t_word	*list;
+	
+//	list = NULL;
+//	word[*j] = div_str[*i];
+//	printf("(end word) last letter added: %c\n", word[*j]);
+//	(*j)++;
+//	word[*j] = '\0';
+	put_word_list(list, word);//poner en la lista
+	printf("-%s-\n", word);
+	ft_bzero(word, *i);
+//	*j = 0;
+	(*i)++;
+	if(div_str[*i] != '\0')
+		check_quotes(list, div_str, word, i);
+}
+
+void	print_word(t_word **list, char *div_str, char *word, int *i)
 {
 	int j;
 	int quote;
@@ -45,7 +61,10 @@ void	print_word(char *div_str, char *word, int *i)
 		if(div_str[*i] == ' ' && quote == 0)
 			(*i)++;
 		if((div_str[*i] != ' ' && (div_str[*i+1] == ' ' || div_str[*i+1] == '\0' || div_str[*i+1] == '<' || div_str[*i+1] == '>'))&& quote % 2 == 0)
-			end_word(div_str, word, i, &j);
+		{
+			clean_word(div_str, word, i, &j);
+			end_word(list, div_str, word, i);
+		}
 		else
 		{
 			word[j] = div_str[*i];
@@ -55,8 +74,14 @@ void	print_word(char *div_str, char *word, int *i)
 		}
 	}
 }
-
-void	dividing_words(char *div_str)
+/*Buenas,a ver, nosotras tenemos los pipes en una lista con sus prev next y cositas, que es lo que pasa,
+ * que las word tiene que estar en el nodo en el cual estamos del pipe. Por lo tanto hay que recorrer la
+ * lista de los pipes, estar en el primer o en donde sea e ir metiendo las word. Eso seria mas facil si
+ * tuvieramos el pos pero COMO LO BORRAMOS💀 pues habra que ver como nos ubicamos para saber en que pipe
+ * estamos. Bueno con calma eh, siempre 🎀inestresada🎀 nunca estresada
+ *
+ * PD: no compila por eso */
+void	dividing_words(t_test *list, char *div_str)
 {
 	int i;
 	char word[200];
@@ -67,12 +92,12 @@ void	dividing_words(char *div_str)
 		if(div_str[i] == '\"' || div_str[i] == '\'' || div_str[i] == '<' || div_str[i] == '>')
 		{
 			i = 0;
-			check_quotes(div_str, word, &i);
+			check_quotes(&list, div_str, word, &i);
 		}
 		else if(div_str[i] == ' ')
 			i++;
 		else
-			print_word(div_str, word, &i);
+			print_word(&list, div_str, word, &i);
 	}
 }
 
