@@ -6,7 +6,7 @@
 /*   By: mehernan <mehernan@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 17:25:10 by mehernan          #+#    #+#             */
-/*   Updated: 2024/03/26 14:06:25 by mehernan         ###   ########.fr       */
+/*   Updated: 2024/03/28 19:01:23 by mehernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,33 +15,22 @@
 #include "libft/libft.h"
 #include "readline/readline.h"
 #include "parser.h"
-/*LA cosa ya esta mejor, ahora queda hacer un while con las listas te comento
- * (ves a la linea 78) */
+
 void	clean_word(char *div_str, char *word, int *i, int *j)
 {
 	word[*j] = div_str[*i];
-	printf("(end word) last letter added: %c\n", word[*j]);
+//	printf("(end word) last letter added: %c\n", word[*j]);
 	(*j)++;
 	word[*j] = '\0';
-//	put_word_list(&list, word);//poner en la lista
-	printf("-%s-\n", word);
-//	ft_bzero(word, *j);
+//	printf("-%s-\n", word);
 	*j = 0;
 }
 
 void	end_word(t_word **list, char *div_str, char *word, int *i)
 {
-//	t_word	*list;
-	
-//	list = NULL;
-//	word[*j] = div_str[*i];
-//	printf("(end word) last letter added: %c\n", word[*j]);
-//	(*j)++;
-//	word[*j] = '\0';
 	put_word_list(list, word);//poner en la lista
 	printf("-%s-\n", word);
 	ft_bzero(word, *i);
-//	*j = 0;
 	(*i)++;
 	if(div_str[*i] != '\0')
 		check_quotes(list, div_str, word, i);
@@ -68,63 +57,31 @@ void	print_word(t_word **list, char *div_str, char *word, int *i)
 		else
 		{
 			word[j] = div_str[*i];
-			printf("(print word) word leter added: %c\n", word[j]);
+//			printf("(print word) word leter added: %c\n", word[j]);
 			j++;
 			(*i)++;
 		}
 	}
 }
-/*Buenas,a ver, nosotras tenemos los pipes en una lista con sus prev next y cositas, que es lo que pasa,
- * que las word tiene que estar en el nodo en el cual estamos del pipe. Por lo tanto hay que recorrer la
- * lista de los pipes, estar en el primer o en donde sea e ir metiendo las word. Eso seria mas facil si
- * tuvieramos el pos pero COMO LO BORRAMOS💀 pues habra que ver como nos ubicamos para saber en que pipe
- * estamos. Bueno con calma eh, siempre 🎀inestresada🎀 nunca estresada
- *
- * PD: no compila por eso */
+
 void	dividing_words(t_test *list, char *div_str)
 {
 	int i;
 	char word[200];
 
 	i = 0;
-	while(div_str[i])
+	while (list->next != NULL)
+		list = list->next;
+	while (div_str[i])
 	{
 		if(div_str[i] == '\"' || div_str[i] == '\'' || div_str[i] == '<' || div_str[i] == '>')
 		{
 			i = 0;
-			check_quotes(&list, div_str, word, &i);
+			check_quotes(&list->words, div_str, word, &i);
 		}
 		else if(div_str[i] == ' ')
 			i++;
 		else
-			print_word(&list, div_str, word, &i);
+			print_word(&list->words, div_str, word, &i);
 	}
 }
-
-//como lo voy a hacer con pasos
-//1. coger las palabras separadas por espacios y <> ✅
-//2. borrar comillas
-//3. meter las palabras en la lista
-//4. hacer el prev y el next y todo
-
-
-//He creado una estructura que se puede usar como nueva lista. Puede parece
-//incomodo al principio pero para luego pasarlo a los comandosa sera mas
-//facil. Lo que hay que hacer ahora es:
-//1. Que es una palabra? --> caracteres que estan determinados por espacios
-//si los espacios estan antes que las comillas, lo de dentroo de las comillas
-//es una palabra.
-//		1.
-//		ejemplo: _hola""que'ta  l'_abc
-//		todo esto seria una palabra
-//		abc es otra palabra
-//		2.
-//		ejemplo: hola""que'ta  l'abc
-//		esto es todo una palabra
-//
-//2. Se de ben quitar las comillas.
-//		ejemplo: "hola que tal"
-//		         "kkk''lk"
-//		resultado: hola que tal
-//		           kkklk
-//

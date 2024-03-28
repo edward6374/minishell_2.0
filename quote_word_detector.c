@@ -6,7 +6,7 @@
 /*   By: mehernan <mehernan@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:45:59 by mehernan          #+#    #+#             */
-/*   Updated: 2024/03/26 14:04:43 by mehernan         ###   ########.fr       */
+/*   Updated: 2024/03/28 19:02:12 by mehernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void print_redirection(t_word **list, char *div_str, char *word, int *i)
 	while(div_str[*i] == '<' || div_str[*i] == '>')
 	{
 		word[j] = div_str[*i];
-		printf("(redirection)letter added: %c\n", word[j]);
+//		printf("(redirection)letter added: %c\n", word[j]);
 		(*i)++;
 		j++;
 	}
@@ -43,7 +43,7 @@ void	print_word_double_quotes(t_word **list, char *div_str, char *word, int *i)
 	int j;
 	int quote;
 
-	printf("double quotes\n");
+//	printf("double quotes\n");
 	j = 0;
 	quote = 2;
 	while(div_str[*i])
@@ -56,7 +56,7 @@ void	print_word_double_quotes(t_word **list, char *div_str, char *word, int *i)
 			break;
 		}
 		word[j] = div_str[*i];
-		printf("(double) word leter added : %c\n", word[j]);
+//		printf("(double) word leter added : %c\n", word[j]);
 		(*i)++;
 		j++;
 	}
@@ -67,7 +67,7 @@ void	print_word_simple_quotes(t_word **list, char *div_str, char *word, int *i)
 	int j;
 	int quote;
 
-	printf("simple quotes\n");
+//	printf("simple quotes\n");
 	j = 0;
 	quote = 2;
 	while(div_str[*i])
@@ -80,7 +80,7 @@ void	print_word_simple_quotes(t_word **list, char *div_str, char *word, int *i)
 			break;
 		}
 		word[j] = div_str[*i];
-		printf("(simple) word leter added : %c\n", word[j]);
+//		printf("(simple) word leter added : %c\n", word[j]);
 		(*i)++;
 		j++;
 	}

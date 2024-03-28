@@ -6,7 +6,7 @@
 /*   By: vduchi <vduchi@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 17:41:42 by vduchi            #+#    #+#             */
-/*   Updated: 2024/03/26 14:04:35 by mehernan         ###   ########.fr       */
+/*   Updated: 2024/03/28 18:29:31 by mehernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ typedef struct s_test
 {
     char			*str;
 	t_word			*words;
-    struct s_test	*prev;
+	struct s_test	*prev;
     struct s_test	*next;
 } t_test;
 
