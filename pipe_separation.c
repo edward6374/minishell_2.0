@@ -44,13 +44,13 @@ static void	dividing_pipe(char *input, int i)
 		if (input[i] != '\0')
 			i++;
 	}
-	free(input);
+//	free(input);
 	print_list(&list);
 }
 
-int	main(void)
+int	parser(t_min *tk, char *line)
 {
-	char	*input;
+	/*char	*input;
 	int		i;
 
 	while (1)
@@ -70,8 +70,9 @@ int	main(void)
 			break ;
 		}
 		add_history(input);
-		i = 0;
-		dividing_pipe(input, i);
-	}
+		i = 0;*/
+	dividing_pipe(line, 0);
+	(void)tk;
+	//}
 	return (0);
 }

@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 #include "signalm.h"
+#include "parser.h"
 
 unsigned char	g_exit = 0;
 
@@ -43,6 +44,7 @@ t_min	*init_struct(char *env[])
 	return (tk);
 }
 
+/*
 void	program(t_min *tk, char *line)
 {
 	int	err;
@@ -69,26 +71,32 @@ void	program(t_min *tk, char *line)
 	tk->num_cmds = 0;
 	free(line);
 }
+*/
 
 int	loop_main(t_min *tk)
 {
+//	int	err;
 	char	*path;
 	char	*line;
 
 	path = get_curr_path();
 	line = readline(path);
-	if (!line)
-	{
-		if (isatty(STDIN_FILENO))
-			write(2, "exit\n", 6);
-		return (free_pointer(path, 1));
-	}
-	else if (line && line[0] == '\0')
+//	if (!line)
+//	{
+//		if (isatty(STDIN_FILENO))
+//			write(2, "exit\n", 6);
+//		return (free_pointer(path, 1));
+//	}
+//	else if (line && line[0] == '\0')
+	if (line && line[0] == '\0')
 	{
 		free(line);
 		return (0);
 	}
-	program(tk, line);
+	add_history(line);
+	parser(tk, line);
+	free(line);
+//	program(tk, line);
 	free(path);
 	return (0);
 }
@@ -105,13 +113,15 @@ int	main(int argc, char *argv[], char *env[])
 		init_pwd(tk);
 		set_term();
 		if (!tk)
-			return (end_program(NULL, MALLOC));
+			exit(0);
+//			return (end_program(NULL, MALLOC));
 		while (42)
 		{
 			set_signals(0);
 			result = loop_main(tk);
 			if (result == 1)
-				return (d_key(&tk));
+				exit(0);
+//				return (d_key(&tk));
 		}
 	}
 	else

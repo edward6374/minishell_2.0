@@ -13,7 +13,7 @@
 #ifndef PARSER_H
 # define PARSER_H
 
-//# include "minishell.h"
+# include "minishell.h"
 typedef struct s_word // lo usaremos para separar palabrras
 {
     char *str;
@@ -40,4 +40,5 @@ void	print_redirection(t_word **list, char *div_str, char *word, int *i);
 void	check_quotes(t_word **list, char *div_str, char *word, int *i);
 void	put_word_list(t_word **list, char *word);
 void	print_word_list(t_word **list);
+int	parser(t_min *tk, char *line);
 #endif

@@ -85,3 +85,7 @@ void	dividing_words(t_test *list, char *div_str)
 			print_word(&list->words, div_str, word, &i);
 	}
 }
+/*NUEVAS COSITAS UwU
+ * si hay un $ significa que lo que hay escrito despues es una variable de entorno. 
+ * La variable acaba cuando se encuentra algo que no es una letra o un numero o un _
+ * */
