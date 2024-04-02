@@ -6,7 +6,7 @@
 /*   By: mehernan <mehernan@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 12:46:09 by mehernan          #+#    #+#             */
-/*   Updated: 2024/04/02 14:19:51 by mehernan         ###   ########.fr       */
+/*   Updated: 2024/04/02 20:21:42 by mehernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdio.h>
@@ -23,24 +23,48 @@ void	check_dollar(t_min *tk, t_test *list)
 {
 	int i;
 	int j;
+	int sin;
 	char var[200];
+	t_word	*tmp;
+	(void)tk;
 
-	i = 0;
-	j = 0;
+	sin = 0;
 	printf("check_dollar\n");
-	while(word[i])
+	while(list != NULL)
 	{
-		if(word[i] == '$' && word[0] != '\'')
+		tmp = list->words;
+		while (tmp != NULL)
 		{
-			i = i + 1;
-			while(word[i] != '\0' || ((word[i] > 64 && word[i] < 91) || (word[i] > 96 && word[i] < 123)) || (word[i] > 47 && word[i] < 58) || word[i] != '_')
+			i = 0;
+			j = 0;
+			while (tmp->str[i])
 			{
-				var[j] = word[i];
+				if (tmp->str[i] == '\'' && sin == 0)
+					sin++;
+				else if (tmp->str[i] == '\'' && sin == 1)
+					sin--;
+				printf("que char es?: %c\n", tmp->str[i]);
+				if(tmp->str[i] == '$' && sin == 0)
+				{
+					i++;
+					printf("UN DOLLAR🤑\n");
+					while(tmp->str[i] != '\0' && ((tmp->str[i] > 64 && tmp->str[i] < 91) ||
+					(tmp->str[i] > 96 && tmp->str[i] < 123) ||
+					(tmp->str[i] > 47 && tmp->str[i] < 58) || tmp->str[i] == '_'))
+					{
+							var[j] = tmp->str[i];
+							printf("added✅: %c\n", var[j]);
+							i++;
+							j++;
+					}
+					var[j] = '\0';
+					printf("variable: %s\n", var);
+					break ;
+				}
 				i++;
-				j++;
 			}
-			printf("variable: %s\n", var);
+			tmp = tmp->next;
 		}
-		i++;
+		list = list->next;
 	}
 }

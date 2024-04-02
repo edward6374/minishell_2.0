@@ -6,7 +6,7 @@
 /*   By: mehernan <mehernan@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 19:07:02 by mehernan          #+#    #+#             */
-/*   Updated: 2024/04/02 13:58:07 by mehernan         ###   ########.fr       */
+/*   Updated: 2024/04/02 19:12:09 by mehernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	parser(t_min *tk, char *line)//pasado main
 		add_history(input);
 		i = 0;*/
 	list = dividing_pipe(line, 0);
-	expand_variables(tk, list);
+	check_dollar(tk, list);
 	//}
 	return (0);
 }

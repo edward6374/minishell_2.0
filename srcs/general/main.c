@@ -6,7 +6,7 @@
 /*   By: vduchi <vduchi@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 16:08:59 by vduchi            #+#    #+#             */
-/*   Updated: 2023/08/31 18:32:16 by vduchi           ###   ########.fr       */
+/*   Updated: 2024/04/02 17:43:51 by mehernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,12 @@ int	loop_main(t_min *tk)
 
 	path = get_curr_path();
 	line = readline(path);
-//	if (!line)
-//	{
-//		if (isatty(STDIN_FILENO))
-//			write(2, "exit\n", 6);
-//		return (free_pointer(path, 1));
-//	}
+	if (!line)
+	{
+		if (isatty(STDIN_FILENO))
+			write(2, "exit\n", 6);
+		return (free_pointer(path, 1));
+	}
 //	else if (line && line[0] == '\0')
 	if (line && line[0] == '\0')
 	{
