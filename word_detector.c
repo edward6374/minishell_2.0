@@ -6,7 +6,7 @@
 /*   By: mehernan <mehernan@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 17:25:10 by mehernan          #+#    #+#             */
-/*   Updated: 2024/03/28 19:01:23 by mehernan         ###   ########.fr       */
+/*   Updated: 2024/04/02 13:46:39 by mehernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,3 @@ void	dividing_words(t_test *list, char *div_str)
 			print_word(&list->words, div_str, word, &i);
 	}
 }
-/*NUEVAS COSITAS UwU
- * si hay un $ significa que lo que hay escrito despues es una variable de entorno. 
- * La variable acaba cuando se encuentra algo que no es una letra o un numero o un _
- * */

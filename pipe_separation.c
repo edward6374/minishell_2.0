@@ -6,7 +6,7 @@
 /*   By: mehernan <mehernan@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 19:07:02 by mehernan          #+#    #+#             */
-/*   Updated: 2024/03/26 12:33:21 by mehernan         ###   ########.fr       */
+/*   Updated: 2024/04/02 13:58:07 by mehernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "readline/history.h"
 #include "parser.h"
 
-static void	dividing_pipe(char *input, int i)
+static t_test	*dividing_pipe(char *input, int i)
 {
 	int		j;
 	int		count_for_malloc;
@@ -46,10 +46,12 @@ static void	dividing_pipe(char *input, int i)
 	}
 //	free(input);
 	print_list(&list);
+	return (list);
 }
 
-int	parser(t_min *tk, char *line)
+int	parser(t_min *tk, char *line)//pasado main
 {
+	t_test	*list;
 	/*char	*input;
 	int		i;
 
@@ -71,8 +73,8 @@ int	parser(t_min *tk, char *line)
 		}
 		add_history(input);
 		i = 0;*/
-	dividing_pipe(line, 0);
-	(void)tk;
+	list = dividing_pipe(line, 0);
+	expand_variables(tk, list);
 	//}
 	return (0);
 }

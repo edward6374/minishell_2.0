@@ -1,11 +1,11 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list_pipe_separation.c                             :+:      :+:    :+:   */
+/*   expand_variable.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mehernan <mehernan@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/08 19:04:56 by mehernan          #+#    #+#             */
+/*   Created: 2024/04/02 12:46:09 by mehernan          #+#    #+#             */
 /*   Updated: 2024/04/02 14:19:51 by mehernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -15,34 +15,32 @@
 #include "readline/readline.h"
 #include "parser.h"
 
-void	put_list(t_test **list, char *div_str)//a ver
+/*NUEVAS COSITAS UwU
+ * si hay un $ significa que lo que hay escrito despues es una variable de entorno.
+ * La variable acaba cuando se encuentra algo que no es una letra o un numero o un _
+ * */
+void	check_dollar(t_min *tk, t_test *list)
 {
-	t_test	*tmp;
-	t_test	*new;
+	int i;
+	int j;
+	char var[200];
 
-	new = ft_calloc(1, sizeof(t_test));
-	new->str = div_str;
-	if (!(*list))
-		*list = new;
-	else
+	i = 0;
+	j = 0;
+	printf("check_dollar\n");
+	while(word[i])
 	{
-		tmp = *list;
-		while (tmp->next != NULL)
-			tmp = tmp->next;
-		tmp->next = new;
-		new->prev = tmp;
+		if(word[i] == '$' && word[0] != '\'')
+		{
+			i = i + 1;
+			while(word[i] != '\0' || ((word[i] > 64 && word[i] < 91) || (word[i] > 96 && word[i] < 123)) || (word[i] > 47 && word[i] < 58) || word[i] != '_')
+			{
+				var[j] = word[i];
+				i++;
+				j++;
+			}
+			printf("variable: %s\n", var);
+		}
+		i++;
 	}
-}
-
-// funcion para printear la lista, esto va mas arriba
-void	print_list(t_test **list)
-{
-	t_test *temp;
-
-	temp = *list;
-	while (temp != NULL)
-    {
-        printf("Que hay en la lista: -%s-\n", temp->str);
-        temp = temp->next;
-    }
 }

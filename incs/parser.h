@@ -6,7 +6,7 @@
 /*   By: vduchi <vduchi@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 17:41:42 by vduchi            #+#    #+#             */
-/*   Updated: 2024/03/28 18:29:31 by mehernan         ###   ########.fr       */
+/*   Updated: 2024/04/02 14:19:51 by mehernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,6 @@ void	print_redirection(t_word **list, char *div_str, char *word, int *i);
 void	check_quotes(t_word **list, char *div_str, char *word, int *i);
 void	put_word_list(t_word **list, char *word);
 void	print_word_list(t_word **list);
-int	parser(t_min *tk, char *line);
+int		parser(t_min *tk, char *line);
+void	check_dollar(t_min *tk, t_test *list);
 #endif
