@@ -40,6 +40,9 @@ void	print_redirection(t_word **list, char *div_str, char *word, int *i);
 void	check_quotes(t_word **list, char *div_str, char *word, int *i);
 void	put_word_list(t_word **list, char *word);
 void	print_word_list(t_word **list);
-int		parser(t_min *tk, char *line);
+int	parser(t_min *tk, char *line);
+void	check_dollar(t_min *tk, t_test *list);
+int	dollar_found(t_word *tmp, int *i);
+int	find_dollar(t_word *tmp, int *i);
 void	check_dollar(t_min *tk, t_test *list);
 #endif
