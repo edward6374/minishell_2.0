@@ -15,13 +15,34 @@
 #include "readline/readline.h"
 #include "parser.h"
 
-/*NUEVAS COSITAS UwU
- * si hay un $ significa que lo que hay escrito despues es una variable de entorno.
- * La variable acaba cuando se encuentra algo que no es una letra o un numero o un _
- * */
-void	dollar_found(t_word *tmp, int *i)
+char	*send_variable(t_min *tk, char *var, char *value)
 {
-	char var[200];
+	int i;
+	t_env *tmp;
+	
+
+	i = 0;
+	tmp = tk->env;
+	while(tmp)
+	{
+		if(ft_strcmp(tmp->name, var) == 0)
+		{
+			while(tmp->value[i])
+			{
+				value[i] = tmp->value[i];
+				i++;
+			}
+			value[i] = '\0';
+			printf("value: %s\n", value);
+			return(value);
+		}
+		tmp = tmp->next;
+	}
+	return(NULL);
+}
+
+char	*dollar_found(t_word *tmp, int *i, char *var)
+{
 	int  j;
 
 	j = 0;
@@ -36,12 +57,14 @@ void	dollar_found(t_word *tmp, int *i)
 		(*i)++;
 		j++;
 	}
+	var[j] = '=';
+	j++;
 	var[j] = '\0';
 	printf("variable: %s\n", var);
-	//return(*i);
+	return(var);
 }
 
-void	find_dollar(t_word *tmp, int *i)
+char	*find_dollar(t_word *tmp, int *i, char *var)
 { 
 	int sin;
 
@@ -52,13 +75,15 @@ void	find_dollar(t_word *tmp, int *i)
 		sin--;
 	printf("que char es?: %c\n", tmp->str[*i]);
 	if(tmp->str[*i] == '$' && sin == 0)
-		dollar_found(tmp, i);
-	//return(*i);
+		var = dollar_found(tmp, i, var);
+	return(var);
 }
 
 void	check_dollar(t_min *tk, t_test *list)
 {
 	int i;
+	char var[200];
+	char value[200];
 	t_word	*tmp;
 	(void)tk;
 
@@ -70,7 +95,8 @@ void	check_dollar(t_min *tk, t_test *list)
 			i = 0;
 			while (tmp->str[i])
 			{
-				find_dollar(tmp, &i);
+				find_dollar(tmp, &i, var);
+				send_variable(tk, var, value);
 				i++;
 			}
 			tmp = tmp->next;
