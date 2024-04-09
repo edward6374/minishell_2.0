@@ -97,7 +97,7 @@ void	check_dollar(t_min *tk, t_test *list)
 			{
 				find_dollar(tmp, &i, var);
 				send_variable(tk, var, value);
-				change_word(tk, t
+				change_word(tmp, value, &i);
 				i++;
 			}
 			tmp = tmp->next;

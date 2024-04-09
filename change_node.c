@@ -15,4 +15,23 @@
 #include "readline/readline.h"
 #include "parser.h"
 
+void	change_word( t_word *tmp, char *value, int *i)
+{
+	int count;
+	int j;
 
+	count = *i;
+	j = 0;
+	while(tmp->str[*i] != '$')
+		(*i)--;
+	printf("deberia ser dollar: %c\n", tmp->str[*i]);
+	while(count != -1)
+	{
+		tmp->str[*i] = value[j];
+		printf("value added: %c\n", tmp->str[*i]);
+//		pritnf("count: %d\n", count);
+		(*i)++;
+		j++;
+		count--;
+	}
+}
