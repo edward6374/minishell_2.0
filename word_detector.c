@@ -67,7 +67,7 @@ void	print_word(t_word **list, char *div_str, char *word, int *i)
 void	dividing_words(t_test *list, char *div_str)
 {
 	int i;
-	char word[200];
+	char word[2000];
 
 	i = 0;
 	while (list->next != NULL)

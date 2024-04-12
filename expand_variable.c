@@ -15,91 +15,89 @@
 #include "readline/readline.h"
 #include "parser.h"
 
-char	*send_variable(t_min *tk, char *var, char *value)
+static void	send_variable(t_min *tk, char *var, char *value)
 {
-	int i;
-	t_env *tmp;
-	
+	int	i;
+	t_env	*tmp;
 
-	i = 0;
+	i = -1;
 	tmp = tk->env;
 	while(tmp)
 	{
 		if(ft_strcmp(tmp->name, var) == 0)
 		{
-			while(tmp->value[i])
-			{
+			while(tmp->value[++i])
 				value[i] = tmp->value[i];
-				i++;
-			}
 			value[i] = '\0';
-			printf("value: %s\n", value);
-			return(value);
+//			printf("value: %s\n", value);
+			break ;
 		}
 		tmp = tmp->next;
 	}
-	return(NULL);
 }
 
-char	*dollar_found(t_word *tmp, int *i, char *var)
+static void	dollar_found(char *str, char *var)
 {
-	int  j;
+	int	i;
+	int	j;
 
+	i = 0;
 	j = 0;
-	(*i)++;
-	printf("UN DOLLAR🤑\n");
-	while(tmp->str[*i] != '\0' && ((tmp->str[*i] > 64 && tmp->str[*i] < 91) ||
-	(tmp->str[*i] > 96 && tmp->str[*i] < 123) ||
-	(tmp->str[*i] > 47 && tmp->str[*i] < 58) || tmp->str[*i] == '_'))
+//	printf("UN DOLLAR🤑\n");
+	while(str[i] != '\0' && ((str[i] > 64 && str[i] < 91)
+			|| (str[i] > 96 && str[i] < 123)
+		|| (str[i] > 47 && str[i] < 58) || str[i] == '_'))
 	{
-		var[j] = tmp->str[*i];
-		printf("added✅: %c\n", var[j]);
-		(*i)++;
-		j++;
+//		printf("added✅: -%c-\n", str[i]);
+		var[j++] = str[i++];
 	}
-	var[j] = '=';
-	j++;
+	var[j++] = '=';
 	var[j] = '\0';
-	printf("variable: %s\n", var);
-	return(var);
+//	printf("variable: %s\n", var);
 }
 
-char	*find_dollar(t_word *tmp, int *i, char *var)
-{ 
-	int sin;
+static void	find_dollar(t_min *tk, t_word *tmp, char *var)
+{
+	int	i;
+	int	sin;
+	char	value[2000];
 
+	i = -1;
 	sin = 0;
-	if (tmp->str[*i] == '\'' && sin == 0)
-		sin++;
-	else if (tmp->str[*i] == '\'' && sin == 1)
-		sin--;
-	printf("que char es?: %c\n", tmp->str[*i]);
-	if(tmp->str[*i] == '$' && sin == 0)
-		var = dollar_found(tmp, i, var);
-	return(var);
+	while (tmp->str[++i])
+	{
+		if (tmp->str[i] == '\'' && sin == 0)
+			sin++;
+		else if (tmp->str[i] == '\'' && sin == 1)
+			sin--;
+		printf("que char es?: %c\n", tmp->str[i]);
+		if(tmp->str[i] == '$' && sin == 0)
+		{
+			dollar_found(&tmp->str[++i], var);
+			send_variable(tk, var, value);
+			i += change_word(tmp, i, ft_strlen(var) - 1, value);
+		}
+	}
 }
 
 void	check_dollar(t_min *tk, t_test *list)
 {
-	int i;
-	char var[200];
-	char value[200];
+	char	var[2000];
 	t_word	*tmp;
-	(void)tk;
 
 	while(list != NULL)
 	{
 		tmp = list->words;
 		while (tmp != NULL)
 		{
-			i = 0;
-			while (tmp->str[i])
-			{
-				find_dollar(tmp, &i, var);
-				send_variable(tk, var, value);
-				change_word(tmp, value, &i);
-				i++;
-			}
+			find_dollar(tk, tmp, var);
+//			while (tmp->str[++i])
+//			{
+//				if (find_dollar(tmp, i, var))
+//				send_variable(tk, var, value);
+//				change_word(tmp, value, &i);
+//			}
+			printf("Word after check dollar: -%s-\n", tmp->str);
 			tmp = tmp->next;
 		}
 		list = list->next;
