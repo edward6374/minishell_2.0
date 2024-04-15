@@ -42,8 +42,6 @@ void	put_word_list(t_word **list, char *word);
 void	print_word_list(t_word **list);
 int	parser(t_min *tk, char *line);
 void	check_dollar(t_min *tk, t_test *list);
-//char	*dollar_found(t_word *tmp, int *i, char *var);
-//char	*find_dollar(t_word *tmp, int *i, char *var);
-//char	*send_variable(t_min *tk, char *var, char *value);
 int	change_word(t_word *tmp, int i, int len, char *value);
+void	deleting(t_test *list);
 #endif

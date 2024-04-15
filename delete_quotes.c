@@ -19,26 +19,36 @@
 void	deleting(t_test *list)
 {
 	t_word *tmp;
+	char str[20000];
 	int i;
+	int j;
 
-	i = 0;
 	while(list != NULL)
 	{
-		tmp = list->word;
+		tmp = list->words;
 		while(tmp != NULL)
 		{
+			ft_bzero(str, j);
+			i = 0;
+			j = 0;
 			while(tmp->str[i])
 			{
 				if(tmp->str[i] == '\"' || tmp->str[i] == '\'')
-					// todo esto del comentario va aqui
-				i++;
+					i++;
+				else
+				{
+					str[j] = tmp->str[i];
+					printf("car str: %c\n", str[j]);
+					j++;
+					i++;
+				}
 			}
+			str[i] = '\0';
+			printf("palabra nueva: %s\n", str);
+			free(tmp->str);
+			tmp->str = ft_strdup(str);
+			tmp = tmp->next;
 		}
+		list = list->next;
 	}
 }
-//string statica en plan char hola[20000]
-//coges la word la copias en a variable sin las comillas
-//hacer malloc de la string nueva de la varuiable, 
-//free de la tmp->str osea la word
-//haces un strdup de la string nueva 
-/*free tmp->str   tmp->str = ft_strdup(hola) */

@@ -52,29 +52,8 @@ static t_test	*dividing_pipe(char *input, int i)
 int	parser(t_min *tk, char *line)//pasado main
 {
 	t_test	*list;
-	/*char	*input;
-	int		i;
-
-	while (1)
-	{
-		input = readline("Enter a command: ");
-		if (input == NULL)
-			break ;
-		else if (ft_strcmp(input, "\0") == 0)//in case you enter nothing it has to show you the promp again
-		{
-			free(input);
-			continue ;
-		}
-		if (ft_strcmp(input, "exit") == 0)//check if user wnts to exit
-		{
-			printf("Exiting...\n");
-			free(input);// Free the memory allocated by readline
-			break ;
-		}
-		add_history(input);
-		i = 0;*/
 	list = dividing_pipe(line, 0);
 	check_dollar(tk, list);
-	//}
+	deleting(list);
 	return (0);
 }
