@@ -6,7 +6,7 @@
 /*   By: mehernan <mehernan@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 19:51:04 by mehernan          #+#    #+#             */
-/*   Updated: 2024/04/13 21:11:15 by mehernan         ###   ########.fr       */
+/*   Updated: 2024/04/15 18:39:59 by mehernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	deleting(t_test *list)
 				else
 				{
 					str[j] = tmp->str[i];
-					printf("car str: %c\n", str[j]);
+					printf("char str: %c\n", str[j]);
 					j++;
 					i++;
 				}

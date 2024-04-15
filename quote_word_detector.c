@@ -6,7 +6,7 @@
 /*   By: mehernan <mehernan@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:45:59 by mehernan          #+#    #+#             */
-/*   Updated: 2024/03/28 19:02:12 by mehernan         ###   ########.fr       */
+/*   Updated: 2024/04/15 19:40:38 by mehernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void print_redirection(t_word **list, char *div_str, char *word, int *i)
 	//t_word	*list;
 
 	j = 0;
-	list = NULL;
 	while(div_str[*i] == '<' || div_str[*i] == '>')
 	{
 		word[j] = div_str[*i];
@@ -30,7 +29,7 @@ void print_redirection(t_word **list, char *div_str, char *word, int *i)
 		j++;
 	}
 	word[j] = '\0';
-	put_word_list(list, word);//poner en la lista
+	put_word_list(list, word, i);//poner en la lista
 	printf("-%s-\n", word);
 	ft_bzero(word, j);
 	j = 0;
@@ -50,15 +49,18 @@ void	print_word_double_quotes(t_word **list, char *div_str, char *word, int *i)
 	{
 		if(div_str[*i] == '\"')
 			quote--;
+		word[j] = div_str[*i];
 		if(quote == 0)
 		{
+			if (div_str[*i + 1] == '\'' || div_str[*i + 1] == '\"')
+				word[++j] = div_str[*i + 1];
+			word[++j] = '\0';
 			end_word(list, div_str, word, i);
 			break;
 		}
-		word[j] = div_str[*i];
-//		printf("(double) word leter added : %c\n", word[j]);
 		(*i)++;
 		j++;
+//		printf("(double) word leter added : %c\n", word[j]);
 	}
 }
 
@@ -74,13 +76,16 @@ void	print_word_simple_quotes(t_word **list, char *div_str, char *word, int *i)
 	{
 		if(div_str[*i] == '\'')
 			quote--;
+		word[j] = div_str[*i];
+//		printf("(simple) word leter added : %c\n", word[j]);
 		if(quote == 0)
 		{
+			if (div_str[*i + 1] == '\'' || div_str[*i + 1] == '\"')
+				word[++j] = div_str[*i + 1];
+			word[++j] = '\0';
 			end_word(list, div_str, word, i);
 			break;
 		}
-		word[j] = div_str[*i];
-//		printf("(simple) word leter added : %c\n", word[j]);
 		(*i)++;
 		j++;
 	}

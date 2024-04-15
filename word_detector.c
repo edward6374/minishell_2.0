@@ -6,7 +6,7 @@
 /*   By: mehernan <mehernan@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 17:25:10 by mehernan          #+#    #+#             */
-/*   Updated: 2024/04/02 13:46:39 by mehernan         ###   ########.fr       */
+/*   Updated: 2024/04/15 19:40:42 by mehernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 void	clean_word(char *div_str, char *word, int *i, int *j)
 {
 	word[*j] = div_str[*i];
-//	printf("(end word) last letter added: %c\n", word[*j]);
+	printf("(end word) last letter added: %c\n", word[*j]);
 	(*j)++;
 	word[*j] = '\0';
 //	printf("-%s-\n", word);
@@ -28,8 +28,8 @@ void	clean_word(char *div_str, char *word, int *i, int *j)
 
 void	end_word(t_word **list, char *div_str, char *word, int *i)
 {
-	put_word_list(list, word);//poner en la lista
-	printf("-%s-\n", word);
+	put_word_list(list, word, i);//poner en la lista
+	printf("word detector, end_word: -%s-\n", word);
 	ft_bzero(word, *i);
 	(*i)++;
 	if(div_str[*i] != '\0')
