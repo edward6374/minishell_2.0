@@ -6,7 +6,7 @@
 /*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:17:00 by nmota-bu          #+#    #+#             */
-/*   Updated: 2024/03/28 18:50:34 by mehernan         ###   ########.fr       */
+/*   Updated: 2024/04/16 18:58:53 by mehernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,16 +84,22 @@ typedef struct s_parser
 	struct s_parser		*before;
 }						t_parser;
 
+// Redirections (referente a la palabra siguiente AQUI❌ > AQUI✅)
+// < es la redireccion del input
+// > es la redireccion del output
+// << es la redireccion del heredoc💀
+// >> es la redireccion del output en modo append
+
 typedef struct s_cmd
 {
-	int					n;
-	int					ok;
-	int					in_fd;
-	int					out_fd;
-	char				*cmd;
-	char				*err_f;
-	char				**args;
-	t_here_doc			*hdoc;
+	int					n; //numero del comando, debe partir de 0
+	int					ok; // indica si el comando es correcto (0) y si es incorrecto es (1) y el resto de partes que van con el comando
+	int					in_fd; //input del comabdo, al inicio siempre es 0
+	int					out_fd; //output del comando, al inicio es siempre 1
+	char				*cmd; // la palabra del comando, es decir cat es el comando pero eso tres caracteres son lo que forman la palabra cat
+	char				*err_f;// el archivo que da error de apertura, lectura o escritura
+	char				**args;//argumentos de la parte del comando
+	t_here_doc			*hdoc;// el heredoc💀
 	struct s_cmd		*next;
 	struct s_cmd		*before;
 }						t_cmd;

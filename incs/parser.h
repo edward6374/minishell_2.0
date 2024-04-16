@@ -6,7 +6,7 @@
 /*   By: vduchi <vduchi@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 17:41:42 by vduchi            #+#    #+#             */
-/*   Updated: 2024/04/15 19:25:32 by mehernan         ###   ########.fr       */
+/*   Updated: 2024/04/16 18:59:45 by mehernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,5 @@ int		parser(t_min *tk, char *line);
 void	check_dollar(t_min *tk, t_test *list);
 int		change_word(t_word *tmp, int i, int len, char *value);
 void	deleting(t_test *list);
+// void		open(t_test *list); seguramente se tenga que arreglar
 #endif
