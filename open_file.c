@@ -6,7 +6,7 @@
 /*   By: mehernan <mehernan@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 17:09:52 by mehernan          #+#    #+#             */
-/*   Updated: 2024/04/24 19:27:03 by mehernan         ###   ########.fr       */
+/*   Updated: 2024/04/25 19:35:52 by mehernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,48 +16,58 @@
 #include "readline/readline.h"
 #include "parser.h"
 
-//esto seguramente no funcione nada
-int	check_file(char word)
+char *ft_strcopy(char *str)
 {
-	/*todo esto se puede borrar, lo que tienes que hacer es una funcion que con el acces, poniendo en el primer parametro el resutado de la funcion getcwd y en el segundo un char * que sea el path maximo (mmirar apuntes),  todo eso pasarlo a la funcion y segun lo que devuelva retornar el numero para hacer el open. en plan si es 1 es error y si es bien 0.
-	t_test tmp;
-	int	 i;
-// declarar el path para despues usar el getwd;
-	tmp = list->word;
-	while(tmp != NULL)
-	{
-		if((i = open(tmp, O_RDONLY)) = -1)
-			tmp = tmp->next;
-		if((i = open(tmp, O_RDONLY)) = 0)
-		{
-			return(
-		}
-	}
-}*/
+	char copy[2000];
+	int	i;
+	int	j;
 
+	i = 0;
+	j = 0;
+	while(copy[i])
+	{
+		str[j] = copy[i];
+		i++;
+		j++;
+	}
+	str[j] = '\0';
+	return(str);
+}
+int	check_file(char *word, char sign)
+{
+	int		i;
+	char	cwd[1024]; //path maximo lo que tambien pondremos en el size_t
+	char	*path;
+
+	path = getcwd(cwd, 1024);
+	if(sign == '>')
+		i = access(path, W_OK);
+	if(sign == '<')
+		i = access(path, R_OK);
+	return(i);
+}
+//no lo he probado pero no va. Preguntale a valerio que significa los heredoc
 void	open(t_test *list)
 {
 	t_test tmp_word;
-	char str[200];
+	char str[2000];
 	int i;
-	int j;
+	char	sign;
 
-	tmp_word = list->word;
-	i = 0;
-	j = 0;
-	while(tmp_word[i])
+	tmp_word = list->words;
+	while(tmp_word)
 	{
-		if(tmp_word[i] == '>' || tmp_word[i] '<')
+		if(tmp_word->str[i] == '>' || tmp_word->str[i] == ">>" || tmp_word->str[i] == '<')
 		{
-			i++;
-			if(tmp_word[i] == '>' && tmp_word[i+1] == '>')
+			sign = tmp_word->str[0];
+			if(tmp_word->str[1] == '>')
 				i++;
+			str = ft_strcopy(tmp_word->next->str)
+			if(check_files(str, sign) == 0)
+				//funcion de abrir
 		}
-		str[j] = tmp_word[i];
+		i++;
 	}
-	str[j] = '\0';
-	check_file(str);
-	/* aqui queda la parte de hacer el open en caso de que el archivo se pueda abrir*/
 }
 
 /*Buena, voy a explicar lo que hay que hacer aqui.
@@ -86,3 +96,7 @@ void	open(t_test *list)
  *  eso hay una funcion que es la getcwd, de ahi haras una str dodne estara
  *  la palabra sin los simbolos y ver si se abre. Hay que revisar la funcio
  *  acces para saber como funciona lo de pasarle el path
+ *
+ *  3. Si la redireccion > significa output hay que escribir
+ *   					 < 					hay que leer
+ *   					 >>					hay que escribir
