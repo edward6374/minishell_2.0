@@ -45,5 +45,7 @@ int		parser(t_min *tk, char *line);
 void	check_dollar(t_min *tk, t_test *list);
 int		change_word(t_word *tmp, int i, int len, char *value);
 void	deleting(t_test *list);
+char	*ft_strcopy(char *str);//deberia estar en el libft pero nope, esta en el 
+			       //open_file
 // void		open(t_test *list); seguramente se tenga que arreglar
 #endif

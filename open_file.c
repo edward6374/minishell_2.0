@@ -53,20 +53,21 @@ void	open(t_test *list)
 	char str[2000];
 	int i;
 	char	sign;
-
+	
+	i = 0;
 	tmp_word = list->words;
 	while(tmp_word)
 	{
-		if(tmp_word->str[i] == '>' || tmp_word->str[i] == ">>" || tmp_word->str[i] == '<')
+		if(tmp_word->str[i] == '>' ||  tmp_word->str[i] == '<')
 		{
 			sign = tmp_word->str[0];
-			if(tmp_word->str[1] == '>')
-				i++;
+			//if(tmp_word->str[1] == '>')
+			//	i++;
 			str = ft_strcopy(tmp_word->next->str)
 			if(check_files(str, sign) == 0)
 				//funcion de abrir
 		}
-		i++;
+		tmp_word->next;
 	}
 }
 
@@ -100,3 +101,12 @@ void	open(t_test *list)
  *  3. Si la redireccion > significa output hay que escribir
  *   					 < 					hay que leer
  *   					 >>					hay que escribir
+ * 4. El tema de los heredocs:
+ *    La cosa esta en que los heredocs se dancuando hay doble simbolo. Ahora
+ *    mismo el codigo solo funciona con un solo simbolo. Hay varias cosas que
+ *    se me ocurren hacer. 1 es hacer una string la cual pueda almacenar 
+ *    los dos simbolos o simplemente hacer un prev en la funcion check_file 
+ *    para comprovar que simbolo es y si hay mas de uno.
+ *    2.hacer otra fucion nueva solo para el casi de que la palabra tenga un segundo caracter.
+ *
+ *    Realmente no creo que haya dos simbolos mal puestos pero puede que haya que comprobarlo
