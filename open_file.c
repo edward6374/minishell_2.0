@@ -37,11 +37,17 @@ int	check_file(char *word, char sign)
 {
 	int		i;
 	char	cwd[1024]; //path maximo lo que tambien pondremos en el size_t
-	char	*path;
-
-	path = getcwd(cwd, 1024);
+	char	*path;// el path tiene hasta la carpeta pero no el archivo, hay
+		      //  que anadir al path la barrita / y luego el nombre del archivo.     🚨LEE ESTO🚨
+		      // pero solo si al inicio hay la barra NO HACER EL PATH  no habra trolleos LO HA DICHO VALERIO Y ESTA MIRANDO ESTO AHORA MISMO
+	if (word[0] != '/')
+	{
+		path = getcwd(cwd, 1024);
+	}
+	else
+		path = word;
 	if(sign == '>')
-		i = access(path, W_OK);
+		i = access(path, W_OK); // hay que comprobar que exita igualmente en caso de que no se pueda ni leer ni escribir, si falla comprueba 🚨
 	if(sign == '<')
 		i = access(path, R_OK);
 	return(i);
@@ -64,7 +70,8 @@ void	open(t_test *list)
 			//if(tmp_word->str[1] == '>')
 			//	i++;
 			str = ft_strcopy(tmp_word->next->str)
-			if(check_files(str, sign) == 0)
+			if(check_files(str, sign) == 0) // en caso de que no sea cero tiene que retornar para saber cuales NO se pueden abrir 🚨
+							// de hecho con que no se abra uno todo el resto de detras ya nada, ni se miran 🚨
 				//funcion de abrir
 		}
 		tmp_word->next;
