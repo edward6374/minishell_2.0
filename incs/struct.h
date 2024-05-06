@@ -94,7 +94,7 @@ typedef struct s_cmd
 {
 	int					n; //numero del comando, debe partir de 0
 	int					ok; // indica si el comando es correcto (0) y si es incorrecto es (1) y el resto de partes que van con el comando
-	int					in_fd; //input del comabdo, al inicio siempre es 0
+	int					in_fd; //input del comando, al inicio siempre es 0
 	int					out_fd; //output del comando, al inicio es siempre 1
 	char				*cmd; // la palabra del comando, es decir cat es el comando pero eso tres caracteres son lo que forman la palabra cat
 	char				*err_f;// el archivo que da error de apertura, lectura o escritura

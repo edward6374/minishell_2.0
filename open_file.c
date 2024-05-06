@@ -15,7 +15,8 @@
 #include "libft/libft.h"
 #include "readline/readline.h"
 #include "parser.h"
-
+/*⚠️ela funcion open es llamada por el archivo que checkea los comandos⚠️
+⚠️eeste archivo sera finalizado cuando se cree lo de los comandos⚠️*/
 char *ft_strcopy(char *str)
 {
 	char copy[2000];
@@ -33,30 +34,55 @@ char *ft_strcopy(char *str)
 	str[j] = '\0';
 	return(str);
 }
-int	check_file(char *word, char sign)
+
+char	*get_path(char *word)
 {
-	int		i;
-	char	cwd[1024]; //path maximo lo que tambien pondremos en el size_t
-	char	*path;// el path tiene hasta la carpeta pero no el archivo, hay
-		      //  que anadir al path la barrita / y luego el nombre del archivo.     🚨LEE ESTO🚨
-		      // pero solo si al inicio hay la barra NO HACER EL PATH  no habra trolleos LO HA DICHO VALERIO Y ESTA MIRANDO ESTO AHORA MISMO
+	char	*path;
+
 	if (word[0] != '/')
 	{
 		path = getcwd(cwd, 1024);
+		//i = ft_strlen(path); // arreglo de la barra y nombre del archivo✅
+		path[ft_strlen(path)] = '/';
+		path = ft_strjoin(path, word)
 	}
 	else
-		path = word;
-	if(sign == '>')
-		i = access(path, W_OK); // hay que comprobar que exita igualmente en caso de que no se pueda ni leer ni escribir, si falla comprueba 🚨
-	if(sign == '<')
-		i = access(path, R_OK);
-	return(i);
+		path = ft_strdup(word);
+	return (path);
 }
-//no lo he probado pero no va. Preguntale a valerio que significa los heredoc
-void	open(t_test *list)
+
+int	check_file(char *path, char sign)
+{
+//	int		i;
+//	char	cwd[1024]; //path maximo lo que tambien pondremos en el size_t
+//	char	*path;
+//
+//	if (word[0] != '/')
+//	{
+//		path = getcwd(cwd, 1024);
+//		i = ft_strlen(path); // arreglo de la barra y nombre del archivo✅
+//		path[i] = '/';
+//		path = ft_strjoin(path, word)
+//		i = 0;
+//	}
+//	else
+//		path = word;
+	if(acces(path, F_OK) == 0)//para comprobar que existe ✅
+	{
+		if(sign == '>')
+			i = access(path, W_OK); 
+		if(sign == '<')
+			i = access(path, R_OK);
+		return(i);
+	}
+	return(1); // pongo 1 en representacion del -1 que puede dar error 
+}
+
+void	do_open(t_test *list)
 {
 	t_test tmp_word;
-	char str[2000];
+	//char str[2000];
+	char	*path;
 	int i;
 	char	sign;
 	
@@ -67,12 +93,10 @@ void	open(t_test *list)
 		if(tmp_word->str[i] == '>' ||  tmp_word->str[i] == '<')
 		{
 			sign = tmp_word->str[0];
-			//if(tmp_word->str[1] == '>')
-			//	i++;
-			str = ft_strcopy(tmp_word->next->str)
-			if(check_files(str, sign) == 0) // en caso de que no sea cero tiene que retornar para saber cuales NO se pueden abrir 🚨
-							// de hecho con que no se abra uno todo el resto de detras ya nada, ni se miran 🚨
-				//funcion de abrir
+			path = get_path(tmp_word->next->str);
+			//str = ft_strcopy(tmp_word->next->str);
+			if(check_files(path, sign) == 1)// si es 0 no se cumplira el if pero ya habra entrado😉
+				return(1); // hay que revisar que retornar, pongo 1 en consideracion al -1 porque puede dar error
 		}
 		tmp_word->next;
 	}
@@ -116,4 +140,14 @@ void	open(t_test *list)
  *    para comprovar que simbolo es y si hay mas de uno.
  *    2.hacer otra fucion nueva solo para el casi de que la palabra tenga un segundo caracter.
  *
- *    Realmente no creo que haya dos simbolos mal puestos pero puede que haya que comprobarlo
+ *    Realmente no creo que haya dos simbolos mal puestos pero puede que haya que comprobarlo*/
+
+/*🪐pensando🪐
+ * Yo habia planificado todo que cuando devolviera del check_file si todo iba bien haria open
+ * El problema es que se necesila el path y mas cosas que no se encuentran en la funcion de
+ * do_open, por lo tanto o lo hago todo en la funcion de check_files (y de ahi llamo a otra
+ * funcion o como sea) o me busco otra manera que no se me ocurre ahora. Porque retonrnar el path
+ * no se puede ya que do_open tienque retornar si se puede abrir o no. Total, que mejor hacer
+ * eso.
+ 
+ 
