@@ -6,7 +6,7 @@
 /*   By: mehernan <mehernan@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 17:09:52 by mehernan          #+#    #+#             */
-/*   Updated: 2024/04/25 19:35:52 by mehernan         ###   ########.fr       */
+/*   Updated: 2024/05/07 15:12:13 by mehernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,27 +53,26 @@ char	*get_path(char *word)
 
 int	check_file(char *path, char sign)
 {
-//	int		i;
-//	char	cwd[1024]; //path maximo lo que tambien pondremos en el size_t
-//	char	*path;
-//
-//	if (word[0] != '/')
-//	{
-//		path = getcwd(cwd, 1024);
-//		i = ft_strlen(path); // arreglo de la barra y nombre del archivo✅
-//		path[i] = '/';
-//		path = ft_strjoin(path, word)
-//		i = 0;
-//	}
-//	else
-//		path = word;
+	int i;
+	int n;
+
+	i = 0;
+	n = 0;//numero que retorna el open el fd que luego hayq eu meter en la lista
 	if(acces(path, F_OK) == 0)//para comprobar que existe ✅
 	{
 		if(sign == '>')
-			i = access(path, W_OK); 
+		{
+			if((i = access(path, W_OK)) == 0)
+				n = open(path, O_WRONLY | O_TRUNC | O_CREA, 0644);
+			return(n);
+		}
 		if(sign == '<')
-			i = access(path, R_OK);
-		return(i);
+		{
+			if((i = access(path, R_OK)) == 0)
+				n = open(path, O_RDONLY);
+			return(n); // si falla no retorno nada porque quiero que en la lista se quede vacio
+		}
+		return(1);// en vez de uno quizas hay que retornar otra cosa, pero la cuestion es que no se retonre el fd del open
 	}
 	return(1); // pongo 1 en representacion del -1 que puede dar error 
 }
