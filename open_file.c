@@ -58,13 +58,14 @@ int	check_file(char *path, char sign)
 
 	i = 0;
 	n = 0;//numero que retorna el open el fd que luego hayq eu meter en la lista
-	if(acces(path, F_OK) == 0)//para comprobar que existe ✅
+	if(access(path, F_OK) == 0)//para comprobar que existe ✅
 	{
 		if(sign == '>')
 		{
 			if((i = access(path, W_OK)) == 0)
+				return (0);
 				n = open(path, O_WRONLY | O_TRUNC | O_CREA, 0644);
-			return(n);
+			return(1);
 		}
 		if(sign == '<')
 		{
@@ -77,7 +78,7 @@ int	check_file(char *path, char sign)
 	return(1); // pongo 1 en representacion del -1 que puede dar error 
 }
 
-void	do_open(t_test *list)
+void	do_open(t_test *list, t_cmd *new)
 {
 	t_test tmp_word;
 	//char str[2000];
@@ -94,13 +95,20 @@ void	do_open(t_test *list)
 			sign = tmp_word->str[0];
 			path = get_path(tmp_word->next->str);
 			//str = ft_strcopy(tmp_word->next->str);
-			if(check_files(path, sign) == 1)// si es 0 no se cumplira el if pero ya habra entrado😉
+			if(check_files(path, sign) > 0)// si es 0 no se cumplira el if pero ya habra entrado😉
 				return(1); // hay que revisar que retornar, pongo 1 en consideracion al -1 porque puede dar error
+			take_fd(path, sign, new);
 		}
 		tmp_word->next;
 	}
+	return (0);
 }
 
+//CUESTION, hay que hacer funciones especificas para rellenar todos 
+//los datos de la lista. Ademas hay que pasar la lista cmd y ir reyenando
+//no con returns,
+//
+//
 /*Buena, voy a explicar lo que hay que hacer aqui.
  * ❶ Solamente se deve abrir si la palabra va detras de un > >> <
  * ❷ En vez de open mejor usar acces, tienes que leer como se usa
