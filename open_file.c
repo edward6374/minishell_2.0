@@ -6,7 +6,7 @@
 /*   By: mehernan <mehernan@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 17:09:52 by mehernan          #+#    #+#             */
-/*   Updated: 2024/05/07 15:12:13 by mehernan         ###   ########.fr       */
+/*   Updated: 2024/05/13 20:16:27 by mehernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,40 +54,38 @@ char	*get_path(char *word)
 int	check_file(char *path, char sign)
 {
 	int i;
-	int n;
 
 	i = 0;
-	n = 0;//numero que retorna el open el fd que luego hayq eu meter en la lista
 	if(access(path, F_OK) == 0)//para comprobar que existe ✅
 	{
 		if(sign == '>')
 		{
 			if((i = access(path, W_OK)) == 0)
-				return (0);
-				n = open(path, O_WRONLY | O_TRUNC | O_CREA, 0644);
-			return(1);
+				list_cmd->out_fd = open(path, O_WRONLY | O_TRUNC | O_CREA, 0644);
+			else
+				return(1);
 		}
 		if(sign == '<')
 		{
 			if((i = access(path, R_OK)) == 0)
-				n = open(path, O_RDONLY);
-			return(n); // si falla no retorno nada porque quiero que en la lista se quede vacio
+				list_cmd->in_fd = open(path, O_RDONLY);
+			else
+				return(1); // si falla no retorno nada porque quiero que en la lista se quede vacio
 		}
-		return(1);// en vez de uno quizas hay que retornar otra cosa, pero la cuestion es que no se retonre el fd del open
+		return(0);// en vez de uno quizas hay que retornar otra cosa, pero la cuestion es que no se retonre el fd del open
 	}
-	return(1); // pongo 1 en representacion del -1 que puede dar error 
+	return(1);
 }
 
-void	do_open(t_test *list, t_cmd *new)
+int do_open(t_test *node, t_cmd *cmd)
 {
-	t_test tmp_word;
-	//char str[2000];
+	int		i;
 	char	*path;
-	int i;
 	char	sign;
+	t_word	*tmp_word;
 	
 	i = 0;
-	tmp_word = list->words;
+	tmp_word = node->words;
 	while(tmp_word)
 	{
 		if(tmp_word->str[i] == '>' ||  tmp_word->str[i] == '<')
@@ -95,66 +93,17 @@ void	do_open(t_test *list, t_cmd *new)
 			sign = tmp_word->str[0];
 			path = get_path(tmp_word->next->str);
 			//str = ft_strcopy(tmp_word->next->str);
-			if(check_files(path, sign) > 0)// si es 0 no se cumplira el if pero ya habra entrado😉
-				return(1); // hay que revisar que retornar, pongo 1 en consideracion al -1 porque puede dar error
-			take_fd(path, sign, new);
+			if(check_files(path, sign) != 0)// si es 0 no se cumplira el if pero ya habra entrado😉
+			{
+				cmd->err_f = ft_strdup(tmp_word->next->str);
+				return(1); // hay que revisar que retornar, pongo 1 ya que lo que retorna es el contador del ok de la lista
+			}
+//			take_fd(path, sign, new);    no se que es esto, estoy lost
 		}
-		tmp_word->next;
+//		cmd->n = cmd->n + 1;
+//		cmd = cmd->next;
+		tmp_word = tmp_word->next;
 	}
 	return (0);
 }
-
-//CUESTION, hay que hacer funciones especificas para rellenar todos 
-//los datos de la lista. Ademas hay que pasar la lista cmd y ir reyenando
-//no con returns,
-//
-//
-/*Buena, voy a explicar lo que hay que hacer aqui.
- * ❶ Solamente se deve abrir si la palabra va detras de un > >> <
- * ❷ En vez de open mejor usar acces, tienes que leer como se usa
- * ❸ La check_files nada de recorrer la lista, simplemente se pasa
- *   lo que hay despues de > >> <
- * ❹ En la segunda fucion hay que recorrer la funcion para encontrar
- *    > >> < y luego mandarla para saber si es un file o un directori.
- * ❺ La primera funcion tiene que devolver un numero y luego en el
- *   open ya se abre. Si se devuelve 0 se abre y ya.
- * */
-
-/* 🧠pensado🧠
- * 1. No se si tmp deberia ser lits->word o mas bie list->str, ya que
- * deberia recorrer caracter por caratcter para saber si hay un > >> o <.
- * De momento coger las str ya que en las palabras no entra ese simbolito 
- * y jamas lo encotraria. Pero quizas si que puedo usar las palabras.
- * Tendria que saber cuantos caracteres tiene cada palabra y de ahi ir a
- *  la str y tirar para atras hasta encontrar un simbolo y de ahi saber 
- *  que esa es la palabra. La cosa esta en que si hay un espacio o otra
- *  cosa tendria que saltaro o cancelarllo.
- *
- *  2.Nueva info, no se puede pasar la palabra sin mas, para que el acces
- *  funcione le ienes que pasar el path, es decir donde esta, para saber
- *  eso hay una funcion que es la getcwd, de ahi haras una str dodne estara
- *  la palabra sin los simbolos y ver si se abre. Hay que revisar la funcio
- *  acces para saber como funciona lo de pasarle el path
- *
- *  3. Si la redireccion > significa output hay que escribir
- *   					 < 					hay que leer
- *   					 >>					hay que escribir
- * 4. El tema de los heredocs:
- *    La cosa esta en que los heredocs se dancuando hay doble simbolo. Ahora
- *    mismo el codigo solo funciona con un solo simbolo. Hay varias cosas que
- *    se me ocurren hacer. 1 es hacer una string la cual pueda almacenar 
- *    los dos simbolos o simplemente hacer un prev en la funcion check_file 
- *    para comprovar que simbolo es y si hay mas de uno.
- *    2.hacer otra fucion nueva solo para el casi de que la palabra tenga un segundo caracter.
- *
- *    Realmente no creo que haya dos simbolos mal puestos pero puede que haya que comprobarlo*/
-
-/*🪐pensando🪐
- * Yo habia planificado todo que cuando devolviera del check_file si todo iba bien haria open
- * El problema es que se necesila el path y mas cosas que no se encuentran en la funcion de
- * do_open, por lo tanto o lo hago todo en la funcion de check_files (y de ahi llamo a otra
- * funcion o como sea) o me busco otra manera que no se me ocurre ahora. Porque retonrnar el path
- * no se puede ya que do_open tienque retornar si se puede abrir o no. Total, que mejor hacer
- * eso.
- 
- 
+// recuerda que si en cuelquier momento haces retur porque algo falla 

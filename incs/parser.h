@@ -6,7 +6,7 @@
 /*   By: vduchi <vduchi@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 17:41:42 by vduchi            #+#    #+#             */
-/*   Updated: 2024/04/25 19:35:52 by mehernan         ###   ########.fr       */
+/*   Updated: 2024/05/13 20:16:27 by mehernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,5 @@ void	deleting(t_test *list);
 char	*ft_strcopy(char *str);//deberia estar en el libft pero nope, esta en el 
 			       //open_file
 // void		open(t_test *list); seguramente se tenga que arreglar
+char	*get_path(char *word);
 #endif
