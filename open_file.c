@@ -6,7 +6,7 @@
 /*   By: mehernan <mehernan@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 17:09:52 by mehernan          #+#    #+#             */
-/*   Updated: 2024/05/20 21:00:10 by mehernan         ###   ########.fr       */
+/*   Updated: 2024/05/21 17:31:22 by mehernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,3 +147,6 @@ int do_open(t_test *node, t_cmd *cmd)
 // 8 file_not_found
 // 9 file_not_read
 // 10 file_not_write
+//
+//
+// estructura de los heredocs 
