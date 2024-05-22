@@ -6,7 +6,7 @@
 /*   By: mehernan <mehernan@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 17:09:52 by mehernan          #+#    #+#             */
-/*   Updated: 2024/05/21 17:31:22 by mehernan         ###   ########.fr       */
+/*   Updated: 2024/05/22 16:55:35 by vduchi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,10 @@ int do_open(t_test *node, t_cmd *cmd)
 		{
 			if(tmp_word->str[0] == '>' && tmp_word->str[1] == '>' )
 				sign = 'd';
-//			else if(tmp_word->str[0] == '<' && tmp_word->str[1] == '<')   NO BORRAR  para los heredocs
-//				sign = 'h';
+			else if(tmp_word->str[0] == '<' && tmp_word->str[1] == '<')
+			{
+
+			}
 			else
 				sign = tmp_word->str[0];
 			path = get_path(tmp_word->next->str);
