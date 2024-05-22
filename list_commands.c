@@ -15,18 +15,18 @@
 #include "libft/libft.h"
 #include "readline/readline.h"
 #include "parser.h"
-#include "struct.h" //⚠️  possible error ⚠️\
+#include "struct.h" 
 
-void	put_args(t_cmd *new, t_text *node)
+void	put_args(t_cmd *new, t_test *node)
 {
 	int n;
-	t_words	*tmp_words;
+	t_word	*tmp_words;
 
 	n = 0;
 	tmp_words = node->words;
 	while(tmp_words)
 	{
-		if(tmp_words->str[0] != '<' && tmp_words->str[0] != '>')
+		if(tmp_word->str[0] != '<' && tmp_word->str[0] != '>')
 			n++;
 		else
 			tmp_words = tmp_words->next;
@@ -38,7 +38,7 @@ void	put_args(t_cmd *new, t_text *node)
 	n = 0;
 	while(tmp_words)
 	{
-		if(tmp_words->before->str[0] == '<' || tmp_words->before->str[0] == '>')
+		if(tmp_words->prev->str[0] == '<' || tmp_words->prev->str[0] == '>')
 			tmp_words = tmp_words->next;
 		else
 		{
@@ -46,7 +46,7 @@ void	put_args(t_cmd *new, t_text *node)
 			if (!new->args) //👾
 				exit(MALLOC);
 		}
-		tmp_word = tmp_words->next;
+		tmp_words = tmp_words->next;
 	}
 }
 void	command_inside(t_cmd *new, t_test *node)
@@ -55,12 +55,12 @@ void	command_inside(t_cmd *new, t_test *node)
 	char *path;
 
 	tmp_words = node->words;
-	while(tmp->words != NULL)
+	while(tmp_words != NULL)
 	{
-		if(tmp_words->before->str[0] == '<' || tmp_words->before->str[0] == '>')
+		if(tmp_words->prev->str[0] == '<' || tmp_words->prev->str[0] == '>')
 		}
 			tmp_words = node->words;
-			path = get_path(tmp_words->str)
+			path = get_path(tmp_words->str);
 			if(access(path, X_OK) != 0)
 			{
 				new->cmd = ft_strdup(tmp_words->str);
@@ -79,11 +79,11 @@ void	command_inside(t_cmd *new, t_test *node)
 			}
 			break;
 		}
-		tmp->words = tmp_words->next;
+		tmp_words = tmp_words->next;
 	}
 	put_args(new, tmp_words);
 }
-void	put_command_list(t_cmd **list_cmd, t_test *node)
+void	put_command_list(t_cmd **list_cmd, t_test *node, t_here_doc *heredoc)
 {
 	t_cmd *new;
 
@@ -92,7 +92,7 @@ void	put_command_list(t_cmd **list_cmd, t_test *node)
 		exit(MALLOC);
 	new->out_fd = 1;
 //	new->ok = do_open(node, new);
-	do_open(node, new); //he quitado el new->ok ya que ya lo hago en el do_open lo de los returns. Quizas es necesario por eso lo comento
+	do_open(node, new, heredoc); //he quitado el new->ok ya que ya lo hago en el do_open lo de los returns. Quizas es necesario por eso lo comento
 	if(new->ok == 0)
 		command_inside(new, node);
 	if(!(*list))

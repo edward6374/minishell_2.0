@@ -49,4 +49,5 @@ char	*ft_strcopy(char *str);//deberia estar en el libft pero nope, esta en el
 			       //open_file
 // void		open(t_test *list); seguramente se tenga que arreglar
 char	*get_path(char *word);
+int	do_open(t_test *node, t_cmd *cmd, t_here_doc *heredoc);
 #endif

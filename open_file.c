@@ -44,7 +44,7 @@ char	*get_path(char *word)
 		path = getcwd(cwd, 1024);
 		//i = ft_strlen(path); // arreglo de la barra y nombre del archivo✅
 		path[ft_strlen(path)] = '/';
-		path = ft_strjoin(path, word)
+		path = ft_strjoin(path, word);
 		if (!path)
 			exit(MALLOC);
 	}
@@ -57,7 +57,7 @@ char	*get_path(char *word)
 	return (path);
 }
 
-int	check_file(char *path, char sign)
+int	check_file(char *path, char sign, t_here_doc *hd)
 {
 	int i;
 
@@ -77,6 +77,8 @@ int	check_file(char *path, char sign)
 		}
 		if(sign == '<')
 		{
+			if(hd->yes == 1)
+				hd->first = 0;
 			if((i = access(path, R_OK)) == 0)
 			{
 				list_cmd->in_fd = open(path, O_RDONLY);
@@ -102,15 +104,17 @@ int	check_file(char *path, char sign)
 	return(FILE_NOT_FOUND);
 }
 
-int do_open(t_test *node, t_cmd *cmd)
+int do_open(t_test *node, t_cmd *cmd, t_here_doc *heredoc)
 {
 	int		i;
 	char	*path;
 	char	sign;
 	t_word	*tmp_word;
+	t_here_doc	*hd; //quizas no hace falta hacer una temploral, pero el calloc  hace falta
 	
 	i = 0;
 	tmp_word = node->words;
+	hd = heredoc;
 	while(tmp_word)
 	{
 		if(tmp_word->str[i] == '>' ||  tmp_word->str[i] == '<')
@@ -119,12 +123,15 @@ int do_open(t_test *node, t_cmd *cmd)
 				sign = 'd';
 			else if(tmp_word->str[0] == '<' && tmp_word->str[1] == '<')
 			{
-
+				hd = ft_calloc(1, sizeof(t_here_doc));
+				hd->stop = ft_strdup(tmp_word->next->str)
+				hd->yes = 1;
+				hd->first = 1;
 			}
 			else
 				sign = tmp_word->str[0];
 			path = get_path(tmp_word->next->str);
-			new->ok = check_file(path, sign);
+			new->ok = check_file(path, sign, hd);
 			if(new->ok != 0)// si es 0 no se cumplira el if pero ya habra entrado😉
 			{
 				cmd->err_f = ft_strdup(tmp_word->next->str);
