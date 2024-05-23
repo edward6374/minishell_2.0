@@ -6,7 +6,7 @@
 /*   By: mehernan <mehernan@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 19:51:04 by mehernan          #+#    #+#             */
-/*   Updated: 2024/04/15 18:39:59 by mehernan         ###   ########.fr       */
+/*   Updated: 2024/05/23 20:41:38 by vduchi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,13 @@ void	deleting(t_test *list)
 				else
 				{
 					str[j] = tmp->str[i];
-					printf("char str: %c\n", str[j]);
+//					printf("char str: %c\n", str[j]);
 					j++;
 					i++;
 				}
 			}
 			str[i] = '\0';
-			printf("palabra nueva: %s\n", str);
+//			printf("palabra nueva: %s\n", str);
 			free(tmp->str);
 			tmp->str = ft_strdup(str);
 			tmp = tmp->next;

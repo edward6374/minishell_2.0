@@ -6,7 +6,7 @@
 /*   By: vduchi <vduchi@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 17:41:42 by vduchi            #+#    #+#             */
-/*   Updated: 2024/05/13 20:16:27 by mehernan         ###   ########.fr       */
+/*   Updated: 2024/05/23 20:04:19 by vduchi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,22 +34,16 @@ void	put_list(t_test **list, char *div_str);
 void	print_list(t_test **list);
 void	dividing_words(t_test *list, char *div_str);//pot ser no cal
 void	print_word(t_word **list, char *div_str, char *word, int *i);
-void	end_word(t_word **list, char *div_str, char *word, int *i);
-void	print_word_double_quotes(t_word **list, char *div_str, char *word, int *i);
-void	print_word_simple_quotes(t_word **list, char *div_str, char *word, int *i);
-void	print_redirection(t_word **list, char *div_str, char *word, int *i);
-void	check_quotes(t_word **list, char *div_str, char *word, int *i);
-void	put_word_list(t_word **list, char *word, int *i);
+void	end_word(t_word **list, char *word);
+void	put_word_list(t_word **list, char *word);
 void	print_word_list(t_word **list);
 int		parser(t_min *tk, char *line);
 void	check_dollar(t_min *tk, t_test *list);
 int		change_word(t_word *tmp, int i, int len, char *value);
 void	deleting(t_test *list);
-char	*ft_strcopy(char *str);//deberia estar en el libft pero nope, esta en el 
-			       //open_file
 char	*get_path(char *word);
-int	do_open(t_test *node, t_cmd *new);
-t_cmd	*get_command_list(t_test *list);
+int		do_open(t_test *node, t_cmd *new);
+t_cmd	*get_command_list(t_min *tk, t_test *list);
 t_test	*dividing_pipe(char *input, int i);
-int	parser(t_min *tk, char *line);
+int		parser(t_min *tk, char *line);
 #endif

@@ -6,7 +6,7 @@
 /*   By: mehernan <mehernan@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 17:09:52 by mehernan          #+#    #+#             */
-/*   Updated: 2024/05/22 16:55:35 by vduchi           ###   ########.fr       */
+/*   Updated: 2024/05/23 20:31:32 by vduchi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,23 +18,6 @@
 #include <fcntl.h>
 /*⚠️ela funcion open es llamada por el archivo que checkea los comandos⚠️
 ⚠️eeste archivo sera finalizado cuando se cree lo de los comandos⚠️*/
-char *ft_strcopy(char *str)
-{
-	char copy[2000];
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while(copy[i])
-	{
-		str[j] = copy[i];
-		i++;
-		j++;
-	}
-	str[j] = '\0';
-	return(str);
-}
 
 char	*get_path(char *word)
 {
@@ -43,9 +26,10 @@ char	*get_path(char *word)
 	if (word[0] != '/')
 	{
 		path = getcwd(NULL, 1024);
-		//i = ft_strlen(path); // arreglo de la barra y nombre del archivo✅
+		printf("Path: %s\n", path);
 		path[ft_strlen(path)] = '/';
 		path = ft_strjoin(path, word);
+		printf("Path: %s\n", path);
 		if (!path)
 			exit(MALLOC);
 	}
@@ -63,11 +47,42 @@ int	check_file(char *path, char sign, t_cmd *new)
 	int i;
 
 	i = 0;
+	if (sign == '>' || sign == 'd')
+	{
+		i = access(path, W_OK);
+		if (i == 0 || access(path, F_OK) != 0)
+		{
+			if (sign == '>')
+				new->out_fd = open(path, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+			else
+				new->out_fd = open(path, O_WRONLY | O_APPEND | O_CREAT, 0644);
+			if (!new->out_fd)
+				exit(OPEN_FAILED);
+			return (0);
+		}
+		return (FILE_NOT_WRITE);
+	}
+	else
+	{
+		i = access(path, R_OK);
+		if (i == 0)
+		{
+			new->in_fd = open(path, O_RDONLY);
+			if (!new->in_fd)
+				exit(OPEN_FAILED);
+			return (0);
+		}
+		else if (access(path, F_OK) == 0)
+			return (FILE_NOT_READ);
+		return (FILE_NOT_FOUND);
+	}
+/*
 	if(access(path, F_OK) == 0)//para comprobar que existe ✅
 	{
 		if(sign == '>')
 		{
-			if((i = access(path, W_OK)) == 0)
+			i = access(path, W_OK);
+			if(i == 0)
 			{
 				new->out_fd = open(path, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 				if (!new->out_fd)
@@ -103,6 +118,7 @@ int	check_file(char *path, char sign, t_cmd *new)
 		return(0); // todo ha ido bien, necesario para un if de fuera
 	}
 	return(FILE_NOT_FOUND);
+*/
 }
 
 int do_open(t_test *node, t_cmd *new)
@@ -116,9 +132,10 @@ int do_open(t_test *node, t_cmd *new)
 	tmp_word = node->words;
 	while(tmp_word)
 	{
+		printf("Word redir: %s\n", tmp_word->str);
 		if(tmp_word->str[i] == '>' ||  tmp_word->str[i] == '<')
 		{
-			if(tmp_word->str[0] == '>' && tmp_word->str[1] == '>' )
+			if(tmp_word->str[0] == '>' && tmp_word->str[1] == '>')
 				sign = 'd';
 			else if(tmp_word->str[0] == '<' && tmp_word->str[1] == '<')
 			{

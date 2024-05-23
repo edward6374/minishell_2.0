@@ -6,7 +6,7 @@
 /*   By: mehernan <mehernan@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 17:25:10 by mehernan          #+#    #+#             */
-/*   Updated: 2024/04/25 18:08:24 by mehernan         ###   ########.fr       */
+/*   Updated: 2024/05/23 20:40:46 by vduchi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,72 +16,84 @@
 #include "readline/readline.h"
 #include "parser.h"
 
-void	clean_word(char *div_str, char *word, int *i, int *j)
+static void	take_redirection(char *div_str, char *word, int *i, int *j)
 {
-	word[*j] = div_str[*i];
-	printf("(end word) last letter added: %c\n", word[*j]);
-	(*j)++;
-	word[*j] = '\0';
-//	printf("-%s-\n", word);
-	*j = 0;
+	if (*j == 0)
+	{
+		word[*j] = div_str[*i];
+		(*j)++;
+		(*i)++;
+		if (div_str[*i] == div_str[*i - 1])
+		{
+			word[*j] = div_str[*i];
+			(*i)++;
+			(*j)++;
+		}
+		word[*j] = '\0';
+	}
 }
 
-void	end_word(t_word **list, char *div_str, char *word, int *i)
+void	end_word(t_word **list, char *word)
 {
-	put_word_list(list, word, i);//poner en la lista
 	printf("word detector, end_word: -%s-\n", word);
-	ft_bzero(word, *i);
-	(*i)++;
-	if(div_str[*i] != '\0')
-		check_quotes(list, div_str, word, i);
+	put_word_list(list, word);//poner en la lista
+	ft_bzero(word, 20000);
 }
 
 void	print_word(t_word **list, char *div_str, char *word, int *i)
 {
-	int j;
-	int quote;
+	int	j;
+	int	quote;
+	int	car;
 
 	j = 0;
 	quote = 0;
-	while(div_str[*i])
+	while(div_str[*i] != '\0' && div_str[*i] != ' ')
 	{
 		if(div_str[*i] == '\'' || div_str[*i] == '\"' )
-			quote++;
-		if(div_str[*i] == ' ' && quote == 0)
-			(*i)++;
-		if((div_str[*i] != ' ' && (div_str[*i+1] == ' ' || div_str[*i+1] == '\0' || div_str[*i+1] == '<' || div_str[*i+1] == '>'))&& quote % 2 == 0)
 		{
-			clean_word(div_str, word, i, &j);
-			end_word(list, div_str, word, i);
+			car = div_str[*i];
+			word[j] = div_str[*i];
+			j++;
+			(*i)++;
+			while (div_str[*i] != car)
+			{
+				word[j] = div_str[*i];
+				j++;
+				(*i)++;
+			}
+			word[j] = div_str[*i];
 		}
 		else
 		{
+			if (div_str[*i] == '<' || div_str[*i] == '>')
+			{
+				take_redirection(div_str, word, i, &j);
+				break ;
+			}
 			word[j] = div_str[*i];
-//			printf("(print word) word leter added: %c\n", word[j]);
-			j++;
-			(*i)++;
 		}
+		j++;
+		(*i)++;
 	}
+	word[j] = '\0';
+	end_word(list, word);
 }
 
 void	dividing_words(t_test *list, char *div_str)
 {
-	int i;
-	char word[2000];
+	int		i;
+	char	word[20000];
 
 	i = 0;
 	while (list->next != NULL)
 		list = list->next;
 	while (div_str[i])
 	{
-		if(div_str[i] == '\"' || div_str[i] == '\'' || div_str[i] == '<' || div_str[i] == '>')
-		{
-			i = 0;
-			check_quotes(&list->words, div_str, word, &i);
-		}
-		else if(div_str[i] == ' ')
+		while (div_str[i] == ' ')
 			i++;
-		else
-			print_word(&list->words, div_str, word, &i);
+		if (div_str[i] == '\0')
+			break ;
+		print_word(&list->words, div_str, word, &i);
 	}
 }

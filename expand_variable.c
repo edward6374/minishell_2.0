@@ -6,7 +6,7 @@
 /*   By: mehernan <mehernan@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 12:46:09 by mehernan          #+#    #+#             */
-/*   Updated: 2024/04/24 15:39:22 by mehernan         ###   ########.fr       */
+/*   Updated: 2024/05/23 20:41:11 by vduchi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdio.h>
@@ -70,7 +70,7 @@ static void	find_dollar(t_min *tk, t_word *tmp, char *var)
 			sin++;
 		else if (tmp->str[i] == '\'' && sin == 1)
 			sin--;
-		printf("que char es?: %c\n", tmp->str[i]);
+//		printf("que char es?: %c\n", tmp->str[i]);
 		if(tmp->str[i] == '$' && sin == 0)
 		{
 			dollar_found(&tmp->str[++i], var);
@@ -97,7 +97,7 @@ void	check_dollar(t_min *tk, t_test *list)
 //				send_variable(tk, var, value);
 //				change_word(tmp, value, &i);
 //			}
-			printf("Word after check dollar: -%s-\n", tmp->str);
+//			printf("Word after check dollar: -%s-\n", tmp->str);
 			tmp = tmp->next;
 		}
 		list = list->next;

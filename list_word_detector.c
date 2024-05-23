@@ -6,7 +6,7 @@
 /*   By: mehernan <mehernan@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 18:00:22 by mehernan          #+#    #+#             */
-/*   Updated: 2024/04/15 19:40:41 by mehernan         ###   ########.fr       */
+/*   Updated: 2024/05/23 19:41:57 by vduchi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "readline/readline.h"
 #include "parser.h"
 
-void	put_word_list(t_word **list, char *word, int *i)//a ver
+void	put_word_list(t_word **list, char *word)
 {
 //	printf("entro en la lista d palabras\n");
 	char	*str_joined;
@@ -24,12 +24,12 @@ void	put_word_list(t_word **list, char *word, int *i)//a ver
 	t_word	*new;
 
 	new = ft_calloc(1, sizeof(t_word));
-	printf("Word: -%s-\tTrimmed: -%s-\tChar after: -%c-\tInt: %d\n", word, ft_strtrim(word, " "), word[(*i + 1)], *i + 1);
-	if ((int)ft_strlen(word) >= (*i + 1) && (word[(*i + 1)] == '\'' || word[(*i + 1)] == '\"'))
-	{
-		word[*i + 1] = '\0';
-		new->quote_after = 1;
-	}
+//	printf("Word: -%s-\tTrimmed: -%s-\tChar after: -%c-\tInt: %d\n", word, ft_strtrim(word, " "), word[(*i + 1)], *i + 1);
+//	if ((int)ft_strlen(word) >= (*i + 1) && (word[(*i + 1)] == '\'' || word[(*i + 1)] == '\"'))
+//	{
+//		word[*i + 1] = '\0';
+//		new->quote_after = 1;
+//	}
 	new->str = ft_strtrim(word, " ");
 	if (!(*list))
 		*list = new;
@@ -52,7 +52,7 @@ void	put_word_list(t_word **list, char *word, int *i)//a ver
 			new->prev = tmp;
 		}
 	}
-	print_word_list(list);
+//	print_word_list(list);
 }
 
 // funcion para printear la lista, esto va mas arriba
