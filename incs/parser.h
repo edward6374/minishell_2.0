@@ -47,7 +47,9 @@ int		change_word(t_word *tmp, int i, int len, char *value);
 void	deleting(t_test *list);
 char	*ft_strcopy(char *str);//deberia estar en el libft pero nope, esta en el 
 			       //open_file
-// void		open(t_test *list); seguramente se tenga que arreglar
 char	*get_path(char *word);
-int	do_open(t_test *node, t_cmd *cmd, t_here_doc *heredoc);
+int	do_open(t_test *node, t_cmd *new);
+t_cmd	*get_command_list(t_test *list);
+t_test	*dividing_pipe(char *input, int i);
+int	parser(t_min *tk, char *line);
 #endif

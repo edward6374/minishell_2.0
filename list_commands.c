@@ -17,7 +17,7 @@
 #include "parser.h"
 #include "struct.h" 
 
-void	put_args(t_cmd *new, t_test *node)
+static void	put_args(t_cmd *new, t_test *node)
 {
 	int n;
 	t_word	*tmp_words;
@@ -26,7 +26,7 @@ void	put_args(t_cmd *new, t_test *node)
 	tmp_words = node->words;
 	while(tmp_words)
 	{
-		if(tmp_word->str[0] != '<' && tmp_word->str[0] != '>')
+		if(tmp_words->str[0] != '<' && tmp_words->str[0] != '>')
 			n++;
 		else
 			tmp_words = tmp_words->next;
@@ -49,7 +49,7 @@ void	put_args(t_cmd *new, t_test *node)
 		tmp_words = tmp_words->next;
 	}
 }
-void	command_inside(t_cmd *new, t_test *node)
+static void	command_inside(t_cmd *new, t_test *node)
 {
 	t_word *tmp_words;
 	char *path;
@@ -58,7 +58,7 @@ void	command_inside(t_cmd *new, t_test *node)
 	while(tmp_words != NULL)
 	{
 		if(tmp_words->prev->str[0] == '<' || tmp_words->prev->str[0] == '>')
-		}
+		{
 			tmp_words = node->words;
 			path = get_path(tmp_words->str);
 			if(access(path, X_OK) != 0)
@@ -81,25 +81,27 @@ void	command_inside(t_cmd *new, t_test *node)
 		}
 		tmp_words = tmp_words->next;
 	}
-	put_args(new, tmp_words);
+	put_args(new, node);
 }
-void	put_command_list(t_cmd **list_cmd, t_test *node, t_here_doc *heredoc)
+static void	put_command_list(t_cmd **list_cmd, t_test *node)
 {
-	t_cmd *new;
+	t_cmd	*new;
+	t_cmd	*tmp;
 
 	new = ft_calloc(1, sizeof(t_cmd));
 	if (!new)
 		exit(MALLOC);
 	new->out_fd = 1;
+	new->hdoc = ft_calloc(1, sizeof(t_here_doc));
 //	new->ok = do_open(node, new);
-	do_open(node, new, heredoc); //he quitado el new->ok ya que ya lo hago en el do_open lo de los returns. Quizas es necesario por eso lo comento
+	do_open(node, new); //he quitado el new->ok ya que ya lo hago en el do_open lo de los returns. Quizas es necesario por eso lo comento
 	if(new->ok == 0)
 		command_inside(new, node);
-	if(!(*list))
-		*list = new;
+	if(!(*list_cmd))
+		*list_cmd = new;
 	else
 	{
-		tmp = *list;
+		tmp = *list_cmd;
 		while (tmp->next != NULL)
 			tmp = tmp->next;
 		tmp->next = new;
@@ -109,17 +111,18 @@ void	put_command_list(t_cmd **list_cmd, t_test *node, t_here_doc *heredoc)
 }
 
 
-void	get_command_list(t_test *list)
+t_cmd	*get_command_list(t_test *list)
 {
 	t_test	*tmp;
 	t_cmd	*list_cmd;
 
-	*list_cmd = NULL;
+	list_cmd = NULL;
 	tmp = list;
 	while (tmp != NULL)
 	{
 		put_command_list(&list_cmd, tmp);
 		tmp = tmp->next;
 	}
+	return (list_cmd);
 }
 

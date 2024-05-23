@@ -15,6 +15,7 @@
 #include "libft/libft.h"
 #include "readline/readline.h"
 #include "parser.h"
+#include <fcntl.h>
 /*⚠️ela funcion open es llamada por el archivo que checkea los comandos⚠️
 ⚠️eeste archivo sera finalizado cuando se cree lo de los comandos⚠️*/
 char *ft_strcopy(char *str)
@@ -41,7 +42,7 @@ char	*get_path(char *word)
 
 	if (word[0] != '/')
 	{
-		path = getcwd(cwd, 1024);
+		path = getcwd(NULL, 1024);
 		//i = ft_strlen(path); // arreglo de la barra y nombre del archivo✅
 		path[ft_strlen(path)] = '/';
 		path = ft_strjoin(path, word);
@@ -57,7 +58,7 @@ char	*get_path(char *word)
 	return (path);
 }
 
-int	check_file(char *path, char sign, t_here_doc *hd)
+int	check_file(char *path, char sign, t_cmd *new)
 {
 	int i;
 
@@ -68,8 +69,8 @@ int	check_file(char *path, char sign, t_here_doc *hd)
 		{
 			if((i = access(path, W_OK)) == 0)
 			{
-				list_cmd->out_fd = open(path, O_WRONLY | O_TRUNC | O_CREA, 0644);
-				if (!list_cmd->out_fd)
+				new->out_fd = open(path, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+				if (!new->out_fd)
 					new->ok = OPEN_FAILED;
 			}
 			else
@@ -77,12 +78,12 @@ int	check_file(char *path, char sign, t_here_doc *hd)
 		}
 		if(sign == '<')
 		{
-			if(hd->yes == 1)
-				hd->first = 0;
+			if(new->hdoc->yes == 1)
+				new->hdoc->first = 0;
 			if((i = access(path, R_OK)) == 0)
 			{
-				list_cmd->in_fd = open(path, O_RDONLY);
-				if (!list_cmd->in_fd)
+				new->in_fd = open(path, O_RDONLY);
+				if (!new->in_fd)
 					new->ok = OPEN_FAILED;
 			}
 			else
@@ -92,29 +93,27 @@ int	check_file(char *path, char sign, t_here_doc *hd)
 		{
 			if((i = access(path, W_OK)) == 0)
 			{
-				list_cmd->out_fd = open(path, O_WRONLY | O_APPEND | O_CREA, 0644);
-				if (!list_cmd->out_fd)
+				new->out_fd = open(path, O_WRONLY | O_APPEND | O_CREAT, 0644);
+				if (!new->out_fd)
 					new->ok = OPEN_FAILED;
 			}
 			else
 				return(FILE_NOT_WRITE);
 		}
-		return(0) // todo ha ido bien, necesario para un if de fuera
+		return(0); // todo ha ido bien, necesario para un if de fuera
 	}
 	return(FILE_NOT_FOUND);
 }
 
-int do_open(t_test *node, t_cmd *cmd, t_here_doc *heredoc)
+int do_open(t_test *node, t_cmd *new)
 {
 	int		i;
 	char	*path;
 	char	sign;
 	t_word	*tmp_word;
-	t_here_doc	*hd; //quizas no hace falta hacer una temploral, pero el calloc  hace falta
 	
 	i = 0;
 	tmp_word = node->words;
-	hd = heredoc;
 	while(tmp_word)
 	{
 		if(tmp_word->str[i] == '>' ||  tmp_word->str[i] == '<')
@@ -123,19 +122,19 @@ int do_open(t_test *node, t_cmd *cmd, t_here_doc *heredoc)
 				sign = 'd';
 			else if(tmp_word->str[0] == '<' && tmp_word->str[1] == '<')
 			{
-				hd = ft_calloc(1, sizeof(t_here_doc));
-				hd->stop = ft_strdup(tmp_word->next->str)
-				hd->yes = 1;
-				hd->first = 1;
+				new->hdoc = ft_calloc(1, sizeof(t_here_doc));
+				new->hdoc->stop = ft_strdup(tmp_word->next->str);
+				new->hdoc->yes = 1;
+				new->hdoc->first = 1;
 			}
 			else
 				sign = tmp_word->str[0];
 			path = get_path(tmp_word->next->str);
-			new->ok = check_file(path, sign, hd);
+			new->ok = check_file(path, sign, new);
 			if(new->ok != 0)// si es 0 no se cumplira el if pero ya habra entrado😉
 			{
-				cmd->err_f = ft_strdup(tmp_word->next->str);
-				if(!cmd->err_f)
+				new->err_f = ft_strdup(tmp_word->next->str);
+				if(!new->err_f)
 					exit(MALLOC);
 				return(1); // hay que revisar que retornar, pongo 1 ya que lo que retorna es el contador del ok de la lista
 			}

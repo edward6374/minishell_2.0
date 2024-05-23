@@ -17,7 +17,7 @@
 #include "readline/history.h"
 #include "parser.h"
 
-static t_test	*dividing_pipe(char *input, int i)
+t_test	*dividing_pipe(char *input, int i)
 {
 	int		j;
 	int		count_for_malloc;
@@ -48,12 +48,16 @@ static t_test	*dividing_pipe(char *input, int i)
 	print_list(&list);
 	return (list);
 }
-
+/*
 int	parser(t_min *tk, char *line)//pasado main
 {
+	t_cmd	*cmds;
 	t_test	*list;
+
 	list = dividing_pipe(line, 0);
 	check_dollar(tk, list);
 	deleting(list);
+	cmds = get_command_list(list);
 	return (0);
-}
+}*/
+//Aqui finishe todo, tienes que llamar aqui a lo del los comando s y eso
