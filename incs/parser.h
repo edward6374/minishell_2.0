@@ -45,5 +45,6 @@ char	*get_path(char *word);
 int		do_open(t_test *node, t_cmd *new);
 t_cmd	*get_command_list(t_min *tk, t_test *list);
 t_test	*dividing_pipe(char *input, int i);
-int		parser(t_min *tk, char *line);
+int	parser(t_min *tk, char *line);
+int	corrector(//line o ns);
 #endif
