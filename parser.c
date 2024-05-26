@@ -51,6 +51,7 @@ int	parser(t_min *tk, char *line)//pasado main
 
 	// poner las funciones para controlar las comillas
 	// y las redirecciones, y si falla algo, retornar 2
+	corrector(line); // para controlar
 	list = dividing_pipe(line, 0);
 	check_dollar(tk, list);
 	deleting(list);
