@@ -6,7 +6,7 @@
 /*   By: vduchi <vduchi@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 17:41:42 by vduchi            #+#    #+#             */
-/*   Updated: 2024/05/23 20:04:19 by vduchi           ###   ########.fr       */
+/*   Updated: 2024/05/27 10:16:20 by mehernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,5 @@ int		do_open(t_test *node, t_cmd *new);
 t_cmd	*get_command_list(t_min *tk, t_test *list);
 t_test	*dividing_pipe(char *input, int i);
 int	parser(t_min *tk, char *line);
-int	corrector(//line o ns);
+int	check_syntax(char *line);
 #endif

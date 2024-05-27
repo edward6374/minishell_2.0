@@ -6,7 +6,7 @@
 /*   By: mehernan <mehernan@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:25:39 by mehernan          #+#    #+#             */
-/*   Updated: 2024/05/23 20:39:41 by vduchi           ###   ########.fr       */
+/*   Updated: 2024/05/27 11:12:51 by mehernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	parser(t_min *tk, char *line)//pasado main
 
 	// poner las funciones para controlar las comillas
 	// y las redirecciones, y si falla algo, retornar 2
-	corrector(line); // para controlar
+	check_syntax(line); // para controlar
 	list = dividing_pipe(line, 0);
 	check_dollar(tk, list);
 	deleting(list);

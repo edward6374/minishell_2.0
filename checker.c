@@ -4,43 +4,62 @@
 #include "readline/readline.h"
 #include "readline/history.h"
 #include "parser.h"
-void	pipe(int i, char *line)
+
+int	check_syntax_pipe(int i, char *line, int q)
 {
-	i = i+ 1;
-	if(line[i] == '|' || line[i] == '\0' || line[i] == ' ')
-		return(SYNTAX_ERROR);
-	//quizas mas cosas
+	i = i + 1;
+	if( q % 2 == 0)
+	{
+		if(line[i] == '|' || line[i] == '\0'/* || line[i] == ' '*/)
+			return (SYNTAX);
+	}
+	return (0);
 }
-void	red(int i, char *line)
+
+int	check_syntax_red(int i, char *line, int q)
 {
 	i++;
-	if(line[i] == '>' || line[i] == '<')
-		i++;
-	if(line[i] == ' ' || line[i] == '\0' || line[i] == '<' || line[i] == '>')
-		return(SYNTAX_ERROR);
+	if(q % 2 == 0)
+	{
+		if(line[i] == '>' || line[i] == '<')
+			i++;
+		if(/*line[i] == ' ' ||*/ line[i] == '\0' || line[i] == '<' || line[i] == '>')
+			return (SYNTAX);
+	}
+	return (0);
 }
-int	corrector(char *line)
+
+int	check_syntax(char *line)
 {
 	int	i;
 	int	dbl;
 	int	sngl;
+	int	q;
 
 	i = 0;
 	dbl = 0;
-	sngl - 0;
-	while(line[i] != NULL)
+	sngl = 0;
+	while(line[i] != '\0')
 	{
 		if(line[i] == '\"')
 			dbl++;
 		else if(line[i] == '\'')
 			sngl++;
-		else if(line[i] == '>' || line[i] == '<')
-			red(i, line);
-		else if(line[i] == '|')
-			pipe(i, line);
 		i++;
 	}
-	if((dbl != 0 && dbl % 2 != 0) || (sgl != 0 && sgl % 2 != 0)) 
-		return(SINTAX_ERROR);
+	if((dbl != 0 && dbl % 2 != 0) || (sngl != 0 && sngl % 2 != 0))
+		return(SYNTAX);
+	i = 0;
+	q = 0;
+	while(line[i] != '\0')
+	{
+		if(line[i] == '\"' || line[i] == '\'')
+			q++;
+		if((line[i] == '>' || line[i] == '<') && check_syntax_red(i, line, q))
+			return (SYNTAX);
+		else if(line[i] == '|' && check_syntax_pipe(i, line, q))
+			return (SYNTAX);
+		i++;
+	}
 	return(0);
 }
