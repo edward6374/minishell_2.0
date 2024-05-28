@@ -3,48 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   delete_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehernan <mehernan@student.42barcel>       +#+  +:+       +#+        */
+/*   By: vduchi <vduchi@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 19:51:04 by mehernan          #+#    #+#             */
-/*   Updated: 2024/05/23 20:41:38 by vduchi           ###   ########.fr       */
+/*   Updated: 2024/05/28 18:41:10 by vduchi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include "libft/libft.h"
-#include "readline/readline.h"
 #include "parser.h"
+
+void	reset(char *str, int *i, int *j)
+{
+	ft_bzero(str, 20000);
+	*i = 0;
+	*j = 0;
+}
 
 void	deleting(t_test *list)
 {
-	t_word *tmp;
-	char str[20000];
-	int i;
-	int j;
+	int		i;
+	int		j;
+	t_word	*tmp;
+	char	str[20000];
 
-	while(list != NULL)
+	while (list != NULL)
 	{
 		tmp = list->words;
-		while(tmp != NULL)
+		while (tmp != NULL)
 		{
-			ft_bzero(str, j);
-			i = 0;
-			j = 0;
-			while(tmp->str[i])
+			reset(str, &i, &j);
+			while (tmp->str[i])
 			{
-				if(tmp->str[i] == '\"' || tmp->str[i] == '\'')
+				if (tmp->str[i] == '\"' || tmp->str[i] == '\'')
 					i++;
 				else
-				{
-					str[j] = tmp->str[i];
-//					printf("char str: %c\n", str[j]);
-					j++;
-					i++;
-				}
+					str[j++] = tmp->str[i++];
 			}
 			str[i] = '\0';
-//			printf("palabra nueva: %s\n", str);
 			free(tmp->str);
 			tmp->str = ft_strdup(str);
 			tmp = tmp->next;

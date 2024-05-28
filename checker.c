@@ -29,37 +29,44 @@ int	check_syntax_red(int i, char *line, int q)
 	return (0);
 }
 
+int	check_redir(char *line)
+{
+	int	i;
+	int	q;
+
+	i = 0;
+	q = 0;
+	while (line[i] != '\0')
+	{
+		if (line[i] == '\"' || line[i] == '\'')
+			q++;
+		if ((line[i] == '>' || line[i] == '<') && check_syntax_red(i, line, q))
+			return (SYNTAX);
+		else if (line[i] == '|' && check_syntax_pipe(i, line, q))
+			return (SYNTAX);
+		i++;
+	}
+	return (0);
+}
+
 int	check_syntax(char *line)
 {
 	int	i;
 	int	dbl;
 	int	sngl;
-	int	q;
 
 	i = 0;
 	dbl = 0;
 	sngl = 0;
-	while(line[i] != '\0')
+	while (line[i] != '\0')
 	{
-		if(line[i] == '\"')
+		if (line[i] == '\"')
 			dbl++;
-		else if(line[i] == '\'')
+		else if (line[i] == '\'')
 			sngl++;
 		i++;
 	}
-	if((dbl != 0 && dbl % 2 != 0) || (sngl != 0 && sngl % 2 != 0))
-		return(SYNTAX);
-	i = 0;
-	q = 0;
-	while(line[i] != '\0')
-	{
-		if(line[i] == '\"' || line[i] == '\'')
-			q++;
-		if((line[i] == '>' || line[i] == '<') && check_syntax_red(i, line, q))
-			return (SYNTAX);
-		else if(line[i] == '|' && check_syntax_pipe(i, line, q))
-			return (SYNTAX);
-		i++;
-	}
-	return(0);
+	if ((dbl != 0 && dbl % 2 != 0) || (sngl != 0 && sngl % 2 != 0))
+		return (SYNTAX);
+	return (check_redir(line));
 }

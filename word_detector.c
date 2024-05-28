@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   word_detector.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehernan <mehernan@student.42barcel>       +#+  +:+       +#+        */
+/*   By: vduchi <vduchi@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 17:25:10 by mehernan          #+#    #+#             */
-/*   Updated: 2024/05/23 20:40:46 by vduchi           ###   ########.fr       */
+/*   Updated: 2024/05/28 18:55:26 by vduchi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,37 +33,34 @@ static void	take_redirection(char *div_str, char *word, int *i, int *j)
 	}
 }
 
-void	end_word(t_word **list, char *word)
+static void	take_quotes(char *div_str, char *word, int *i, int *j)
 {
-	printf("word detector, end_word: -%s-\n", word);
-	put_word_list(list, word);//poner en la lista
-	ft_bzero(word, 20000);
+	char	car;
+
+	car = div_str[*i];
+	word[*j] = div_str[*i];
+	(*j)++;
+	(*i)++;
+	while (div_str[*i] != car)
+	{
+		word[*j] = div_str[*i];
+		(*j)++;
+		(*i)++;
+	}
+	word[*j] = div_str[*i];
 }
 
-void	print_word(t_word **list, char *div_str, char *word, int *i)
+static void	take_word(t_word **list, char *div_str, char *word, int *i)
 {
 	int	j;
 	int	quote;
-	int	car;
 
 	j = 0;
 	quote = 0;
 	while(div_str[*i] != '\0' && div_str[*i] != ' ')
 	{
 		if(div_str[*i] == '\'' || div_str[*i] == '\"' )
-		{
-			car = div_str[*i];
-			word[j] = div_str[*i];
-			j++;
-			(*i)++;
-			while (div_str[*i] != car)
-			{
-				word[j] = div_str[*i];
-				j++;
-				(*i)++;
-			}
-			word[j] = div_str[*i];
-		}
+			take_quotes(div_str, word, i, &j);
 		else
 		{
 			if (div_str[*i] == '<' || div_str[*i] == '>')
@@ -77,7 +74,9 @@ void	print_word(t_word **list, char *div_str, char *word, int *i)
 		(*i)++;
 	}
 	word[j] = '\0';
-	end_word(list, word);
+	printf("word detector, end_word: -%s-\n", word);
+	put_word_list(list, word);
+	ft_bzero(word, 20000);
 }
 
 void	dividing_words(t_test *list, char *div_str)
@@ -94,6 +93,7 @@ void	dividing_words(t_test *list, char *div_str)
 			i++;
 		if (div_str[i] == '\0')
 			break ;
-		print_word(&list->words, div_str, word, &i);
+		take_word(&list->words, div_str, word, &i);
 	}
+	print_word_list(&list->words);
 }

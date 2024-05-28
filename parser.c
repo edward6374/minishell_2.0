@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehernan <mehernan@student.42barcel>       +#+  +:+       +#+        */
+/*   By: vduchi <vduchi@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:25:39 by mehernan          #+#    #+#             */
-/*   Updated: 2024/05/27 11:12:51 by mehernan         ###   ########.fr       */
+/*   Updated: 2024/05/28 18:25:04 by vduchi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,12 @@ static void print_cmds(t_cmd *cmds)
 
 int	parser(t_min *tk, char *line)//pasado main
 {
+	int		err;
 	t_test	*list;
 
-	// poner las funciones para controlar las comillas
-	// y las redirecciones, y si falla algo, retornar 2
-	check_syntax(line); // para controlar
+	err = check_syntax(line);
+	if (err)
+		return (err);
 	list = dividing_pipe(line, 0);
 	check_dollar(tk, list);
 	deleting(list);

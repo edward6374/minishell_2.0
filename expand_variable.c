@@ -3,16 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   expand_variable.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehernan <mehernan@student.42barcel>       +#+  +:+       +#+        */
+/*   By: vduchi <vduchi@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 12:46:09 by mehernan          #+#    #+#             */
-/*   Updated: 2024/05/23 20:41:11 by vduchi           ###   ########.fr       */
+/*   Updated: 2024/05/28 18:32:41 by vduchi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <stdio.h>
-#include <stdlib.h>
-#include "libft/libft.h"
-#include "readline/readline.h"
+
 #include "parser.h"
 
 static void	send_variable(t_min *tk, char *var, char *value)
@@ -22,11 +19,11 @@ static void	send_variable(t_min *tk, char *var, char *value)
 
 	i = -1;
 	tmp = tk->env;
-	while(tmp)
+	while (tmp)
 	{
-		if(ft_strcmp(tmp->name, var) == 0)
+		if (ft_strcmp(tmp->name, var) == 0)
 		{
-			while(tmp->value[++i])
+			while (tmp->value[++i])
 				value[i] = tmp->value[i];
 			value[i] = '\0';
 //			printf("value: %s\n", value);
@@ -44,7 +41,7 @@ static void	dollar_found(char *str, char *var)
 	i = 0;
 	j = 0;
 //	printf("UN DOLLAR🤑\n");
-	while(str[i] != '\0' && ((str[i] > 64 && str[i] < 91)
+	while (str[i] != '\0' && ((str[i] > 64 && str[i] < 91)
 			|| (str[i] > 96 && str[i] < 123)
 		|| (str[i] > 47 && str[i] < 58) || str[i] == '_'))
 	{
@@ -58,8 +55,8 @@ static void	dollar_found(char *str, char *var)
 
 static void	find_dollar(t_min *tk, t_word *tmp, char *var)
 {
-	int	i;
-	int	sin;
+	int		i;
+	int		sin;
 	char	value[2000];
 
 	i = -1;
@@ -70,8 +67,7 @@ static void	find_dollar(t_min *tk, t_word *tmp, char *var)
 			sin++;
 		else if (tmp->str[i] == '\'' && sin == 1)
 			sin--;
-//		printf("que char es?: %c\n", tmp->str[i]);
-		if(tmp->str[i] == '$' && sin == 0)
+		if (tmp->str[i] == '$' && sin == 0)
 		{
 			dollar_found(&tmp->str[++i], var);
 			send_variable(tk, var, value);
@@ -85,19 +81,12 @@ void	check_dollar(t_min *tk, t_test *list)
 	char	var[2000];
 	t_word	*tmp;
 
-	while(list != NULL)
+	while (list != NULL)
 	{
 		tmp = list->words;
 		while (tmp != NULL)
 		{
 			find_dollar(tk, tmp, var);
-//			while (tmp->str[++i])
-//			{
-//				if (find_dollar(tmp, i, var))
-//				send_variable(tk, var, value);
-//				change_word(tmp, value, &i);
-//			}
-//			printf("Word after check dollar: -%s-\n", tmp->str);
 			tmp = tmp->next;
 		}
 		list = list->next;
