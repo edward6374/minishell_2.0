@@ -6,30 +6,30 @@
 /*   By: vduchi <vduchi@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 19:07:02 by mehernan          #+#    #+#             */
-/*   Updated: 2024/05/28 18:27:20 by vduchi           ###   ########.fr       */
+/*   Updated: 2024/06/02 17:45:27 by vduchi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-void	print_list(t_test **list)
+// void	print_list(t_pipe **list)
+// {
+// 	t_pipe	*temp;
+
+// 	temp = *list;
+// 	while (temp != NULL)
+//     {
+//         printf("Que hay en la lista: -%s-\n", temp->str);
+//         temp = temp->next;
+//     }
+// }
+
+static void	put_list(t_pipe **list, char *div_str)
 {
-	t_test	*temp;
+	t_pipe	*tmp;
+	t_pipe	*new;
 
-	temp = *list;
-	while (temp != NULL)
-    {
-        printf("Que hay en la lista: -%s-\n", temp->str);
-        temp = temp->next;
-    }
-}
-
-static void	put_list(t_test **list, char *div_str)
-{
-	t_test	*tmp;
-	t_test	*new;
-
-	new = ft_calloc(1, sizeof(t_test));
+	new = ft_calloc(1, sizeof(t_pipe));
 	new->str = div_str;
 	if (!(*list))
 		*list = new;
@@ -43,12 +43,12 @@ static void	put_list(t_test **list, char *div_str)
 	}
 }
 
-t_test	*dividing_pipe(char *input, int i)
+t_pipe	*dividing_pipe(char *input, int i)
 {
 	int		j;
 	int		count;
 	char	*div_str;
-	t_test	*list;
+	t_pipe	*list;
 
 	list = NULL;
 	while (input[i])

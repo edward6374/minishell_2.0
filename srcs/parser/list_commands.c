@@ -6,18 +6,13 @@
 /*   By: vduchi <vduchi@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:25:39 by mehernan          #+#    #+#             */
-/*   Updated: 2024/05/28 18:59:34 by vduchi           ###   ########.fr       */
+/*   Updated: 2024/06/02 17:43:41 by vduchi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include "libft/libft.h"
-#include "readline/readline.h"
 #include "parser.h"
-#include "struct.h"
 
-int	get_cmd_path(t_min *tk, t_cmd *new, char *word)
+static int	get_cmd_path(t_min *tk, t_cmd *new, char *word)
 {
 	int		i;
 	int		out;
@@ -44,7 +39,7 @@ int	get_cmd_path(t_min *tk, t_cmd *new, char *word)
 	return (CMD_NOT_FOUND);
 }
 
-static void	put_args(t_cmd *new, t_test *node)
+static void	put_args(t_cmd *new, t_pipe *node)
 {
 	int		n;
 	t_word	*tmp_words;
@@ -66,7 +61,7 @@ static void	put_args(t_cmd *new, t_test *node)
 	take_args(tmp_words, new);
 }
 
-static void	command_inside(t_min *tk, t_cmd *new, t_test *node)
+static void	command_inside(t_min *tk, t_cmd *new, t_pipe *node)
 {
 	t_word	*tmp_words;
 
@@ -87,7 +82,7 @@ static void	command_inside(t_min *tk, t_cmd *new, t_test *node)
 		put_args(new, node);
 }
 
-static void	put_command_list(t_min *tk, t_cmd **list_cmd, t_test *node)
+static void	put_command_list(t_min *tk, t_cmd **list_cmd, t_pipe *node)
 {
 	t_cmd	*new;
 	t_cmd	*tmp;
@@ -115,9 +110,9 @@ static void	put_command_list(t_min *tk, t_cmd **list_cmd, t_test *node)
 	}
 }
 
-t_cmd	*get_command_list(t_min *tk, t_test *list)
+t_cmd	*get_command_list(t_min *tk, t_pipe *list)
 {
-	t_test	*tmp;
+	t_pipe	*tmp;
 	t_cmd	*list_cmd;
 
 	list_cmd = NULL;

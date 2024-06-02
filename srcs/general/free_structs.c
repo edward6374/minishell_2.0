@@ -3,30 +3,49 @@
 /*                                                        :::      ::::::::   */
 /*   free_structs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vduchi <vduchi@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: vduchi <vduchi@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 17:46:37 by vduchi            #+#    #+#             */
-/*   Updated: 2023/08/29 20:09:21 by vduchi           ###   ########.fr       */
+/*   Updated: 2024/06/02 18:29:45 by vduchi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	free_parser(t_parser *words, int out)
+static void	free_words(t_word *words)
 {
-	t_parser	*tmp;
-	t_parser	*next;
+	t_word	*word_tmp;
+	t_word	*word_next;
 
-	tmp = words;
-	next = words->next;
+	word_tmp = words;
+	word_next = word_tmp->next;
+	while (word_next)
+	{
+		free(word_tmp->str);
+		free(word_tmp);
+		word_tmp = word_next;
+		word_next = word_tmp->next;
+	}
+	free(word_tmp->str);
+	free(word_tmp);
+}
+
+int	free_parser(t_pipe *pipes, int out)
+{
+	t_pipe	*tmp;
+	t_pipe	*next;
+
+	tmp = pipes;
+	next = pipes->next;
 	while (next)
 	{
-		free(tmp->word);
+		free_words(tmp->words);
+		free(tmp->str);
 		free(tmp);
 		tmp = next;
 		next = tmp->next;
 	}
-	free(tmp->word);
+	free(tmp->str);
 	free(tmp);
 	return (out);
 }

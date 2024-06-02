@@ -3,16 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   change_node.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehernan <mehernan@student.42barcel>       +#+  +:+       +#+        */
+/*   By: vduchi <vduchi@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 12:46:09 by mehernan          #+#    #+#             */
-/*   Updated: 2024/04/24 15:39:33 by mehernan         ###   ########.fr       */
+/*   Updated: 2024/06/02 17:39:50 by vduchi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <stdio.h>
-#include <stdlib.h>
-#include "libft/libft.h"
-#include "readline/readline.h"
+
 #include "parser.h"
 
 int	change_word(t_word *tmp, int i, int len, char *value)

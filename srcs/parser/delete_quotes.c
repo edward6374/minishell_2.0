@@ -6,20 +6,20 @@
 /*   By: vduchi <vduchi@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 19:51:04 by mehernan          #+#    #+#             */
-/*   Updated: 2024/05/28 18:41:10 by vduchi           ###   ########.fr       */
+/*   Updated: 2024/06/02 17:42:15 by vduchi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-void	reset(char *str, int *i, int *j)
+static void	reset(char *str, int *i, int *j)
 {
 	ft_bzero(str, 20000);
 	*i = 0;
 	*j = 0;
 }
 
-void	deleting(t_test *list)
+void	deleting(t_pipe *list)
 {
 	int		i;
 	int		j;

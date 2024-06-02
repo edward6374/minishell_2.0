@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vduchi <vduchi@student.42.fr>              +#+  +:+       +#+         #
+#    By: vduchi <vduchi@student.42barcelon>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/22 22:11:19 by vduchi            #+#    #+#              #
-#    Updated: 2024/05/27 10:04:18 by mehernan         ###   ########.fr        #
+#    Updated: 2024/06/02 18:00:11 by vduchi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,8 +80,8 @@ $(NAME)			::
 
 $(RD_PATH)		:
 	@echo "$(ORANGE)\nCompiling readline library...$(DEF_COLOR)"
-	@cd readline; ./configure --prefix=$(shell pwd)/readline/library; make; make install;
-	@echo "$(GREEN)Readline library ready!$(DEF_COLOR)"
+	@cd readline; ./configure --prefix=$(shell pwd)/readline/library 2>/dev/null 1>/dev/null; make 2>/dev/null 1>/dev/null; make install 2>/dev/null 1>/dev/null;
+	@echo "$(GREEN)Readline library ready!\n$(DEF_COLOR)"
 
 directories	:
 	@$(MKDIR) $(OBJS_DIR)
@@ -103,7 +103,9 @@ clean			:
 fclean			:	clean
 	@$(RM) $(NAME)
 	@$(MAKE) -C libft fclean
-	@-cd readline; make distclean -sik;
+	@if [ -f "readline/Makefile" ]; then\
+		cd readline; make distclean -sik;\
+	fi
 	@$(RM) readline/library
 	@echo "$(BLUE)\nMinishell cleaned!$(DEF_COLOR)"
 

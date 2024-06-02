@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
+/*   By: vduchi <vduchi@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 20:24:51 by vduchi            #+#    #+#             */
-/*   Updated: 2023/09/02 12:04:11 by nmota-bu         ###   ########.fr       */
+/*   Updated: 2024/06/02 18:30:12 by vduchi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,10 @@ int	check_before_exec(t_min *tk, t_cmd **tmp, int *p, int *fd)
 			printf("%s %s: %s\n", TERROR, (*tmp)->err_f,
 				g_error_array[(*tmp)->ok - 1]);
 		else
+		{
 			printf("%s %s: %s\n", TERROR, (*tmp)->cmd, g_error_array[(*tmp)->ok
 				- 1]);
+		}
 		set_g(tk, (*tmp)->ok);
 		*tmp = (*tmp)->next;
 		return (-1);
@@ -38,6 +40,8 @@ void	take_exit_value(t_cmd *tmp)
 	int	i;
 
 	i = 0;
+	if (!tmp->args)
+		return ;
 	while (tmp->args[++i])
 	{
 		if (!ft_strncmp(tmp->args[i], "$?", 3))
@@ -51,7 +55,7 @@ void	take_exit_value(t_cmd *tmp)
 	g_exit = 0;
 }
 
-pid_t static	child_exec(t_min *tk, t_cmd *tmp, int *p, int fd)
+pid_t static child_exec(t_min *tk, t_cmd *tmp, int *p, int fd)
 {
 	pid_t	pid;
 
@@ -81,7 +85,7 @@ int	loop_commands(t_min *tk, pid_t *child_pid, int *p, int fd)
 	if (!env)
 		return (MALLOC);
 	tmp = tk->cmds;
-	if (!tmp)
+	if (!tmp) //|| (tk->num_cmds == 1 && tk->cmds->cmd == NULL))
 		return (0);
 	if (tk->num_cmds == 1 && is_builtin(tk->cmds->cmd))
 		one_builtin(tk, tk->cmds, child_pid);

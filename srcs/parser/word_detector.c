@@ -6,14 +6,10 @@
 /*   By: vduchi <vduchi@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 17:25:10 by mehernan          #+#    #+#             */
-/*   Updated: 2024/05/28 18:55:26 by vduchi           ###   ########.fr       */
+/*   Updated: 2024/06/02 17:36:05 by vduchi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include "libft/libft.h"
-#include "readline/readline.h"
 #include "parser.h"
 
 static void	take_redirection(char *div_str, char *word, int *i, int *j)
@@ -79,7 +75,7 @@ static void	take_word(t_word **list, char *div_str, char *word, int *i)
 	ft_bzero(word, 20000);
 }
 
-void	dividing_words(t_test *list, char *div_str)
+void	dividing_words(t_pipe *list, char *div_str)
 {
 	int		i;
 	char	word[20000];

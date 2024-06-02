@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_and_hdoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vduchi <vduchi@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: vduchi <vduchi@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 18:23:00 by vduchi            #+#    #+#             */
-/*   Updated: 2023/08/30 12:06:18 by vduchi           ###   ########.fr       */
+/*   Updated: 2024/06/02 17:06:46 by vduchi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	check_temp_fd(t_cmd *tmp, int *p, int *fd)
 {
 	if (tmp->n == 0 && tmp->next)
 		pipe(p);
-	else if (tmp->before && tmp->in_fd == 0 && tmp->next && !tmp->hdoc->yes)
+	else if (tmp->n > 0 && tmp->next)
 	{
 		if (*fd != -1)
 			close(*fd);
@@ -73,11 +73,11 @@ void	check_temp_fd(t_cmd *tmp, int *p, int *fd)
 
 void	redirect_pipes(t_cmd *tmp, int *p, int fd)
 {
-	if (tmp->in_fd != 0 && !tmp->hdoc->first)
+	if (tmp->in_fd != 0 && (!tmp->hdoc || (tmp->hdoc && !tmp->hdoc->first)))
 		((dup2(tmp->in_fd, 0)) && (close(tmp->in_fd)));
 	else
 	{
-		if (tmp->hdoc->yes)
+		if (tmp->hdoc && tmp->hdoc->first)
 		{
 			dup2(tmp->hdoc->fd[0], 0);
 			((close(tmp->hdoc->fd[0])) && (close(tmp->hdoc->fd[1])));

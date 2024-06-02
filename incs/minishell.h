@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
+/*   By: vduchi <vduchi@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 16:14:15 by vduchi            #+#    #+#             */
-/*   Updated: 2023/09/02 11:27:05 by nmota-bu         ###   ########.fr       */
+/*   Updated: 2024/06/02 17:35:37 by vduchi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdio.h>
 # include <stdlib.h>
+# include <fcntl.h>
 # include "struct.h"
 # include "execute.h"
 # include "history.h"
@@ -42,7 +43,7 @@ char	**free_double_char(char **old, int i);
 /* ---			Free_structs.c			--- */
 int		free_env(t_env *first);
 int		free_all(t_min *tk, int out);
-int		free_parser(t_parser *words, int out);
+int		free_parser(t_pipe *pipe, int out);
 int		free_commands(t_cmd **first, int out);
 
 /* ---			init_pwd.c			--- */

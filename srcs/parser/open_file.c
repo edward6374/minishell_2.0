@@ -6,18 +6,11 @@
 /*   By: vduchi <vduchi@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 17:09:52 by mehernan          #+#    #+#             */
-/*   Updated: 2024/05/28 19:00:23 by vduchi           ###   ########.fr       */
+/*   Updated: 2024/06/02 17:36:18 by vduchi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include "libft/libft.h"
-#include "readline/readline.h"
 #include "parser.h"
-#include <fcntl.h>
-/*⚠️ela funcion open es llamada por el archivo que checkea los comandos⚠️
-⚠️eeste archivo sera finalizado cuando se cree lo de los comandos⚠️*/
 
 static char	*get_path(char *word)
 {
@@ -77,7 +70,7 @@ static int	check_file(char *path, char sign, t_cmd *new)
 	}
 }
 
-int do_open(t_test *node, t_cmd *new)
+int do_open(t_pipe *node, t_cmd *new)
 {
 	char	*path;
 	char	sign;

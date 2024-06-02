@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
+/*   By: vduchi <vduchi@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:17:00 by nmota-bu          #+#    #+#             */
-/*   Updated: 2024/05/22 16:55:35 by vduchi           ###   ########.fr       */
+/*   Updated: 2024/06/02 17:27:05 by vduchi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,12 +77,21 @@ typedef struct s_env
 	struct s_env		*before;
 }						t_env;
 
-typedef struct s_parser
+typedef struct	s_word
 {
-	char				*word;
-	struct s_parser		*next;
-	struct s_parser		*before;
-}						t_parser;
+	int				quote_after;
+	char			*str;
+	struct s_word	*prev;
+	struct s_word	*next;
+}	t_word;
+
+typedef struct	s_pipe
+{
+	char			*str;
+	t_word			*words;
+	struct s_pipe	*prev;
+	struct s_pipe	*next;
+}	t_pipe;
 
 // Redirections (referente a la palabra siguiente AQUI❌ > AQUI✅)
 // < es la redireccion del input

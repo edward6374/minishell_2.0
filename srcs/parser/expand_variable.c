@@ -6,7 +6,7 @@
 /*   By: vduchi <vduchi@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 12:46:09 by mehernan          #+#    #+#             */
-/*   Updated: 2024/05/28 18:32:41 by vduchi           ###   ########.fr       */
+/*   Updated: 2024/06/02 17:14:33 by vduchi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static void	find_dollar(t_min *tk, t_word *tmp, char *var)
 	}
 }
 
-void	check_dollar(t_min *tk, t_test *list)
+void	check_dollar(t_min *tk, t_pipe *list)
 {
 	char	var[2000];
 	t_word	*tmp;

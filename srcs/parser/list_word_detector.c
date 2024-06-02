@@ -3,17 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   list_word_detector.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehernan <mehernan@student.42barcel>       +#+  +:+       +#+        */
+/*   By: vduchi <vduchi@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 18:00:22 by mehernan          #+#    #+#             */
-/*   Updated: 2024/05/23 19:41:57 by vduchi           ###   ########.fr       */
+/*   Updated: 2024/06/02 17:40:12 by vduchi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include "libft/libft.h"
-#include "readline/readline.h"
 #include "parser.h"
 
 void	put_word_list(t_word **list, char *word)

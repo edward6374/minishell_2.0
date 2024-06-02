@@ -1474,10 +1474,10 @@ compile ()
   run_tex_suite
 }
 
-# make_openout_test FLAGS EXTENSION
+# make_openout_pipe FLAGS EXTENSION
 # - Run TeX with an input file that performs an \openout.  Pass FLAGS to TeX.
 #
-make_openout_test ()
+make_openout_pipe ()
 {
     recorder_option_maybe="$1"
     make_tex_cmd
@@ -1503,7 +1503,7 @@ EOF
 check_recorder_support ()
 {
   verbose "Checking TeX recorder support..."
-  make_openout_test " -recorder" fls
+  make_openout_pipe " -recorder" fls
   if test -f openout.fls && grep '^OUTPUT dum.dum$' openout.fls > /dev/null
   then
     cd_orig
@@ -1520,7 +1520,7 @@ check_recorder_support ()
 check_openout_in_log_support ()
 {
   verbose "Checking TeX \openout in log support..."
-  make_openout_test "" log
+  make_openout_pipe "" log
   if test -f openout.log \
      && grep '^\\openout..\? *= *`\?dum\.dum'\''\?' openout.log >/dev/null
   then

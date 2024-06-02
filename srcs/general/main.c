@@ -6,13 +6,13 @@
 /*   By: vduchi <vduchi@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 16:08:59 by vduchi            #+#    #+#             */
-/*   Updated: 2024/05/28 18:20:37 by vduchi           ###   ########.fr       */
+/*   Updated: 2024/06/02 18:29:42 by vduchi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "signalm.h"
 #include "parser.h"
+#include "signalm.h"
 
 unsigned char	g_exit = 0;
 
@@ -44,7 +44,6 @@ t_min	*init_struct(char *env[])
 	return (tk);
 }
 
-/*
 void	program(t_min *tk, char *line)
 {
 	int	err;
@@ -71,11 +70,9 @@ void	program(t_min *tk, char *line)
 	tk->num_cmds = 0;
 	free(line);
 }
-*/
 
 int	loop_main(t_min *tk)
 {
-//	int	err;
 	char	*path;
 	char	*line;
 
@@ -87,16 +84,13 @@ int	loop_main(t_min *tk)
 			write(2, "exit\n", 6);
 		return (free_pointer(path, 1));
 	}
-//	else if (line && line[0] == '\0')
-	if (line && line[0] == '\0')
+	else if (line && line[0] == '\0')
 	{
 		free(line);
 		return (0);
 	}
 	add_history(line);
-	parser(tk, line);
-	free(line);
-//	program(tk, line);
+	program(tk, line);
 	free(path);
 	return (0);
 }
@@ -114,14 +108,12 @@ int	main(int argc, char *argv[], char *env[])
 		set_term();
 		if (!tk)
 			exit(0);
-//			return (end_program(NULL, MALLOC));
 		while (42)
 		{
 			set_signals(0);
 			result = loop_main(tk);
 			if (result == 1)
 				exit(0);
-//				return (d_key(&tk));
 		}
 	}
 	else

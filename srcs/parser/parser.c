@@ -6,18 +6,13 @@
 /*   By: vduchi <vduchi@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:25:39 by mehernan          #+#    #+#             */
-/*   Updated: 2024/05/28 18:25:04 by vduchi           ###   ########.fr       */
+/*   Updated: 2024/06/02 18:30:56 by vduchi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include "libft/libft.h"
-#include "readline/readline.h"
-#include "readline/history.h"
 #include "parser.h"
 
-static void print_cmds(t_cmd *cmds)
+static void	print_cmds(t_cmd *cmds)
 {
 	int		i;
 	t_cmd	*tmp;
@@ -45,14 +40,16 @@ static void print_cmds(t_cmd *cmds)
 	}
 }
 
-int	parser(t_min *tk, char *line)//pasado main
+int	parser(t_min *tk, char *line)
 {
 	int		err;
-	t_test	*list;
+	t_pipe	*list;
 
 	err = check_syntax(line);
 	if (err)
 		return (err);
+	if (check_spaces(line))
+		return (0);
 	list = dividing_pipe(line, 0);
 	check_dollar(tk, list);
 	deleting(list);
@@ -68,4 +65,5 @@ int	parser(t_min *tk, char *line)//pasado main
 //
 // Las redirecciones: estan mal si despues de un < o > o << o >> no hay una palabra
 // pero hay otra redireccion o un pipe, y controlar
-// tambien que si antes de un pipe tienes otro pipe o no tienes palabras, esta mal
+// tambien que si antes de un pipe tienes otro pipe o no tienes palabras,
+// esta mal
