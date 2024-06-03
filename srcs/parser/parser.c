@@ -40,6 +40,12 @@ static void	print_cmds(t_cmd *cmds)
 	}
 }
 
+static int	check_spaces(char *line)
+{
+	(void)line;
+	return (0);
+}
+
 int	parser(t_min *tk, char *line)
 {
 	int		err;

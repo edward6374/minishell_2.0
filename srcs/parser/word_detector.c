@@ -49,10 +49,8 @@ static void	take_quotes(char *div_str, char *word, int *i, int *j)
 static void	take_word(t_word **list, char *div_str, char *word, int *i)
 {
 	int	j;
-	int	quote;
 
 	j = 0;
-	quote = 0;
 	while(div_str[*i] != '\0' && div_str[*i] != ' ')
 	{
 		if(div_str[*i] == '\'' || div_str[*i] == '\"' )

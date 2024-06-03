@@ -74,6 +74,7 @@ void	end_exec(t_min *tk, pid_t *child_pid, char **env)
 	if (child_pid)
 		free(child_pid);
 	free_double_void(env);
+	printf("FinaL: %d\n", final);
 }
 
 int	run_builtin(t_min *tk, t_cmd *tmp)
