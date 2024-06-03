@@ -29,7 +29,8 @@ RD_PATH			=	readline/libreadline.a
 
 #=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-#
 
-CFLAGS			+= 	-Wall -Werror -Wextra -DREADLINE_LIBRARY -g -O3 $(addprefix -I , $(INC_DIR)) #-fsanitize=address
+#CFLAGS			+= 	-Wall -Werror -Wextra -DREADLINE_LIBRARY -g -O3 $(addprefix -I , $(INC_DIR)) #-fsanitize=address
+CFLAGS			+= 	-DREADLINE_LIBRARY -g -O3 $(addprefix -I , $(INC_DIR)) #-fsanitize=address
 LDFLAGS			=	-L libft -L readline -lft -lreadline -lncurses
 DFLAGS_MS		=	-MMD -MP -MF $(DEP_DIR_MS)/$*.d
 DFLAGS_BI		=	-MMD -MP -MF $(DEP_DIR_BI)/$*.d
@@ -41,6 +42,7 @@ DFLAGS_PARSER	=	-MMD -MP -MF $(DEP_DIR_PARSER)/$*.d
 CC				=	gcc
 RM				=	rm -rf
 MKDIR			=	mkdir -p
+MAKE			=	make --no-print-directory
 
 #=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-#
 
@@ -72,7 +74,7 @@ $(NAME)			::
 	@echo "$(MAGENTA)\nChecking minishell...$(DEF_COLOR)"
 
 $(NAME)			::	$(LIBFT_PATH) $(RD_PATH) $(OBJS_MS) $(OBJS_EXEC) $(OBJS_BI) $(OBJS_PARSER)
-	@$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@
+	@$(CC) $(CFLAGS) $^ $(LDFLAGS) -o $@
 	@echo "$(ORANGE)Compiling minishell exec...$(DEF_COLOR)"
 
 $(NAME)			::

@@ -13,7 +13,7 @@
 SRC_DIR				=	srcs
 INC_DIR				=	incs
 INC_DIR				+=	libft
-INC_DIR				+=	readline
+INC_DIR				+=	readline/library/include
 OBJS_DIR			=	.objs
 DEPS_DIR			=	.deps
 SRC_DIR_MS			=	$(SRC_DIR)/general

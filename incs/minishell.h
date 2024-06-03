@@ -18,10 +18,10 @@
 # include <fcntl.h>
 # include "struct.h"
 # include "execute.h"
-# include "history.h"
 # include "libft.h"
 # include "parser.h"
-# include "readline.h"
+# include "readline/history.h"
+# include "readline/readline.h"
 
 /* ---			Take_env.c			--- */
 int		take_env(t_min *tk, char *env[]);

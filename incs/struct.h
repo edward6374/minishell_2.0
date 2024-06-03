@@ -48,7 +48,7 @@ enum
 	FILE_NOT_WRITE,
 };
 
-const static char		*g_error_array[] = {
+static const char		*g_error_array[] = {
 	"Malloc error",
 	"Syntax error",
 	"syntax error near unexpected token `|\'",
