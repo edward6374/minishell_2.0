@@ -61,7 +61,7 @@ t_pipe	*dividing_pipe(char *input, int i)
 		while (input[i] != '|' && input[i] != '\0')
 			div_str[j++] = input[i++];
 		div_str[j] = '\0';
-		printf("Div str: %s\n", div_str);
+		// printf("Div str: %s\n", div_str);
 		put_list(&list, div_str);
 		dividing_words(list, div_str);
 		if (input[i] != '\0')

@@ -19,22 +19,24 @@ static int	get_cmd_path(t_min *tk, t_cmd *new, char *word)
 	char	**split;
 	t_env	*tmp;
 
-	if (take_path_env(&tmp, tk, new, word))
-		return (CMD_NOT_FOUND);
-	split = ft_split(tmp->value, ':');
-	if (!split)
-		exit(MALLOC);
-	i = 0;
-	while (split[i])
+	if (ft_strncmp(word, "", 1) != 0)
 	{
-		out = check_path(split, word, new, i);
-		if (out == CMD_FOUND_NOT_EX)
-			return (out);
-		else if (!out)
-			return (0);
-		i++;
+		if (take_path_env(&tmp, tk, new, word))
+			return (CMD_NOT_FOUND);
+		split = ft_split(tmp->value, ':');
+		if (!split)
+			exit_error(g_error_array[MALLOC], MALLOC);
+		i = -1;
+		while (split[++i])
+		{
+			out = check_path(split, word, new, i);
+			if (out == CMD_FOUND_NOT_EX)
+				return (out);
+			else if (!out)
+				return (0);
+		}
+		ft_free_dptr(split);
 	}
-	ft_free_dptr(split);
 	new->cmd = ft_strdup(word);
 	return (CMD_NOT_FOUND);
 }
@@ -56,7 +58,7 @@ static void	put_args(t_cmd *new, t_pipe *node)
 	}
 	new->args = ft_calloc(n + 1, sizeof(char *));
 	if (!new->args)
-		exit(MALLOC);
+		exit_error(g_error_array[MALLOC], MALLOC);
 	tmp_words = node->words;
 	take_args(tmp_words, new);
 }
@@ -69,8 +71,8 @@ static void	command_inside(t_min *tk, t_cmd *new, t_pipe *node)
 	while (tmp_words)
 	{
 		if ((tmp_words->prev == NULL && tmp_words->str[0] != '<'
-				&& tmp_words->str[0] != '>')
-			|| (tmp_words->prev && tmp_words->prev->str[0] != '<'
+				&& tmp_words->str[0] != '>') || (tmp_words->prev
+				&& tmp_words->prev->str[0] != '<'
 				&& tmp_words->prev->str[0] != '>'))
 		{
 			new->ok = get_cmd_path(tk, new, tmp_words->str);
@@ -89,11 +91,11 @@ static void	put_command_list(t_min *tk, t_cmd **list_cmd, t_pipe *node)
 
 	new = ft_calloc(1, sizeof(t_cmd));
 	if (!new)
-		exit(MALLOC);
+		exit_error(g_error_array[MALLOC], MALLOC);
 	new->out_fd = 1;
 	new->hdoc = ft_calloc(1, sizeof(t_here_doc));
 	if (!new->hdoc)
-		exit(MALLOC);
+		exit_error(g_error_array[MALLOC], MALLOC);
 	do_open(node, new);
 	if (new->ok == 0)
 		command_inside(tk, new, node);
@@ -121,6 +123,7 @@ t_cmd	*get_command_list(t_min *tk, t_pipe *list)
 	{
 		put_command_list(tk, &list_cmd, tmp);
 		tmp = tmp->next;
+		tk->num_cmds++;
 	}
 	return (list_cmd);
 }

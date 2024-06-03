@@ -14,7 +14,7 @@
 #include "execute.h"
 #include "minishell.h"
 
-void	set_g(t_min *tk, int ok)
+void	set_g(int ok)
 {
 	if (ok == 6)
 		g_exit = 127;
@@ -22,7 +22,7 @@ void	set_g(t_min *tk, int ok)
 		g_exit = 126;
 	else
 		g_exit = 1;
-	tk->num_cmds = tk->num_cmds - 1;
+	// tk->num_cmds = tk->num_cmds - 1;
 }
 
 void	take_more_exit(char **str, int i)
@@ -56,25 +56,26 @@ void	take_more_exit(char **str, int i)
 
 void	end_exec(t_min *tk, pid_t *child_pid, char **env)
 {
-	int	final;
-	int	status;
-	int	finished;
+	int		final;
+	int		status;
+	int		finished;
+	pid_t	process;
 
 	final = 0;
 	status = 0;
 	finished = 0;
 	while (finished < tk->num_cmds)
 	{
-		if (waitpid(-1, &status, 0) == child_pid[tk->num_cmds - 1])
+		process = waitpid(-1, &status, 0);
+		if (process == child_pid[tk->num_cmds - 1])
 			final = status;
-		if (!WIFSIGNALED(status))
-			g_exit = WEXITSTATUS(status);
 		finished++;
 	}
 	if (child_pid)
 		free(child_pid);
+	if (WEXITSTATUS(final))
+		g_exit = WEXITSTATUS(final);
 	free_double_void(env);
-	printf("FinaL: %d\n", final);
 }
 
 int	run_builtin(t_min *tk, t_cmd *tmp)

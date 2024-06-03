@@ -21,22 +21,22 @@ static char	*get_path(char *word)
 		path = getcwd(NULL, 1024);
 		path[ft_strlen(path)] = '/';
 		path = ft_strjoin(path, word);
-		printf("Path: %s\n", path);
+		// printf("Path: %s\n", path);
 		if (!path)
-			exit(MALLOC);
+			exit_error(g_error_array[MALLOC], MALLOC);
 	}
 	else
 	{
 		path = ft_strdup(word);
 		if (!path)
-			exit(MALLOC);
+			exit_error(g_error_array[MALLOC], MALLOC);
 	}
 	return (path);
 }
 
 static int	check_file(char *path, char sign, t_cmd *new)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (sign == '>' || sign == 'd')
@@ -70,7 +70,7 @@ static int	check_file(char *path, char sign, t_cmd *new)
 	}
 }
 
-int do_open(t_pipe *node, t_cmd *new)
+int	do_open(t_pipe *node, t_cmd *new)
 {
 	char	*path;
 	char	sign;
@@ -83,7 +83,7 @@ int do_open(t_pipe *node, t_cmd *new)
 		{
 			if (tmp_word->str[0] == '>' && tmp_word->str[1] == '>')
 				sign = 'd';
-			else if(tmp_word->str[0] == '<' && tmp_word->str[1] == '<')
+			else if (tmp_word->str[0] == '<' && tmp_word->str[1] == '<')
 			{
 				new->hdoc = ft_calloc(1, sizeof(t_here_doc));
 				new->hdoc->stop = ft_strdup(tmp_word->next->str);
@@ -97,8 +97,8 @@ int do_open(t_pipe *node, t_cmd *new)
 			if (new->ok != 0)
 			{
 				new->err_f = ft_strdup(tmp_word->next->str);
-				if(!new->err_f)
-					exit(MALLOC);
+				if (!new->err_f)
+					exit_error(g_error_array[MALLOC], MALLOC);
 				return (1);
 			}
 		}

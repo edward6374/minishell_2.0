@@ -14,7 +14,7 @@
 
 static void	send_variable(t_min *tk, char *var, char *value)
 {
-	int	i;
+	int		i;
 	t_env	*tmp;
 
 	i = -1;
@@ -26,7 +26,7 @@ static void	send_variable(t_min *tk, char *var, char *value)
 			while (tmp->value[++i])
 				value[i] = tmp->value[i];
 			value[i] = '\0';
-//			printf("value: %s\n", value);
+			// printf("value: %s\n", value);
 			break ;
 		}
 		tmp = tmp->next;
@@ -40,17 +40,17 @@ static void	dollar_found(char *str, char *var)
 
 	i = 0;
 	j = 0;
-//	printf("UN DOLLAR🤑\n");
-	while (str[i] != '\0' && ((str[i] > 64 && str[i] < 91)
-			|| (str[i] > 96 && str[i] < 123)
-		|| (str[i] > 47 && str[i] < 58) || str[i] == '_'))
+	//	printf("UN DOLLAR🤑\n");
+	while (str[i] != '\0' && ((str[i] > 64 && str[i] < 91) || (str[i] > 96
+				&& str[i] < 123) || (str[i] > 47 && str[i] < 58)
+			|| str[i] == '_'))
 	{
-//		printf("added✅: -%c-\n", str[i]);
+		// printf("added✅: -%c-\n", str[i]);
 		var[j++] = str[i++];
 	}
 	var[j++] = '=';
 	var[j] = '\0';
-//	printf("variable: %s\n", var);
+	// printf("variable: %s\n", var);
 }
 
 static void	find_dollar(t_min *tk, t_word *tmp, char *var)
@@ -67,7 +67,7 @@ static void	find_dollar(t_min *tk, t_word *tmp, char *var)
 			sin++;
 		else if (tmp->str[i] == '\'' && sin == 1)
 			sin--;
-		if (tmp->str[i] == '$' && sin == 0)
+		if (tmp->str[i] == '$' && sin == 0 && tmp->str[i + 1] != '?')
 		{
 			dollar_found(&tmp->str[++i], var);
 			send_variable(tk, var, value);

@@ -28,7 +28,7 @@ int	check_before_exec(t_min *tk, t_cmd **tmp, int *p, int *fd)
 			printf("%s %s: %s\n", TERROR, (*tmp)->cmd, g_error_array[(*tmp)->ok
 				- 1]);
 		}
-		set_g(tk, (*tmp)->ok);
+		set_g((*tmp)->ok);
 		*tmp = (*tmp)->next;
 		return (-1);
 	}
@@ -85,9 +85,9 @@ int	loop_commands(t_min *tk, pid_t *child_pid, int *p, int fd)
 	if (!env)
 		return (MALLOC);
 	tmp = tk->cmds;
-	if (!tmp) //|| (tk->num_cmds == 1 && tk->cmds->cmd == NULL))
+	if (!tmp)
 		return (0);
-	if (tk->num_cmds == 1 && is_builtin(tk->cmds->cmd))
+	if (tk->num_cmds == 1 && !tk->cmds->ok && is_builtin(tk->cmds->cmd))
 		one_builtin(tk, tk->cmds, child_pid);
 	else
 	{

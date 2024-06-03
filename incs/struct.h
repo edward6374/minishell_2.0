@@ -31,6 +31,7 @@ extern unsigned char	g_exit;
 # define MID_GRAY "\033[38;5;245m"
 # define DARK_GREEN "\033[38;2;75;179;82m"
 # define DARK_YELLOW "\033[38;5;143m"
+# define PINK "\033[38;5;200m"
 
 # define TERROR "\xF0\x9F\x98\xB1"
 
@@ -46,6 +47,7 @@ enum
 	FILE_NOT_FOUND,
 	FILE_NOT_READ,
 	FILE_NOT_WRITE,
+	NONE,
 };
 
 static const char		*g_error_array[] = {
@@ -77,21 +79,21 @@ typedef struct s_env
 	struct s_env		*before;
 }						t_env;
 
-typedef struct	s_word
+typedef struct s_word
 {
-	int				quote_after;
-	char			*str;
-	struct s_word	*prev;
-	struct s_word	*next;
-}	t_word;
+	int					quote_after;
+	char				*str;
+	struct s_word		*prev;
+	struct s_word		*next;
+}						t_word;
 
-typedef struct	s_pipe
+typedef struct s_pipe
 {
-	char			*str;
-	t_word			*words;
-	struct s_pipe	*prev;
-	struct s_pipe	*next;
-}	t_pipe;
+	char				*str;
+	t_word				*words;
+	struct s_pipe		*prev;
+	struct s_pipe		*next;
+}						t_pipe;
 
 // Redirections (referente a la palabra siguiente AQUI❌ > AQUI✅)
 // < es la redireccion del input
@@ -101,14 +103,15 @@ typedef struct	s_pipe
 
 typedef struct s_cmd
 {
-	int					n; //numero del comando, debe partir de 0
-	int					ok; // indica si el comando es correcto (0) y si es incorrecto es (1) y el resto de partes que van con el comando
-	int					in_fd; //input del comando, al inicio siempre es 0
-	int					out_fd; //output del comando, al inicio es siempre 1
-	char				*cmd; // la palabra del comando, es decir cat es el comando pero eso tres caracteres son lo que forman la palabra cat
-	char				*err_f;// el archivo que da error de apertura, lectura o escritura
-	char				**args;//argumentos de la parte del comando
-	t_here_doc			*hdoc;// el heredoc💀
+	int n; // numero del comando, debe partir de 0
+	int					ok;
+	// indica si el comando es correcto (0) y si es incorrecto es (1) y el resto de partes que van con el comando
+	int in_fd;        // input del comando, al inicio siempre es 0
+	int out_fd;       // output del comando, al inicio es siempre 1
+	char *cmd;        // la palabra del comando,
+	char *err_f;      // el archivo que da error de apertura,
+	char **args;      // argumentos de la parte del comando
+	t_here_doc *hdoc; // el heredoc💀
 	struct s_cmd		*next;
 	struct s_cmd		*before;
 }						t_cmd;

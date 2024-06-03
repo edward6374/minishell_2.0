@@ -40,12 +40,6 @@ static void	print_cmds(t_cmd *cmds)
 	}
 }
 
-static int	check_spaces(char *line)
-{
-	(void)line;
-	return (0);
-}
-
 int	parser(t_min *tk, char *line)
 {
 	int		err;
@@ -54,13 +48,13 @@ int	parser(t_min *tk, char *line)
 	err = check_syntax(line);
 	if (err)
 		return (err);
-	if (check_spaces(line))
-		return (0);
+	// if (ft_strncmp(line, "\"\"", 3) == 0 || ft_strncmp(line, "\'\'", 3) == 0)
+	// 	return (NONE);
 	list = dividing_pipe(line, 0);
 	check_dollar(tk, list);
 	deleting(list);
 	tk->cmds = get_command_list(tk, list);
-	print_cmds(tk->cmds);
+	// print_cmds(tk->cmds);
 	return (0);
 }
 

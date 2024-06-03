@@ -31,7 +31,7 @@ void		take_exit_value(t_cmd *tmp);
 int			run_builtin(t_min *tk, t_cmd *tmp);
 char		**take_double(t_min *tk, t_env *first);
 void		one_builtin(t_min *tk, t_cmd *tmp, pid_t *child_pid);
-void		set_g(t_min *tk, int ok);
+void		set_g(int ok);
 void		end_exec(t_min *tk, pid_t *child_pid, char **env);
 void		take_more_exit(char **str, int i);
 

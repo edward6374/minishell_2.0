@@ -51,9 +51,9 @@ static void	take_word(t_word **list, char *div_str, char *word, int *i)
 	int	j;
 
 	j = 0;
-	while(div_str[*i] != '\0' && div_str[*i] != ' ')
+	while (div_str[*i] != '\0' && div_str[*i] != ' ')
 	{
-		if(div_str[*i] == '\'' || div_str[*i] == '\"' )
+		if (div_str[*i] == '\'' || div_str[*i] == '\"')
 			take_quotes(div_str, word, i, &j);
 		else
 		{
@@ -68,7 +68,7 @@ static void	take_word(t_word **list, char *div_str, char *word, int *i)
 		(*i)++;
 	}
 	word[j] = '\0';
-	printf("word detector, end_word: -%s-\n", word);
+	// printf("word detector, end_word: -%s-\n", word);
 	put_word_list(list, word);
 	ft_bzero(word, 20000);
 }

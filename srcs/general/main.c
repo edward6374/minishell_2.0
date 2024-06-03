@@ -50,48 +50,47 @@ void	program(t_min *tk, char *line)
 
 	add_history(line);
 	err = parser(tk, line);
-	if (err == MALLOC)
-		exit_error(g_error_array[err - 1], err);
-	else if (err)
+	if (err != NONE)
 	{
-		end_program(&line, err);
-		return ;
+		if (err == SYNTAX)
+		{
+			end_program(&line, err);
+			return ;
+		}
+		err = execute_commands(tk);
+		if (err == MALLOC)
+			exit_error(g_error_array[err - 1], err);
+		else if (err)
+		{
+			end_program(&line, err);
+			return ;
+		}
+		if (tk->cmds)
+			free_commands(&tk->cmds, 0);
+		tk->num_cmds = 0;
 	}
-	err = execute_commands(tk);
-	if (err == MALLOC)
-		exit_error(g_error_array[err - 1], err);
-	else if (err)
-	{
-		end_program(&line, err);
-		return ;
-	}
-	if (tk->cmds)
-		free_commands(&tk->cmds, 0);
-	tk->num_cmds = 0;
 	free(line);
 }
 
 int	loop_main(t_min *tk)
 {
-	char	*path;
+	int		i;
 	char	*line;
 
-	path = get_curr_path();
-	line = readline(path);
+	line = readline("\033[38;5;200mminitxell \033[0;0m");
+	// line = readline("minitxell ");
 	if (!line)
 	{
 		if (isatty(STDIN_FILENO))
 			write(2, "exit\n", 6);
-		return (free_pointer(path, 1));
+		return (1);
 	}
 	else if (line && line[0] == '\0')
 	{
 		free(line);
 		return (0);
 	}
-	add_history(line);
 	program(tk, line);
-	free(path);
 	return (0);
 }
 

@@ -6,19 +6,21 @@
 /*   By: vduchi <vduchi@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 16:14:15 by vduchi            #+#    #+#             */
-/*   Updated: 2024/06/02 17:35:37 by vduchi           ###   ########.fr       */
+/*   Updated: 2024/06/03 20:34:07 by vduchi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <fcntl.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <fcntl.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include "libft.h"
 # include "struct.h"
 # include "execute.h"
-# include "libft.h"
 # include "parser.h"
 # include "readline/history.h"
 # include "readline/readline.h"
