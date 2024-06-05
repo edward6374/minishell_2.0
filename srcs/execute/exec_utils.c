@@ -14,16 +14,6 @@
 #include "execute.h"
 #include "minishell.h"
 
-void	set_g(int ok)
-{
-	if (ok == 6)
-		g_exit = 127;
-	else if (ok == 7)
-		g_exit = 126;
-	else
-		g_exit = 1;
-}
-
 void	take_more_exit(char **str, int i)
 {
 	int		j;
@@ -33,11 +23,8 @@ void	take_more_exit(char **str, int i)
 	last = ft_strdup(ft_itoa(g_exit));
 	while (str[i][++j])
 	{
-		if (str[i][j] == '$' && str[i][j + 1] == '?')
-		{
+		if (str[i][j] == '$' && str[i][j + 1] == '?' && ++j)
 			last = ft_strjoin(last, ft_strdup(ft_itoa(g_exit)));
-			j++;
-		}
 		else if (ft_strchr(str[i] + j, '$'))
 		{
 			last = ft_strjoin(last, ft_substr(str[i], j, ft_strchr(str[i] + j,

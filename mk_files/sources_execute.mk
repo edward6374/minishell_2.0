@@ -11,6 +11,7 @@
 # **************************************************************************** #
 
 SRCS_EXEC	=	srcs/execute/exec_cmds.c
+SRCS_EXEC	+=	srcs/execute/exit_value.c
 SRCS_EXEC	+=	srcs/execute/exec_utils.c
 SRCS_EXEC	+=	srcs/execute/pipes_and_hdoc.c
 SRCS_EXEC	+=	srcs/execute/run_here_doc.c

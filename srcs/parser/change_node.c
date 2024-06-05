@@ -11,6 +11,31 @@
 /* ************************************************************************** */
 
 #include "parser.h"
+#include "g_error.h"
+
+void	check_heredoc(t_word *tmp_word, t_cmd *new)
+{
+	if (!new->hdoc)
+	{
+		new->hdoc = ft_calloc(1, sizeof(t_here_doc));
+		if (!new->hdoc)
+			exit_error(g_error_array[MALLOC], MALLOC);
+		new->hdoc->stop = ft_strdup(tmp_word->next->str);
+		if (!new->hdoc->stop)
+			exit_error(g_error_array[MALLOC], MALLOC);
+	}
+	else
+	{
+		// close(new->hdoc->fd[0]);
+		// close(new->hdoc->fd[1]);
+		free(new->hdoc->stop);
+		new->hdoc->stop = ft_strdup(tmp_word->next->str);
+		if (!new->hdoc->stop)
+			exit_error(g_error_array[MALLOC], MALLOC);
+	}
+	new->hdoc->yes = 1;
+	new->hdoc->first = 1;
+}
 
 int	change_word(t_word *tmp, int i, int len, char *value)
 {

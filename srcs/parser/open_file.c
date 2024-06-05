@@ -13,16 +13,6 @@
 #include "parser.h"
 #include "g_error.h"
 
-int	check_built_in(char *word)
-{
-	if (!ft_strncmp(word, "cd", 3) || !ft_strncmp(word, "echo", 5)
-		|| !ft_strncmp(word, "env", 4) || !ft_strncmp(word, "exit", 5)
-		|| !ft_strncmp(word, "export", 7) || !ft_strncmp(word, "pwd", 4)
-		|| !ft_strncmp(word, "unset", 6))
-		return (1);
-	return (0);
-}
-
 static char	*get_path(char *word)
 {
 	char	*new;
@@ -33,12 +23,10 @@ static char	*get_path(char *word)
 	{
 		if (getcwd(tmp, sizeof(tmp)) == NULL)
 			exit(1);
-		// printf("Path: -%s-\tLength: %ld\n", tmp, ft_strlen(tmp));
 		new = ft_strjoin(tmp, "/");
 		if (!new)
 			exit_error(g_error_array[MALLOC], MALLOC);
 		path = ft_strjoin(new, word);
-		// printf("Path: -%s-\n", path);
 		if (!path)
 			exit_error(g_error_array[MALLOC], MALLOC);
 		free(new);
@@ -80,6 +68,8 @@ static int	check_file(char *path, char sign, t_cmd *new)
 			new->in_fd = open(path, O_RDONLY);
 			if (!new->in_fd)
 				exit(OPEN_FAILED);
+			if (new->hdoc && new->hdoc->first)
+				new->hdoc->first = 0;
 			return (0);
 		}
 		else if (access(path, F_OK) == 0)
@@ -88,9 +78,26 @@ static int	check_file(char *path, char sign, t_cmd *new)
 	}
 }
 
-int	do_open(t_pipe *node, t_cmd *new)
+static int	open_file(t_word *tmp_word, t_cmd *new, char sign)
 {
 	char	*path;
+
+	if (tmp_word->str[0] == '<' && tmp_word->str[1] == '<')
+		return (0);
+	path = get_path(tmp_word->next->str);
+	new->ok = check_file(path, sign, new);
+	if (new->ok != 0)
+	{
+		new->err_f = ft_strdup(tmp_word->next->str);
+		if (!new->err_f)
+			exit_error(g_error_array[MALLOC], MALLOC);
+		return (1);
+	}
+	return (0);
+}
+
+int	do_open(t_pipe *node, t_cmd *new)
+{
 	char	sign;
 	t_word	*tmp_word;
 
@@ -103,21 +110,9 @@ int	do_open(t_pipe *node, t_cmd *new)
 			if (tmp_word->str[0] == '>' && tmp_word->str[1] == '>')
 				sign = 'd';
 			else if (tmp_word->str[0] == '<' && tmp_word->str[1] == '<')
-			{
-				new->hdoc = ft_calloc(1, sizeof(t_here_doc));
-				new->hdoc->stop = ft_strdup(tmp_word->next->str);
-				new->hdoc->yes = 1;
-				new->hdoc->first = 1;
-			}
-			path = get_path(tmp_word->next->str);
-			new->ok = check_file(path, sign, new);
-			if (new->ok != 0)
-			{
-				new->err_f = ft_strdup(tmp_word->next->str);
-				if (!new->err_f)
-					exit_error(g_error_array[MALLOC], MALLOC);
+				check_heredoc(tmp_word, new);
+			if (open_file(tmp_word, new, sign) == 1)
 				return (1);
-			}
 		}
 		tmp_word = tmp_word->next;
 	}

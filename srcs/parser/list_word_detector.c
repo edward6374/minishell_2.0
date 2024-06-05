@@ -18,16 +18,7 @@ void	put_word_list(t_word **list, char *word)
 	t_word	*tmp;
 	t_word	*new;
 
-	//	printf("entro en la lista d palabras\n");
 	new = ft_calloc(1, sizeof(t_word));
-	//	printf("Word: -%s-\tTrimmed: -%s-\tChar after: -%c-\tInt: %d\n", word,
-	// ft_strtrim(word, " "), word[(*i + 1)], *i + 1);
-	//	if ((int)ft_strlen(word) >= (*i + 1) && (word[(*i + 1)] == '\''
-	// || word[(*i + 1)] == '\"'))
-	//	{
-	//		word[*i + 1] = '\0';
-	//		new->quote_after = 1;
-	//	}
 	new->str = ft_strtrim(word, " ");
 	if (!(*list))
 		*list = new;
@@ -50,18 +41,18 @@ void	put_word_list(t_word **list, char *word)
 			new->prev = tmp;
 		}
 	}
-	//	print_word_list(list);
 }
+//	print_word_list(list);
 
 // funcion para printear la lista, esto va mas arriba
-void	print_word_list(t_word **list)
-{
-	t_word	*temp;
+// void	print_word_list(t_word **list)
+// {
+// 	t_word	*temp;
 
-	temp = *list;
-	while (temp != NULL)
-	{
-		// printf("Que palabra hay en la lista: -%s-\n", temp->str);
-		temp = temp->next;
-	}
-}
+// 	temp = *list;
+// 	while (temp != NULL)
+// 	{
+// 		printf("Que palabra hay en la lista: -%s-\n", temp->str);
+// 		temp = temp->next;
+// 	}
+// }

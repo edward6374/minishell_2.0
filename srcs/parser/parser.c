@@ -39,6 +39,7 @@
 // 		tmp = tmp->next;
 // 	}
 // }
+// print_cmds(tk->cmds);
 
 int	parser(t_min *tk, char *line)
 {
@@ -53,7 +54,6 @@ int	parser(t_min *tk, char *line)
 	deleting(list);
 	tk->cmds = get_command_list(tk, list);
 	free_parser(list, 0);
-	// print_cmds(tk->cmds);
 	return (0);
 }
 

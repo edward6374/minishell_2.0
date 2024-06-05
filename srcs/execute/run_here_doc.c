@@ -60,13 +60,21 @@ void	run_here_doc(t_cmd *tmp)
 	line = NULL;
 	if (!tmp->hdoc->yes)
 		return ;
+	if (tmp->hdoc->fd[0] > 0)
+	{
+		printf("Close\n");
+		close(tmp->hdoc->fd[0]);
+		close(tmp->hdoc->fd[1]);
+	}
 	if (pipe(tmp->hdoc->fd))
 		exit(1);
+	printf("Pipe heredoc: %d\t%d\n", tmp->hdoc->fd[0], tmp->hdoc->fd[1]);
 	set_signals(3);
 	pid = fork();
 	if (pid == 0)
 		run_loop(tmp, line);
 	waitpid(pid, &status, 0);
+	printf("Pipe heredoc: %d\t%d\n", tmp->hdoc->fd[0], tmp->hdoc->fd[1]);
 	if (write(1, "", 1) == -1)
 		exit(1);
 	g_exit = WEXITSTATUS(status);

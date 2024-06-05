@@ -26,7 +26,6 @@ static void	send_variable(t_min *tk, char *var, char *value)
 			while (tmp->value[++i])
 				value[i] = tmp->value[i];
 			value[i] = '\0';
-			// printf("value: %s\n", value);
 			break ;
 		}
 		tmp = tmp->next;
@@ -40,17 +39,12 @@ static void	dollar_found(char *str, char *var)
 
 	i = 0;
 	j = 0;
-	//	printf("UN DOLLAR🤑\n");
 	while (str[i] != '\0' && ((str[i] > 64 && str[i] < 91) || (str[i] > 96
 				&& str[i] < 123) || (str[i] > 47 && str[i] < 58)
 			|| str[i] == '_'))
-	{
-		// printf("added✅: -%c-\n", str[i]);
 		var[j++] = str[i++];
-	}
 	var[j++] = '=';
 	var[j] = '\0';
-	// printf("variable: %s\n", var);
 }
 
 static void	find_dollar(t_min *tk, t_word *tmp, char *var)

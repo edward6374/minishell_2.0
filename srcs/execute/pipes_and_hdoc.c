@@ -37,16 +37,6 @@ void	one_builtin(t_min *tk, t_cmd *tmp, pid_t *child_pid)
 	}
 }
 
-int	is_builtin(char *cmd)
-{
-	if (!ft_strncmp(cmd, "cd", 3) || !ft_strncmp(cmd, "echo", 5)
-		|| !ft_strncmp(cmd, "env", 4) || !ft_strncmp(cmd, "exit", 5)
-		|| !ft_strncmp(cmd, "export", 7) || !ft_strncmp(cmd, "pwd", 4)
-		|| !ft_strncmp(cmd, "unset", 6))
-		return (1);
-	return (0);
-}
-
 void	close_all_pipes(t_min *tk, int *p, int fd)
 {
 	close_here_doc(tk);

@@ -16,6 +16,7 @@
 # include "minishell.h"
 
 //			CHANGE_NODE			//
+void	check_heredoc(t_word *tmp_word, t_cmd *new);
 int		change_word(t_word *tmp, int i, int len, char *value);
 
 //			CHECKER			//
@@ -40,7 +41,6 @@ void	print_word_list(t_word **list);
 void	put_word_list(t_word **list, char *word);
 
 //			OPEN_FILE			//
-int	    check_built_in(char *word);
 int		do_open(t_pipe *node, t_cmd *new);
 
 //			PARSER			//

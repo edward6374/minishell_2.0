@@ -76,7 +76,7 @@ static void	command_inside(t_min *tk, t_cmd *new, t_pipe *node)
 				&& tmp_words->prev->str[0] != '<'
 				&& tmp_words->prev->str[0] != '>'))
 		{
-			if (check_built_in(tmp_words->str))
+			if (is_builtin(tmp_words->str))
 				new->cmd = ft_strdup(tmp_words->str);
 			else
 				new->ok = get_cmd_path(tk, new, tmp_words->str);

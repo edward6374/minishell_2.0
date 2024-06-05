@@ -73,13 +73,13 @@ void	program(t_min *tk, char *line)
 	free(line);
 }
 
+// line = readline("minitxell ");
 int	loop_main(t_min *tk)
 {
 	int		i;
 	char	*line;
 
 	line = readline("\033[38;5;200mminitxell \033[0;0m");
-	// line = readline("minitxell ");
 	if (!line)
 	{
 		if (isatty(STDIN_FILENO))

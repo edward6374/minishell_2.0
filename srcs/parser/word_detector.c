@@ -89,5 +89,5 @@ void	dividing_words(t_pipe *list, char *div_str)
 			break ;
 		take_word(&list->words, div_str, word, &i);
 	}
-	print_word_list(&list->words);
+	// print_word_list(&list->words);
 }

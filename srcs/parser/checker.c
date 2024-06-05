@@ -15,9 +15,9 @@
 static int	check_syntax_pipe(int i, char *line, int q)
 {
 	i = i + 1;
-	if( q % 2 == 0)
+	if (q % 2 == 0)
 	{
-		if(line[i] == '|' || line[i] == '\0'/* || line[i] == ' '*/)
+		if (line[i] == '|' || line[i] == '\0')
 			return (SYNTAX);
 	}
 	return (0);
@@ -26,11 +26,11 @@ static int	check_syntax_pipe(int i, char *line, int q)
 static int	check_syntax_red(int i, char *line, int q)
 {
 	i++;
-	if(q % 2 == 0)
+	if (q % 2 == 0)
 	{
-		if(line[i] == '>' || line[i] == '<')
+		if (line[i] == '>' || line[i] == '<')
 			i++;
-		if(/*line[i] == ' ' ||*/ line[i] == '\0' || line[i] == '<' || line[i] == '>')
+		if (line[i] == '\0' || line[i] == '<' || line[i] == '>')
 			return (SYNTAX);
 	}
 	return (0);
