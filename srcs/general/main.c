@@ -11,22 +11,23 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "parser.h"
 #include "signalm.h"
+#include "g_error.h"
 
 unsigned char	g_exit = 0;
 
-char	*get_curr_path(void)
+void	free_one_cmd(t_cmd *tmp)
 {
-	char	*pwd;
-	char	*tmp;
-
-	pwd = getcwd(NULL, 0);
-	tmp = ft_strjoin("\033[0;33m", pwd);
-	free(pwd);
-	pwd = ft_strjoin(tmp, "$ \033[0;37m");
-	free(tmp);
-	return (pwd);
+	if (tmp->cmd)
+		free(tmp->cmd);
+	if (tmp->args)
+		free_double_void(tmp->args);
+	if (tmp->err_f)
+		free(tmp->err_f);
+	if (tmp->in_fd != 0)
+		close(tmp->in_fd);
+	if (tmp->out_fd != 1)
+		close(tmp->out_fd);
 }
 
 t_min	*init_struct(char *env[])
@@ -82,7 +83,11 @@ int	loop_main(t_min *tk)
 	if (!line)
 	{
 		if (isatty(STDIN_FILENO))
-			write(2, "exit\n", 6);
+		{
+			i = write(2, "exit\n", 6);
+			if (i == 0)
+				exit(1);
+		}
 		return (1);
 	}
 	else if (line && line[0] == '\0')
@@ -103,10 +108,13 @@ int	main(int argc, char *argv[], char *env[])
 	if (argc == 1)
 	{
 		tk = init_struct(env);
+		if (!tk)
+		{
+			printf("Here\n");
+			exit_error(g_error_array[MALLOC], MALLOC);
+		}
 		init_pwd(tk);
 		set_term();
-		if (!tk)
-			exit(0);
 		while (42)
 		{
 			set_signals(0);

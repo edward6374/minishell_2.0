@@ -12,7 +12,7 @@
 
 #include "built_ins.h"
 
-void static	print_export(char **arr)
+static void	print_export(char **arr)
 {
 	int	i;
 
@@ -23,7 +23,7 @@ void static	print_export(char **arr)
 		printf("declare -x %s\n", arr[i]);
 }
 
-void static	custom_qsort(char **env, size_t size)
+static void	custom_qsort(char **env, size_t size)
 {
 	char	*tmp;
 	size_t	i;
@@ -49,7 +49,7 @@ void static	custom_qsort(char **env, size_t size)
 	}
 }
 
-char static	*insert_quotes(char *input)
+static char	*insert_quotes(char *input)
 {
 	t_quotes	data;
 

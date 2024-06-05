@@ -11,19 +11,37 @@
 /* ************************************************************************** */
 
 #include "parser.h"
+#include "g_error.h"
+
+int	check_built_in(char *word)
+{
+	if (!ft_strncmp(word, "cd", 3) || !ft_strncmp(word, "echo", 5)
+		|| !ft_strncmp(word, "env", 4) || !ft_strncmp(word, "exit", 5)
+		|| !ft_strncmp(word, "export", 7) || !ft_strncmp(word, "pwd", 4)
+		|| !ft_strncmp(word, "unset", 6))
+		return (1);
+	return (0);
+}
 
 static char	*get_path(char *word)
 {
+	char	*new;
 	char	*path;
+	char	tmp[2048];
 
 	if (word[0] != '/')
 	{
-		path = getcwd(NULL, 1024);
-		path[ft_strlen(path)] = '/';
-		path = ft_strjoin(path, word);
-		// printf("Path: %s\n", path);
+		if (getcwd(tmp, sizeof(tmp)) == NULL)
+			exit(1);
+		// printf("Path: -%s-\tLength: %ld\n", tmp, ft_strlen(tmp));
+		new = ft_strjoin(tmp, "/");
+		if (!new)
+			exit_error(g_error_array[MALLOC], MALLOC);
+		path = ft_strjoin(new, word);
+		// printf("Path: -%s-\n", path);
 		if (!path)
 			exit_error(g_error_array[MALLOC], MALLOC);
+		free(new);
 	}
 	else
 	{
@@ -81,6 +99,7 @@ int	do_open(t_pipe *node, t_cmd *new)
 	{
 		if (tmp_word->str[0] == '>' || tmp_word->str[0] == '<')
 		{
+			sign = tmp_word->str[0];
 			if (tmp_word->str[0] == '>' && tmp_word->str[1] == '>')
 				sign = 'd';
 			else if (tmp_word->str[0] == '<' && tmp_word->str[1] == '<')
@@ -90,8 +109,6 @@ int	do_open(t_pipe *node, t_cmd *new)
 				new->hdoc->yes = 1;
 				new->hdoc->first = 1;
 			}
-			else
-				sign = tmp_word->str[0];
 			path = get_path(tmp_word->next->str);
 			new->ok = check_file(path, sign, new);
 			if (new->ok != 0)

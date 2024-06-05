@@ -24,7 +24,7 @@ typedef struct s_run
 
 /* ---			Execute_commands.c			--- */
 int			execute_commands(t_min *tk);
-int			check_before_exec(t_min *tk, t_cmd **tmp, int *p, int *fd);
+int			check_before_exec(t_cmd **tmp, int *p, int *fd);
 void		take_exit_value(t_cmd *tmp);
 
 /* ---			Utils.c				--- */

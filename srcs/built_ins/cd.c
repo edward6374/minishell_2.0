@@ -13,7 +13,7 @@
 #include "built_ins.h"
 #include "struct.h"
 
-int static	change_directory(const char *path)
+static int	change_directory(const char *path)
 {
 	if (chdir(path) == 0)
 		return (0);
@@ -25,7 +25,7 @@ int static	change_directory(const char *path)
 	}
 }
 
-void static	upgrade(t_min *tk, char *str)
+static void	upgrade(t_min *tk, char *str)
 {
 	char	*pwd;
 	t_env	*find;
@@ -51,10 +51,21 @@ void static	upgrade(t_min *tk, char *str)
 	}
 }
 
+static int	return_value(t_min *tk, char *path)
+{
+	int	res;
+
+	res = 0;
+	upgrade(tk, "OLDPWD");
+	res = change_directory(path);
+	upgrade(tk, "PWD");
+	return (res);
+}
+
 int	ft_cd(char **args, t_min *tk)
 {
-	char	*path;
 	int		res;
+	char	*path;
 
 	res = 0;
 	if (args[1] != NULL)
@@ -72,9 +83,7 @@ int	ft_cd(char **args, t_min *tk)
 		}
 		else
 			path = args[1];
-		upgrade(tk, "OLDPWD");
-		res = change_directory(path);
-		upgrade(tk, "PWD");
+		return (return_value(tk, path));
 	}
-	return (res);
+	return (return_value(tk, "/home/vduchi"));
 }

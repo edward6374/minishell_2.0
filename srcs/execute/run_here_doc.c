@@ -29,7 +29,7 @@ void	close_here_doc(t_min *tk)
 	}
 }
 
-void static	run_loop(t_cmd *tmp, char *line)
+static void	run_loop(t_cmd *tmp, char *line)
 {
 	set_signals(2);
 	while (42)
@@ -60,12 +60,14 @@ void	run_here_doc(t_cmd *tmp)
 	line = NULL;
 	if (!tmp->hdoc->yes)
 		return ;
-	pipe(tmp->hdoc->fd);
+	if (pipe(tmp->hdoc->fd))
+		exit(1);
 	set_signals(3);
 	pid = fork();
 	if (pid == 0)
 		run_loop(tmp, line);
 	waitpid(pid, &status, 0);
-	printf("");
+	if (write(1, "", 1) == -1)
+		exit(1);
 	g_exit = WEXITSTATUS(status);
 }

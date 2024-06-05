@@ -28,7 +28,7 @@ void	env_add_back(t_env **env, t_env *new_node)
 	tmp->next = new_node;
 }
 
-int static	is_name(char *name)
+static int	is_name(char *name)
 {
 	int	i;
 

@@ -50,19 +50,6 @@ enum
 	NONE,
 };
 
-static const char		*g_error_array[] = {
-	"Malloc error",
-	"Syntax error",
-	"syntax error near unexpected token `|\'",
-	"syntax error near unexpected token `newline\'",
-	"open error",
-	"command not found",
-	"permission denied",
-	"no such file or directory",
-	"file not readable",
-	"file not writeable",
-};
-
 typedef struct s_here_doc
 {
 	int					yes;

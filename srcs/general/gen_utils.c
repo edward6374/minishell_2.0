@@ -13,6 +13,7 @@
 #include "minishell.h"
 #include <signal.h>
 #include <termios.h>
+#include "g_error.h"
 
 void	set_term(void)
 {
@@ -25,8 +26,14 @@ void	set_term(void)
 
 int	exit_error(const char *str, int i)
 {
-	write(2, str, ft_strlen(str));
-	write(2, "\n", 1);
+	int	j;
+
+	j = write(2, str, ft_strlen(str));
+	if (!j)
+		exit(1);
+	j = write(2, "\n", 1);
+	if (!j)
+		exit(1);
 	exit(i);
 	return (1);
 }

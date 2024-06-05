@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "parser.h"
+#include "g_error.h"
 
 static int	get_cmd_path(t_min *tk, t_cmd *new, char *word)
 {
@@ -75,7 +76,12 @@ static void	command_inside(t_min *tk, t_cmd *new, t_pipe *node)
 				&& tmp_words->prev->str[0] != '<'
 				&& tmp_words->prev->str[0] != '>'))
 		{
-			new->ok = get_cmd_path(tk, new, tmp_words->str);
+			if (check_built_in(tmp_words->str))
+				new->cmd = ft_strdup(tmp_words->str);
+			else
+				new->ok = get_cmd_path(tk, new, tmp_words->str);
+			if (!new->cmd)
+				exit_error(g_error_array[MALLOC], MALLOC);
 			break ;
 		}
 		tmp_words = tmp_words->next;

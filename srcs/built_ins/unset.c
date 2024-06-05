@@ -12,7 +12,7 @@
 
 #include "built_ins.h"
 
-void static	env_find_rm(t_env **head, void *data_ref, int (*cmp)(char *, char *,
+static void	env_find_rm(t_env **head, void *data_ref, int (*cmp)(char *, char *,
 			int))
 {
 	t_env	*current;

@@ -82,22 +82,12 @@ int	free_commands(t_cmd **first, int out)
 	next = (*first)->next;
 	while (next)
 	{
-		if (tmp->cmd)
-			free(tmp->cmd);
-		if (tmp->args)
-			free_double_void(tmp->args);
-		if (tmp->err_f)
-			free(tmp->err_f);
+		free_one_cmd(tmp);
 		free(tmp);
 		tmp = next;
 		next = tmp->next;
 	}
-	if (tmp->cmd)
-		free(tmp->cmd);
-	if (tmp->args)
-		free_double_void(tmp->args);
-	if (tmp->err_f)
-		free(tmp->err_f);
+	free_one_cmd(tmp);
 	*first = NULL;
 	return (free_pointer(tmp, out));
 }

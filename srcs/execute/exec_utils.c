@@ -22,7 +22,6 @@ void	set_g(int ok)
 		g_exit = 126;
 	else
 		g_exit = 1;
-	// tk->num_cmds = tk->num_cmds - 1;
 }
 
 void	take_more_exit(char **str, int i)
@@ -35,7 +34,10 @@ void	take_more_exit(char **str, int i)
 	while (str[i][++j])
 	{
 		if (str[i][j] == '$' && str[i][j + 1] == '?')
-			((last = ft_strjoin(last, ft_strdup(ft_itoa(g_exit)))) && (++j));
+		{
+			last = ft_strjoin(last, ft_strdup(ft_itoa(g_exit)));
+			j++;
+		}
 		else if (ft_strchr(str[i] + j, '$'))
 		{
 			last = ft_strjoin(last, ft_substr(str[i], j, ft_strchr(str[i] + j,

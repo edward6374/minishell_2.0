@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "parser.h"
+#include "g_error.h"
 
 void	take_args(t_word *tmp_words, t_cmd *new)
 {

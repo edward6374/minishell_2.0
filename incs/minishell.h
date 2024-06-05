@@ -13,13 +13,13 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include "struct.h"
 # include <fcntl.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include "libft.h"
-# include "struct.h"
 # include "execute.h"
 # include "parser.h"
 # include "readline/history.h"
@@ -50,5 +50,8 @@ int		free_commands(t_cmd **first, int out);
 
 /* ---			init_pwd.c			--- */
 void	init_pwd(t_min *tk);
+
+/* ---          main.c              --- */
+void	free_one_cmd(t_cmd *tmp);
 
 #endif

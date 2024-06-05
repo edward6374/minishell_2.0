@@ -14,8 +14,9 @@
 #include "minishell.h"
 #include "signalm.h"
 #include <errno.h>
+#include "g_error.h"
 
-int	check_before_exec(t_min *tk, t_cmd **tmp, int *p, int *fd)
+int	check_before_exec(t_cmd **tmp, int *p, int *fd)
 {
 	check_temp_fd(*tmp, p, fd);
 	if ((*tmp)->ok)
@@ -55,7 +56,7 @@ void	take_exit_value(t_cmd *tmp)
 	g_exit = 0;
 }
 
-pid_t static child_exec(t_min *tk, t_cmd *tmp, int *p, int fd)
+static pid_t	child_exec(t_min *tk, t_cmd *tmp, int *p, int fd)
 {
 	pid_t	pid;
 
@@ -94,7 +95,7 @@ int	loop_commands(t_min *tk, pid_t *child_pid, int *p, int fd)
 		while (tmp)
 		{
 			take_exit_value(tmp);
-			if (check_before_exec(tk, &tmp, p, &fd) == -1)
+			if (check_before_exec(&tmp, p, &fd) == -1)
 				continue ;
 			*child_pid = child_exec(tk, tmp, p, fd);
 			tmp = tmp->next;

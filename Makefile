@@ -29,8 +29,10 @@ RD_PATH			=	readline/libreadline.a
 
 #=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-#
 
-#CFLAGS			+= 	-Wall -Werror -Wextra -DREADLINE_LIBRARY -g -O3 $(addprefix -I , $(INC_DIR)) #-fsanitize=address
-CFLAGS			+= 	-DREADLINE_LIBRARY -g -O3 $(addprefix -I , $(INC_DIR)) #-fsanitize=address
+# -no-pie because https://stackoverflow.com/questions/73275183/gcc-assembly-x86-relocation-warning-creating-dt-textrel-in-a-pie
+# and https://docs.oracle.com/en/operating-systems/oracle-linux/6/security/ol_pie_sec.html
+CFLAGS			+= 	-Wall -Werror -Wextra -DREADLINE_LIBRARY -g -O3 -no-pie $(addprefix -I , $(INC_DIR)) #-fsanitize=address
+# CFLAGS			+= 	-DREADLINE_LIBRARY -g -O3 $(addprefix -I , $(INC_DIR)) #-fsanitize=address
 LDFLAGS			=	-L libft -L readline -lft -lreadline -lncurses
 DFLAGS_MS		=	-MMD -MP -MF $(DEP_DIR_MS)/$*.d
 DFLAGS_BI		=	-MMD -MP -MF $(DEP_DIR_BI)/$*.d

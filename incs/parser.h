@@ -40,6 +40,7 @@ void	print_word_list(t_word **list);
 void	put_word_list(t_word **list, char *word);
 
 //			OPEN_FILE			//
+int	    check_built_in(char *word);
 int		do_open(t_pipe *node, t_cmd *new);
 
 //			PARSER			//

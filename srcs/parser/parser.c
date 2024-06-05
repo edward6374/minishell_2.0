@@ -12,33 +12,33 @@
 
 #include "parser.h"
 
-static void	print_cmds(t_cmd *cmds)
-{
-	int		i;
-	t_cmd	*tmp;
+// static void	print_cmds(t_cmd *cmds)
+// {
+// 	int		i;
+// 	t_cmd	*tmp;
 
-	tmp = cmds;
-	printf("\n");
-	while (tmp)
-	{
-		printf("Command number: %i\n", tmp->n);
-		printf("Ok: %i\n", tmp->ok);
-		printf("In fd: %i\n", tmp->in_fd);
-		printf("Out fd: %i\n", tmp->out_fd);
-		printf("Command: %s\n", tmp->cmd);
-		printf("Error file: %s\n", tmp->err_f);
-		i = -1;
-		if (tmp->args)
-		{
-			while (tmp->args[++i])
-				printf("Arg %i: %s\n", i, tmp->args[i]);
-		}
-		printf("Heredoc or not? %i\n", tmp->hdoc->yes);
-		printf("First heredoc? %i\n", tmp->hdoc->first);
-		printf("Stop word: %s\n\n", tmp->hdoc->stop);
-		tmp = tmp->next;
-	}
-}
+// 	tmp = cmds;
+// 	printf("\n");
+// 	while (tmp)
+// 	{
+// 		printf("Command number: %i\n", tmp->n);
+// 		printf("Ok: %i\n", tmp->ok);
+// 		printf("In fd: %i\n", tmp->in_fd);
+// 		printf("Out fd: %i\n", tmp->out_fd);
+// 		printf("Command: %s\n", tmp->cmd);
+// 		printf("Error file: %s\n", tmp->err_f);
+// 		i = -1;
+// 		if (tmp->args)
+// 		{
+// 			while (tmp->args[++i])
+// 				printf("Arg %i: %s\n", i, tmp->args[i]);
+// 		}
+// 		printf("Heredoc or not? %i\n", tmp->hdoc->yes);
+// 		printf("First heredoc? %i\n", tmp->hdoc->first);
+// 		printf("Stop word: %s\n\n", tmp->hdoc->stop);
+// 		tmp = tmp->next;
+// 	}
+// }
 
 int	parser(t_min *tk, char *line)
 {
@@ -48,12 +48,11 @@ int	parser(t_min *tk, char *line)
 	err = check_syntax(line);
 	if (err)
 		return (err);
-	// if (ft_strncmp(line, "\"\"", 3) == 0 || ft_strncmp(line, "\'\'", 3) == 0)
-	// 	return (NONE);
 	list = dividing_pipe(line, 0);
 	check_dollar(tk, list);
 	deleting(list);
 	tk->cmds = get_command_list(tk, list);
+	free_parser(list, 0);
 	// print_cmds(tk->cmds);
 	return (0);
 }
