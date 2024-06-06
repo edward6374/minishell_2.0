@@ -11,15 +11,16 @@
 /* ************************************************************************** */
 
 #include "parser.h"
+#include "g_error.h"
 
-// void	print_list(t_pipe **list)
+// static void	print_list(t_pipe **list)
 // {
 // 	t_pipe	*temp;
 
 // 	temp = *list;
 // 	while (temp != NULL)
 //     {
-//         printf("Que hay en la lista: -%s-\n", temp->str);
+//         printf("Que hay en la lista: -%s-\n", temp->words->str);
 //         temp = temp->next;
 //     }
 // }
@@ -30,7 +31,11 @@ static void	put_list(t_pipe **list, char *div_str)
 	t_pipe	*new;
 
 	new = ft_calloc(1, sizeof(t_pipe));
+	if (!new)
+		exit_error(g_error_array[MALLOC], MALLOC);
 	new->str = div_str;
+	if (!new->str)
+		exit_error(g_error_array[MALLOC], MALLOC);
 	if (!(*list))
 		*list = new;
 	else
@@ -61,12 +66,11 @@ t_pipe	*dividing_pipe(char *input, int i)
 		while (input[i] != '|' && input[i] != '\0')
 			div_str[j++] = input[i++];
 		div_str[j] = '\0';
-		// printf("Div str: %s\n", div_str);
 		put_list(&list, div_str);
 		dividing_words(list, div_str);
 		if (input[i] != '\0')
 			i++;
 	}
-	// print_list(&list);
 	return (list);
 }
+// print_list(&list);

@@ -13,7 +13,7 @@
 #include "minishell.h"
 #include "g_error.h"
 
-t_env	*save_node(t_min *tk, t_env *new, t_env *old_tmp)
+static t_env	*save_node(t_min *tk, t_env *new, t_env *old_tmp)
 {
 	t_env	*tmp;
 
@@ -44,7 +44,7 @@ t_env	*save_node(t_min *tk, t_env *new, t_env *old_tmp)
 // 	}
 // }
 
-void	check_oldpwd(t_env *env)
+static void	check_oldpwd(t_env *env)
 {
 	t_env	*new;
 	t_env	*tmp;
@@ -72,8 +72,7 @@ static void	take_value(char *env, t_env *new)
 {
 	if (!ft_strncmp(env, "SHLVL=", 6))
 	{
-		new->value = ft_strdup(ft_itoa(ft_atoi(ft_strrchr(env, '=') + 1)
-					+ 1));
+		new->value = ft_itoa(ft_atoi(ft_strrchr(env, '=') + 1) + 1);
 		if (!new->value)
 			exit_error(g_error_array[MALLOC], MALLOC);
 	}
@@ -87,6 +86,35 @@ static void	take_value(char *env, t_env *new)
 	}
 }
 
+static void	create_new_env(t_min *tk)
+{
+	int		i;
+	t_env	*new;
+	t_env	*tmp;
+
+	i = -1;
+	tmp = NULL;
+	while (++i < 3)
+	{
+		new = ft_calloc(1, sizeof(t_env));
+		if (!new)
+			exit_error(g_error_array[MALLOC], MALLOC);
+		if (i == 0)
+			new->name = ft_strdup("OLDPWD=");
+		else if (i == 1)
+			new->name = ft_strdup("PWD=");
+		else
+			new->name = ft_strdup("SHLVL=");
+		if (i == 1)
+			new->value = getcwd(NULL, 0);
+		else if (i == 2)
+			new->value = ft_strdup("1");
+		if (!new->name || ((i == 1 || i == 2) && !new->value))
+			exit_error(g_error_array[MALLOC], MALLOC);
+		tmp = save_node(tk, new, tmp);
+	}
+}
+
 int	take_env(t_min *tk, char *env[])
 {
 	int		i;
@@ -95,6 +123,11 @@ int	take_env(t_min *tk, char *env[])
 
 	i = -1;
 	tmp = NULL;
+	if (!env[0])
+	{
+		create_new_env(tk);
+		return (0);
+	}
 	while (env[++i])
 	{
 		new = ft_calloc(1, sizeof(t_env));

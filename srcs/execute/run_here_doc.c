@@ -13,33 +13,65 @@
 #include "execute.h"
 #include "signalm.h"
 
+void	free_here_doc(t_here_doc *hd)
+{
+	t_hd_val	*tmp;
+	t_hd_val	*next;
+
+	tmp = hd->values;
+	next = NULL;
+	if (!tmp)
+	{
+		free(hd);
+		return ;
+	}
+	if (tmp)
+		next = hd->values->next;
+	while (next)
+	{
+		free(tmp->stop);
+		free(tmp);
+		tmp = next;
+		next = tmp->next;
+	}
+	free(tmp->stop);
+	free(tmp);
+	free(hd);
+}
+
 void	close_here_doc(t_min *tk)
 {
-	t_cmd	*tmp;
+	t_cmd		*tmp;
+	t_hd_val	*tmp_hd;
 
 	tmp = tk->cmds;
 	while (tmp)
 	{
 		if (tmp->hdoc->yes)
 		{
-			close(tmp->hdoc->fd[0]);
-			close(tmp->hdoc->fd[1]);
+			tmp_hd = tmp->hdoc->values;
+			while (tmp_hd)
+			{
+				close(tmp_hd->fd[0]);
+				close(tmp_hd->fd[1]);
+				tmp_hd = tmp_hd->next;
+			}
 		}
 		tmp = tmp->next;
 	}
 }
 
-static void	run_loop(t_cmd *tmp, char *line)
+static void	run_loop(t_hd_val *tmp, char *line)
 {
 	set_signals(2);
 	while (42)
 	{
 		line = readline("> ");
-		if (!line || (line[0] != '\0' && !ft_strncmp(line, tmp->hdoc->stop,
+		if (!line || (line[0] != '\0' && !ft_strncmp(line, tmp->stop,
 					ft_strlen(line))))
 			break ;
-		ft_putstr_fd(line, tmp->hdoc->fd[1]);
-		ft_putchar_fd('\n', tmp->hdoc->fd[1]);
+		ft_putstr_fd(line, tmp->fd[1]);
+		ft_putchar_fd('\n', tmp->fd[1]);
 		free(line);
 		line = NULL;
 	}
@@ -51,31 +83,29 @@ static void	run_loop(t_cmd *tmp, char *line)
 	exit(0);
 }
 
-void	run_here_doc(t_cmd *tmp)
+void	run_here_doc(t_cmd *cmd)
 {
-	int		status;
-	pid_t	pid;
-	char	*line;
+	int			status;
+	char		*line;
+	pid_t		pid;
+	t_hd_val	*tmp;
 
 	line = NULL;
-	if (!tmp->hdoc->yes)
+	if (!cmd->hdoc->yes)
 		return ;
-	if (tmp->hdoc->fd[0] > 0)
+	tmp = cmd->hdoc->values;
+	while (tmp)
 	{
-		printf("Close\n");
-		close(tmp->hdoc->fd[0]);
-		close(tmp->hdoc->fd[1]);
+		if (pipe(tmp->fd))
+			exit(1);
+		set_signals(3);
+		pid = fork();
+		if (pid == 0)
+			run_loop(tmp, line);
+		waitpid(pid, &status, 0);
+		if (write(1, "", 1) == -1)
+			exit(1);
+		g_exit = WEXITSTATUS(status);
+		tmp = tmp->next;
 	}
-	if (pipe(tmp->hdoc->fd))
-		exit(1);
-	printf("Pipe heredoc: %d\t%d\n", tmp->hdoc->fd[0], tmp->hdoc->fd[1]);
-	set_signals(3);
-	pid = fork();
-	if (pid == 0)
-		run_loop(tmp, line);
-	waitpid(pid, &status, 0);
-	printf("Pipe heredoc: %d\t%d\n", tmp->hdoc->fd[0], tmp->hdoc->fd[1]);
-	if (write(1, "", 1) == -1)
-		exit(1);
-	g_exit = WEXITSTATUS(status);
 }

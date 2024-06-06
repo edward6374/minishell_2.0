@@ -44,5 +44,6 @@ void		redirect_pipes(t_cmd *tmp, int *p, int fd);
 /* ---			Run_here_doc			--- */
 void		run_here_doc(t_cmd *tmp);
 void		close_here_doc(t_min *tk);
+void		free_here_doc(t_here_doc *hd);
 
 #endif

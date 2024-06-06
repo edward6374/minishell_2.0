@@ -50,12 +50,19 @@ enum
 	NONE,
 };
 
+typedef struct s_hd_val
+{
+	int				fd[2];
+	char			*stop;
+	struct s_hd_val	*prev;
+	struct s_hd_val	*next;
+}						t_hd_val;
+
 typedef struct s_here_doc
 {
-	int					yes;
-	int					first;
-	int					fd[2];
-	char				*stop;
+	int			yes;
+	int			first;
+	t_hd_val	*values;
 }						t_here_doc;
 
 typedef struct s_env
@@ -90,15 +97,14 @@ typedef struct s_pipe
 
 typedef struct s_cmd
 {
-	int n; // numero del comando, debe partir de 0
+	int					n;
 	int					ok;
-	// indica si el comando es correcto (0) y si es incorrecto es (1) y el resto de partes que van con el comando
-	int in_fd;        // input del comando, al inicio siempre es 0
-	int out_fd;       // output del comando, al inicio es siempre 1
-	char *cmd;        // la palabra del comando,
-	char *err_f;      // el archivo que da error de apertura,
-	char **args;      // argumentos de la parte del comando
-	t_here_doc *hdoc; // el heredoc💀
+	int					in_fd;
+	int					out_fd;
+	char				*cmd;
+	char				*err_f;
+	char				**args;
+	t_here_doc			*hdoc;
 	struct s_cmd		*next;
 	struct s_cmd		*before;
 }						t_cmd;

@@ -69,6 +69,7 @@ static char	*take_full_path(char *pwd, char *str)
 	new = ft_strjoin(tmp, str);
 	if (!new)
 		exit_error(g_error_array[MALLOC], MALLOC);
+	free(tmp);
 	return (new);
 }
 

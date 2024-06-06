@@ -20,10 +20,12 @@ void	free_one_cmd(t_cmd *tmp)
 {
 	if (tmp->cmd)
 		free(tmp->cmd);
-	if (tmp->args)
-		free_double_void(tmp->args);
 	if (tmp->err_f)
 		free(tmp->err_f);
+	if (tmp->args)
+		free_double_void(tmp->args);
+	if (tmp->hdoc)
+		free_here_doc(tmp->hdoc);
 	if (tmp->in_fd != 0)
 		close(tmp->in_fd);
 	if (tmp->out_fd != 1)
@@ -84,6 +86,7 @@ int	loop_main(t_min *tk)
 	{
 		if (isatty(STDIN_FILENO))
 		{
+			free_all(tk, 0);
 			i = write(2, "exit\n", 6);
 			if (i == 0)
 				exit(1);
@@ -109,10 +112,7 @@ int	main(int argc, char *argv[], char *env[])
 	{
 		tk = init_struct(env);
 		if (!tk)
-		{
-			printf("Here\n");
 			exit_error(g_error_array[MALLOC], MALLOC);
-		}
 		init_pwd(tk);
 		set_term();
 		while (42)

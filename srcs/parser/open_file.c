@@ -40,6 +40,25 @@ static char	*get_path(char *word)
 	return (path);
 }
 
+static int	check_input(char *path, t_cmd *new)
+{
+	int	i;
+
+	i = access(path, R_OK);
+	if (i == 0)
+	{
+		new->in_fd = open(path, O_RDONLY);
+		if (!new->in_fd)
+			exit(OPEN_FAILED);
+		if (new->hdoc && new->hdoc->first)
+			new->hdoc->first = 0;
+		return (0);
+	}
+	else if (access(path, F_OK) == 0)
+		return (FILE_NOT_READ);
+	return (FILE_NOT_FOUND);
+}
+
 static int	check_file(char *path, char sign, t_cmd *new)
 {
 	int	i;
@@ -61,21 +80,7 @@ static int	check_file(char *path, char sign, t_cmd *new)
 		return (FILE_NOT_WRITE);
 	}
 	else
-	{
-		i = access(path, R_OK);
-		if (i == 0)
-		{
-			new->in_fd = open(path, O_RDONLY);
-			if (!new->in_fd)
-				exit(OPEN_FAILED);
-			if (new->hdoc && new->hdoc->first)
-				new->hdoc->first = 0;
-			return (0);
-		}
-		else if (access(path, F_OK) == 0)
-			return (FILE_NOT_READ);
-		return (FILE_NOT_FOUND);
-	}
+		return (check_input(path, new));
 }
 
 static int	open_file(t_word *tmp_word, t_cmd *new, char sign)
@@ -88,11 +93,13 @@ static int	open_file(t_word *tmp_word, t_cmd *new, char sign)
 	new->ok = check_file(path, sign, new);
 	if (new->ok != 0)
 	{
+		free(path);
 		new->err_f = ft_strdup(tmp_word->next->str);
 		if (!new->err_f)
 			exit_error(g_error_array[MALLOC], MALLOC);
 		return (1);
 	}
+	free(path);
 	return (0);
 }
 
@@ -101,6 +108,8 @@ int	do_open(t_pipe *node, t_cmd *new)
 	char	sign;
 	t_word	*tmp_word;
 
+	new->hdoc->yes = 0;
+	new->hdoc->first = 0;
 	tmp_word = node->words;
 	while (tmp_word)
 	{

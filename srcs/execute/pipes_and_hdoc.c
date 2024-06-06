@@ -88,9 +88,9 @@ void	redirect_pipes(t_cmd *tmp, int *p, int fd)
 	{
 		if (tmp->hdoc && tmp->hdoc->first)
 		{
-			dup2(tmp->hdoc->fd[0], 0);
-			close(tmp->hdoc->fd[0]);
-			close(tmp->hdoc->fd[1]);
+			dup2(get_last_hd(tmp)->fd[0], 0);
+			close(get_last_hd(tmp)->fd[0]);
+			close(get_last_hd(tmp)->fd[1]);
 		}
 		else if (tmp->before && tmp->next)
 		{

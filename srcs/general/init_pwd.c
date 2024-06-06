@@ -18,8 +18,14 @@ void	init_pwd(t_min *tk)
 	t_env	*find;
 
 	find = env_find(tk->env, "PWD", find_env);
-	tk->pwd = ft_strdup(find->value);
+	if (!find)
+		tk->pwd = ft_strdup(getcwd(NULL, 0));
+	else
+		tk->pwd = ft_strdup(find->value);
 	find = env_find(tk->env, "HOME", find_env);
-	tk->home = ft_strdup(find->value);
+	if (!find)
+		tk->home = ft_strdup("/home/vduchi");
+	else
+		tk->home = ft_strdup(find->value);
 	tk->oldpwd = NULL;
 }

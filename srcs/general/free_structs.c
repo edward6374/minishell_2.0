@@ -45,6 +45,7 @@ int	free_parser(t_pipe *pipes, int out)
 		tmp = next;
 		next = tmp->next;
 	}
+	free_words(tmp->words);
 	free(tmp->str);
 	free(tmp);
 	return (out);
@@ -96,8 +97,16 @@ int	free_all(t_min *tk, int out)
 {
 	if (tk->cmds)
 		free_commands(&tk->cmds, 0);
+	if (tk->pt_env)
+		free_double_void(tk->pt_env);
 	if (tk->env)
 		free_env(tk->env);
+	if (tk->home)
+		free(tk->home);
+	if (tk->oldpwd)
+		free(tk->oldpwd);
+	if (tk->pwd)
+		free(tk->pwd);
 	free(tk);
 	return (out);
 }

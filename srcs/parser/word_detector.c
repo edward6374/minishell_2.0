@@ -68,10 +68,10 @@ static void	take_word(t_word **list, char *div_str, char *word, int *i)
 		(*i)++;
 	}
 	word[j] = '\0';
-	// printf("word detector, end_word: -%s-\n", word);
 	put_word_list(list, word);
 	ft_bzero(word, 20000);
 }
+// printf("word detector, end_word: -%s-\n", word);
 
 void	dividing_words(t_pipe *list, char *div_str)
 {
@@ -89,5 +89,5 @@ void	dividing_words(t_pipe *list, char *div_str)
 			break ;
 		take_word(&list->words, div_str, word, &i);
 	}
-	// print_word_list(&list->words);
 }
+// print_word_list(&list->words);

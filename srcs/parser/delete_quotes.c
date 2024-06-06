@@ -12,17 +12,25 @@
 
 #include "parser.h"
 
-static void	reset(char *str, int *i, int *j)
+static void	take_out_quotes(t_word *tmp, char *str)
 {
-	ft_bzero(str, 20000);
-	*i = 0;
-	*j = 0;
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (tmp->str[i])
+	{
+		if (tmp->str[i] == '\"' || tmp->str[i] == '\'')
+			i++;
+		else
+			str[j++] = tmp->str[i++];
+	}
+	str[i] = '\0';
 }
 
 void	deleting(t_pipe *list)
 {
-	int		i;
-	int		j;
 	t_word	*tmp;
 	char	str[20000];
 
@@ -31,15 +39,8 @@ void	deleting(t_pipe *list)
 		tmp = list->words;
 		while (tmp != NULL)
 		{
-			reset(str, &i, &j);
-			while (tmp->str[i])
-			{
-				if (tmp->str[i] == '\"' || tmp->str[i] == '\'')
-					i++;
-				else
-					str[j++] = tmp->str[i++];
-			}
-			str[i] = '\0';
+			ft_bzero(str, 20000);
+			take_out_quotes(tmp, str);
 			free(tmp->str);
 			tmp->str = ft_strdup(str);
 			tmp = tmp->next;
