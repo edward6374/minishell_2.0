@@ -26,7 +26,6 @@ void	one_builtin(t_min *tk, t_cmd *tmp, pid_t *child_pid)
 		close(tmp->out_fd);
 	}
 	take_exit_value(tmp);
-	free_double_void(tk->pt_env);
 	if (child_pid)
 		free(child_pid);
 	g_exit = run_builtin(tk, tmp);

@@ -101,7 +101,7 @@ int	loop_commands(t_min *tk, pid_t *child_pid, int *p, int fd)
 			tmp = tmp->next;
 		}
 		close_all_pipes(tk, p, fd);
-		end_exec(tk, child_pid, env);
+		end_exec(tk, child_pid);
 	}
 	return (0);
 }

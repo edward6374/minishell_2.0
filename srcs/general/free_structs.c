@@ -99,6 +99,7 @@ int	free_all(t_min *tk, int out)
 		free_commands(&tk->cmds, 0);
 	if (tk->pt_env)
 		free_double_void(tk->pt_env);
+	tk->pt_env = NULL;
 	if (tk->env)
 		free_env(tk->env);
 	if (tk->home)

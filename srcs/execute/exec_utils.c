@@ -43,7 +43,7 @@ void	take_more_exit(char **str, int i)
 	free(last);
 }
 
-void	end_exec(t_min *tk, pid_t *child_pid, char **env)
+void	end_exec(t_min *tk, pid_t *child_pid)
 {
 	int		final;
 	int		status;
@@ -64,7 +64,6 @@ void	end_exec(t_min *tk, pid_t *child_pid, char **env)
 		free(child_pid);
 	if (WEXITSTATUS(final))
 		g_exit = WEXITSTATUS(final);
-	free_double_void(env);
 }
 
 int	run_builtin(t_min *tk, t_cmd *tmp)
@@ -91,15 +90,13 @@ char	**take_double(t_min *tk, t_env *first)
 	char	**env;
 
 	i = 0;
-	env = NULL;
 	tmp = first;
-	while (tmp && ++i)
-		tmp = tmp->next;
+	while (first && ++i)
+		first = first->next;
 	env = (char **)malloc(sizeof(char *) * (i + 1));
 	if (!env)
 		return (NULL);
 	i = 0;
-	tmp = first;
 	while (tmp)
 	{
 		if (!tmp->value)
@@ -109,6 +106,8 @@ char	**take_double(t_min *tk, t_env *first)
 		tmp = tmp->next;
 	}
 	env[i] = NULL;
+	if (tk->pt_env)
+		free_double_void(tk->pt_env);
 	tk->pt_env = env;
 	return (env);
 }

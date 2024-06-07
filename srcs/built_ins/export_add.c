@@ -72,15 +72,18 @@ void	export_loop(t_env *env, char **args, t_export *dt)
 			dt->find->value = dt->value;
 		}
 	}
+	if (ft_strlen(dt->value) == 0)
+		free(dt->value);
+	free(dt->name);
 }
 
 int	export_add(t_env *env, char **args)
 {
 	t_export	dt;
 
-	dt.find = NULL;
 	dt.i = 1;
 	dt.res = 0;
+	dt.find = NULL;
 	if (args[0])
 	{
 		while (args[dt.i] != NULL)

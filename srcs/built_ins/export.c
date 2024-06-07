@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "built_ins.h"
+#include "g_error.h"
 
 static void	print_export(char **arr)
 {
@@ -89,7 +90,6 @@ int	ft_export(t_min *tk, t_cmd *tmp)
 			env[i] = insert_quotes(env[i]);
 		custom_qsort(env, ft_len_dptr(env));
 		print_export(env);
-		ft_free_dptr(env);
 		return (0);
 	}
 	else
@@ -107,6 +107,8 @@ t_env	*new_env(char *str, char *value)
 	if (!new)
 		return (NULL);
 	name = ft_strjoin(str, "=");
+	if (!name)
+		exit_error(g_error_array[MALLOC], MALLOC);
 	new->name = name;
 	if (ft_strlen(value) == 0)
 		new->value = NULL;
