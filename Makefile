@@ -25,15 +25,12 @@
 NAME			=	minishell
 
 LIBFT_PATH		=	libft/libft.a
-RD_PATH			=	readline/libreadline.a
-
 #=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-#
 
 # -no-pie because https://stackoverflow.com/questions/73275183/gcc-assembly-x86-relocation-warning-creating-dt-textrel-in-a-pie
 # and https://docs.oracle.com/en/operating-systems/oracle-linux/6/security/ol_pie_sec.html
 CFLAGS			+= 	-Wall -Werror -Wextra -DREADLINE_LIBRARY -g -O3 -no-pie $(addprefix -I , $(INC_DIR)) -fsanitize=leak
-# CFLAGS			+= 	-DREADLINE_LIBRARY -g -O3 $(addprefix -I , $(INC_DIR)) #-fsanitize=address
-LDFLAGS			=	-L libft -L readline -lft -lreadline -lncurses
+LDFLAGS			=	-L libft -lft -lreadline -lncurses
 DFLAGS_MS		=	-MMD -MP -MF $(DEP_DIR_MS)/$*.d
 DFLAGS_BI		=	-MMD -MP -MF $(DEP_DIR_BI)/$*.d
 DFLAGS_EXEC		=	-MMD -MP -MF $(DEP_DIR_EXEC)/$*.d
@@ -75,17 +72,12 @@ all				:	directories
 $(NAME)			::
 	@echo "$(MAGENTA)\nChecking minishell...$(DEF_COLOR)"
 
-$(NAME)			::	$(LIBFT_PATH) $(RD_PATH) $(OBJS_MS) $(OBJS_EXEC) $(OBJS_BI) $(OBJS_PARSER)
+$(NAME)			::	$(LIBFT_PATH) $(OBJS_MS) $(OBJS_EXEC) $(OBJS_BI) $(OBJS_PARSER)
 	@$(CC) $(CFLAGS) $^ $(LDFLAGS) -o $@
 	@echo "$(ORANGE)Compiling minishell exec...$(DEF_COLOR)"
 
 $(NAME)			::
 	@echo "$(GREEN)Minishell executable ready!$(DEF_COLOR)"
-
-$(RD_PATH)		:
-	@echo "$(ORANGE)\nCompiling readline library...$(DEF_COLOR)"
-	@cd readline; ./configure --prefix=$(shell pwd)/readline/library 2>/dev/null 1>/dev/null; make 2>/dev/null 1>/dev/null; make install 2>/dev/null 1>/dev/null;
-	@echo "$(GREEN)Readline library ready!\n$(DEF_COLOR)"
 
 directories	:
 	@$(MKDIR) $(OBJS_DIR)
@@ -107,10 +99,6 @@ clean			:
 fclean			:	clean
 	@$(RM) $(NAME)
 	@$(MAKE) -C libft fclean
-	@if [ -f "readline/Makefile" ]; then\
-		cd readline; make distclean -sik;\
-	fi
-	@$(RM) readline/library
 	@echo "$(BLUE)\nMinishell cleaned!$(DEF_COLOR)"
 
 re				:	fclean all

@@ -11,50 +11,49 @@
 /* ************************************************************************** */
 
 #include "parser.h"
+#include "g_error.h"
 
-static void	take_out_quotes(t_word *tmp, char *str)
+static int	access_cmd(char *str, t_cmd *new, char *tmp)
 {
-	int		i;
-	int		j;
-	char	c;
-
-	i = 0;
-	j = 0;
-	c = 0;
-	while (tmp->str[i])
+	if (tmp)
+		new->cmd = ft_strjoin(tmp, &str[1]);
+	else
+		new->cmd = ft_strdup(str);
+	if (access(new->cmd, X_OK) == 0)
+		return (0);
+	else if (access(new->cmd, F_OK) == 0)
 	{
-		if ((tmp->str[i] == '\"' || tmp->str[i] == '\'') && c == 0)
+		if (tmp)
 		{
-			c = tmp->str[i];
-			i++;
+			free(new->cmd);
+			new->cmd = ft_strdup(&str[2]);
 		}
-		else if (c != 0 && c == tmp->str[i])
-		{
-			c = 0;
-			i++;
-		}
-		else
-			str[j++] = tmp->str[i++];
+		return (CMD_FOUND_NOT_EX);
 	}
-	str[i] = '\0';
+	if (tmp)
+	{
+		free(new->cmd);
+		new->cmd = ft_strdup(&str[2]);
+	}
+	return (CMD_NOT_FOUND);
 }
 
-void	deleting(t_pipe *list)
+void	find_command(t_min *tk, t_cmd *new, t_word *tmp_words)
 {
-	t_word	*tmp;
-	char	str[20000];
+	char	*tmp;
 
-	while (list != NULL)
+	if (is_builtin(tmp_words->str))
+		new->cmd = ft_strdup(tmp_words->str);
+	else if (tmp_words->str[0] == '/')
+		new->ok = access_cmd(tmp_words->str, new, NULL);
+	else if (tmp_words->str[0] == '.' && tmp_words->str[1] == '/')
 	{
-		tmp = list->words;
-		while (tmp != NULL)
-		{
-			ft_bzero(str, 20000);
-			take_out_quotes(tmp, str);
-			free(tmp->str);
-			tmp->str = ft_strdup(str);
-			tmp = tmp->next;
-		}
-		list = list->next;
+		tmp = getcwd(NULL, 0);
+		new->ok = access_cmd(tmp_words->str, new, tmp);
+		free(tmp);
 	}
+	else
+		new->ok = get_cmd_path(tk, new, tmp_words->str);
+	if (!new->cmd)
+		exit_error(g_error_array[MALLOC], MALLOC);
 }

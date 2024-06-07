@@ -29,12 +29,16 @@ void		deleting(t_pipe *list);
 //			EXPAND_VARIABLE			//
 void		check_dollar(t_min *tk, t_pipe *list);
 
+//			FIND_COMMANDS			//
+void		find_command(t_min *tk, t_cmd *new, t_word *tmp_words);
+
 //			LIST_COMMAND_UTILS			//
 void		take_args(t_word *tmp_words, t_cmd *new);
 int			check_path(char **split, char *word, t_cmd *new, int i);
 int			take_path_env(t_env **tmp, t_min *tk, t_cmd *new, char *word);
 
 //			LIST_COMMANDS			//
+int			get_cmd_path(t_min *tk, t_cmd *new, char *word);
 t_cmd		*get_command_list(t_min *tk, t_pipe *list);
 
 //			LIST_WORD_DETECTOR			//

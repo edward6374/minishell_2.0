@@ -13,7 +13,7 @@
 #include "parser.h"
 #include "g_error.h"
 
-static int	get_cmd_path(t_min *tk, t_cmd *new, char *word)
+int	get_cmd_path(t_min *tk, t_cmd *new, char *word)
 {
 	int		i;
 	int		out;
@@ -76,12 +76,7 @@ static void	command_inside(t_min *tk, t_cmd *new, t_pipe *node)
 				&& tmp_words->prev->str[0] != '<'
 				&& tmp_words->prev->str[0] != '>'))
 		{
-			if (is_builtin(tmp_words->str))
-				new->cmd = ft_strdup(tmp_words->str);
-			else
-				new->ok = get_cmd_path(tk, new, tmp_words->str);
-			if (!new->cmd)
-				exit_error(g_error_array[MALLOC], MALLOC);
+			find_command(tk, new, tmp_words);
 			break ;
 		}
 		tmp_words = tmp_words->next;

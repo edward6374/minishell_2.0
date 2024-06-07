@@ -16,6 +16,7 @@ SRCS_PARSER	+=	srcs/parser/open_file.c
 SRCS_PARSER	+=	srcs/parser/change_node.c
 SRCS_PARSER	+=	srcs/parser/delete_quotes.c
 SRCS_PARSER	+=	srcs/parser/word_detector.c
+SRCS_PARSER	+=	srcs/parser/find_commands.c
 SRCS_PARSER	+=	srcs/parser/list_commands.c
 SRCS_PARSER	+=	srcs/parser/expand_variable.c
 SRCS_PARSER	+=	srcs/parser/pipe_separation.c
