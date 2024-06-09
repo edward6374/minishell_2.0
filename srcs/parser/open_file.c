@@ -25,17 +25,17 @@ static char	*get_path(char *word)
 			exit(1);
 		new = ft_strjoin(tmp, "/");
 		if (!new)
-			exit_error(g_error_array[MALLOC], MALLOC);
+			exit_error(g_error_array[0], MALLOC);
 		path = ft_strjoin(new, word);
 		if (!path)
-			exit_error(g_error_array[MALLOC], MALLOC);
+			exit_error(g_error_array[0], MALLOC);
 		free(new);
 	}
 	else
 	{
 		path = ft_strdup(word);
 		if (!path)
-			exit_error(g_error_array[MALLOC], MALLOC);
+			exit_error(g_error_array[0], MALLOC);
 	}
 	return (path);
 }
@@ -96,7 +96,7 @@ static int	open_file(t_word *tmp_word, t_cmd *new, char sign)
 		free(path);
 		new->err_f = ft_strdup(tmp_word->next->str);
 		if (!new->err_f)
-			exit_error(g_error_array[MALLOC], MALLOC);
+			exit_error(g_error_array[0], MALLOC);
 		return (1);
 	}
 	free(path);
@@ -108,8 +108,6 @@ int	do_open(t_pipe *node, t_cmd *new)
 	char	sign;
 	t_word	*tmp_word;
 
-	new->hdoc->yes = 0;
-	new->hdoc->first = 0;
 	tmp_word = node->words;
 	while (tmp_word)
 	{

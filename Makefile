@@ -29,7 +29,7 @@ LIBFT_PATH		=	libft/libft.a
 
 # -no-pie because https://stackoverflow.com/questions/73275183/gcc-assembly-x86-relocation-warning-creating-dt-textrel-in-a-pie
 # and https://docs.oracle.com/en/operating-systems/oracle-linux/6/security/ol_pie_sec.html
-CFLAGS			+= 	-Wall -Werror -Wextra -DREADLINE_LIBRARY -g -O3 -no-pie $(addprefix -I , $(INC_DIR))
+CFLAGS			+= 	-Wall -Werror -Wextra -DREADLINE_LIBRARY -g -O3 -no-pie $(addprefix -I , $(INC_DIR)) -fsanitize=leak
 LDFLAGS			=	-L libft -lft -lreadline -lncurses
 DFLAGS_MS		=	-MMD -MP -MF $(DEP_DIR_MS)/$*.d
 DFLAGS_BI		=	-MMD -MP -MF $(DEP_DIR_BI)/$*.d

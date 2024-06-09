@@ -16,22 +16,6 @@
 
 unsigned char	g_exit = 0;
 
-void	free_one_cmd(t_cmd *tmp)
-{
-	if (tmp->cmd)
-		free(tmp->cmd);
-	if (tmp->err_f)
-		free(tmp->err_f);
-	if (tmp->args)
-		free_double_void(tmp->args);
-	if (tmp->hdoc)
-		free_here_doc(tmp->hdoc);
-	if (tmp->in_fd != 0)
-		close(tmp->in_fd);
-	if (tmp->out_fd != 1)
-		close(tmp->out_fd);
-}
-
 t_min	*init_struct(char *env[])
 {
 	t_min	*tk;
@@ -55,7 +39,7 @@ void	program(t_min *tk, char *line)
 	err = parser(tk, line);
 	if (err != NONE)
 	{
-		if (err == SYNTAX)
+		if (err)
 		{
 			end_program(&line, err);
 			return ;
@@ -69,7 +53,7 @@ void	program(t_min *tk, char *line)
 			return ;
 		}
 		if (tk->cmds)
-			free_commands(&tk->cmds, 0);
+			free_commands(&tk->cmds);
 		tk->num_cmds = 0;
 	}
 	free(line);
@@ -112,7 +96,7 @@ int	main(int argc, char *argv[], char *env[])
 	{
 		tk = init_struct(env);
 		if (!tk)
-			exit_error(g_error_array[MALLOC], MALLOC);
+			exit_error(g_error_array[0], MALLOC);
 		init_pwd(tk);
 		set_term();
 		while (42)

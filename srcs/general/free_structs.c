@@ -51,12 +51,10 @@ int	free_parser(t_pipe *pipes, int out)
 	return (out);
 }
 
-int	free_env(t_env *first)
+void	free_env(t_env *first)
 {
 	t_env	*next;
 
-	if (!first)
-		return (MALLOC);
 	next = first->next;
 	while (next)
 	{
@@ -71,10 +69,9 @@ int	free_env(t_env *first)
 	if (first->value)
 		free(first->value);
 	free(first);
-	return (MALLOC);
 }
 
-int	free_commands(t_cmd **first, int out)
+void	free_commands(t_cmd **first)
 {
 	t_cmd	*tmp;
 	t_cmd	*next;
@@ -89,14 +86,14 @@ int	free_commands(t_cmd **first, int out)
 		next = tmp->next;
 	}
 	free_one_cmd(tmp);
+	free(tmp);
 	*first = NULL;
-	return (free_pointer(tmp, out));
 }
 
 int	free_all(t_min *tk, int out)
 {
 	if (tk->cmds)
-		free_commands(&tk->cmds, 0);
+		free_commands(&tk->cmds);
 	if (tk->pt_env)
 		free_double_void(tk->pt_env);
 	tk->pt_env = NULL;

@@ -12,32 +12,7 @@
 
 #include "execute.h"
 #include "signalm.h"
-
-void	free_here_doc(t_here_doc *hd)
-{
-	t_hd_val	*tmp;
-	t_hd_val	*next;
-
-	tmp = hd->values;
-	next = NULL;
-	if (!tmp)
-	{
-		free(hd);
-		return ;
-	}
-	if (tmp)
-		next = hd->values->next;
-	while (next)
-	{
-		free(tmp->stop);
-		free(tmp);
-		tmp = next;
-		next = tmp->next;
-	}
-	free(tmp->stop);
-	free(tmp);
-	free(hd);
-}
+#include "minishell.h"
 
 void	close_here_doc(t_min *tk)
 {
@@ -98,7 +73,6 @@ void	run_here_doc(t_cmd *cmd)
 	{
 		if (pipe(tmp->fd))
 			exit(1);
-		set_signals(3);
 		pid = fork();
 		if (pid == 0)
 			run_loop(tmp, line);

@@ -108,7 +108,7 @@ t_env	*new_env(char *str, char *value)
 		return (NULL);
 	name = ft_strjoin(str, "=");
 	if (!name)
-		exit_error(g_error_array[MALLOC], MALLOC);
+		exit_error(g_error_array[0], MALLOC);
 	new->name = name;
 	if (ft_strlen(value) == 0)
 		new->value = NULL;

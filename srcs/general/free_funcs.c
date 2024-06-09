@@ -12,20 +12,46 @@
 
 #include "minishell.h"
 
-int	free_double_int(char **old, int i)
+void	free_here_doc(t_here_doc *hd)
 {
-	while (old[--i])
-		free(old[i]);
-	free(old);
-	return (MALLOC);
+	t_hd_val	*tmp;
+	t_hd_val	*next;
+
+	tmp = hd->values;
+	next = NULL;
+	if (!tmp)
+	{
+		free(hd);
+		return ;
+	}
+	if (tmp)
+		next = hd->values->next;
+	while (next)
+	{
+		free(tmp->stop);
+		free(tmp);
+		tmp = next;
+		next = tmp->next;
+	}
+	free(tmp->stop);
+	free(tmp);
+	free(hd);
 }
 
-char	**free_double_char(char **old, int i)
+void	free_one_cmd(t_cmd *tmp)
 {
-	while (old[--i])
-		free(old[i]);
-	free(old);
-	return (NULL);
+	if (tmp->cmd)
+		free(tmp->cmd);
+	if (tmp->err_f)
+		free(tmp->err_f);
+	if (tmp->args)
+		free_double_void(tmp->args);
+	if (tmp->hdoc)
+		free_here_doc(tmp->hdoc);
+	if (tmp->in_fd != 0)
+		close(tmp->in_fd);
+	if (tmp->out_fd != 1)
+		close(tmp->out_fd);
 }
 
 void	free_double_void(char **old)
@@ -38,17 +64,4 @@ void	free_double_void(char **old)
 	while (old[++i])
 		free(old[i]);
 	free(old);
-}
-
-int	free_pointer(void *pt, int out)
-{
-	if (pt)
-		free(pt);
-	return (out);
-}
-
-void	free_err_f(char **line)
-{
-	free(*line);
-	*line = NULL;
 }

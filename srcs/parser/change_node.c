@@ -45,10 +45,10 @@ void	check_heredoc(t_word *tmp_word, t_cmd *new)
 
 	tmp = ft_calloc(1, sizeof(t_hd_val));
 	if (!tmp)
-		exit_error(g_error_array[MALLOC], MALLOC);
+		exit_error(g_error_array[0], MALLOC);
 	tmp->stop = ft_strdup(tmp_word->next->str);
 	if (!tmp->stop)
-		exit_error(g_error_array[MALLOC], MALLOC);
+		exit_error(g_error_array[0], MALLOC);
 	add_heredoc_to_list(new, tmp);
 	new->hdoc->yes = 1;
 	new->hdoc->first = 1;
@@ -61,14 +61,14 @@ int	change_word(t_word *tmp, int i, int len, char *value)
 
 	new = ft_substr(tmp->str, 0, i - 1);
 	if (!new)
-		exit(1);
+		exit_error(g_error_array[0], MALLOC);
 	temp = ft_strjoin(new, value);
 	if (!temp)
-		exit(1);
+		exit_error(g_error_array[0], MALLOC);
 	free(new);
 	new = ft_strjoin(temp, &tmp->str[i + len]);
 	if (!new)
-		exit(1);
+		exit_error(g_error_array[0], MALLOC);
 	free(temp);
 	free(tmp->str);
 	tmp->str = new;

@@ -43,9 +43,17 @@
 
 int	parser(t_min *tk, char *line)
 {
+	int		i;
 	int		err;
 	t_pipe	*list;
 
+	i = 0;
+	while (line[i] == ' ' && line[i] != '\0')
+		i++;
+	if (line[i] == '\0')
+		return (NONE);
+	else if (line[i] == '|')
+		return (PIPE_FIRST);
 	err = check_syntax(line);
 	if (err)
 		return (err);

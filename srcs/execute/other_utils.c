@@ -13,6 +13,19 @@
 #include "execute.h"
 #include "minishell.h"
 
+int	count_double(t_env *tmp)
+{
+	int	i;
+
+	i = 0;
+	while (tmp)
+	{
+		i++;
+		tmp = tmp->next;
+	}
+	return (i);
+}
+
 int	is_builtin(char *cmd)
 {
 	if (!ft_strncmp(cmd, "cd", 3) || !ft_strncmp(cmd, "echo", 5)

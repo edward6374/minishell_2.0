@@ -15,7 +15,7 @@
 #include "signalm.h"
 #include <signal.h>
 
-void	norm_handler(int sig)
+static void	norm_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
@@ -28,7 +28,7 @@ void	norm_handler(int sig)
 	return ;
 }
 
-void	interact_handler(int sig)
+static void	interact_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
@@ -43,7 +43,7 @@ void	interact_handler(int sig)
 	return ;
 }
 
-void	heredoc_handler(int sig)
+static void	heredoc_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
@@ -52,17 +52,6 @@ void	heredoc_handler(int sig)
 		exit(130);
 	}
 	return ;
-}
-
-void	ign_signal(int signal)
-{
-	struct sigaction	sa;
-
-	sa.sa_handler = SIG_IGN;
-	sa.sa_flags = SA_RESTART;
-	sigemptyset(&sa.sa_mask);
-	if (sigaction(signal, &sa, NULL) < 0)
-		exit(1);
 }
 
 void	set_signals(int mode)
@@ -77,15 +66,14 @@ void	set_signals(int mode)
 		sa.sa_handler = &interact_handler;
 	else if (mode == 2)
 		sa.sa_handler = &heredoc_handler;
-	else if (mode == 3)
-		sa.sa_handler = &ign_signal;
 	sigaction(SIGINT, &sa, NULL);
-	if (!mode)
+	if (!mode || mode == 2)
 	{
 		sa.sa_handler = SIG_IGN;
 		sa.sa_flags = SA_RESTART;
 		sigemptyset(&sa.sa_mask);
 		sigaction(SIGQUIT, &sa, NULL);
 	}
-	sigaction(SIGQUIT, &sa, NULL);
+	else
+		sigaction(SIGQUIT, &sa, NULL);
 }

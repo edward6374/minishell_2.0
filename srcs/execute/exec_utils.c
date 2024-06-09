@@ -13,30 +13,60 @@
 #include "built_ins.h"
 #include "execute.h"
 #include "minishell.h"
+#include "g_error.h"
+
+static int	more_checks(char *str, char **last, char *tmp, int *j)
+{
+	char	*sub;
+
+	if (ft_strchr(str + *j, '$'))
+	{
+		sub = ft_substr(str, *j, ft_strchr(str + *j, '$') - &str[*j]);
+		tmp = ft_strjoin(*last, sub);
+		if (!tmp)
+			exit_error(g_error_array[0], MALLOC);
+		free(sub);
+		free(*last);
+		*last = tmp;
+		*j += ft_strchr(str + *j, '$') - &str[*j] - 1;
+	}
+	else if (!ft_strchr(str + *j, '$'))
+	{
+		sub = ft_substr(str, *j, ft_strlen(str) - *j);
+		tmp = ft_strjoin(*last, sub);
+		if (!tmp)
+			exit_error(g_error_array[0], MALLOC);
+		free(sub);
+		free(*last);
+		*last = tmp;
+		return (1);
+	}
+	return (0);
+}
 
 void	take_more_exit(char **str, int i)
 {
 	int		j;
+	char	*tmp;
+	char	*new;
 	char	*last;
 
 	j = 1;
-	last = ft_strdup(ft_itoa(g_exit));
+	last = ft_itoa(g_exit);
 	while (str[i][++j])
 	{
 		if (str[i][j] == '$' && str[i][j + 1] == '?' && ++j)
-			last = ft_strjoin(last, ft_strdup(ft_itoa(g_exit)));
-		else if (ft_strchr(str[i] + j, '$'))
 		{
-			last = ft_strjoin(last, ft_substr(str[i], j, ft_strchr(str[i] + j,
-							'$') - &str[i][j]));
-			j += ft_strchr(str[i] + j, '$') - &str[i][j] - 1;
+			new = ft_itoa(g_exit);
+			tmp = last;
+			last = ft_strjoin(last, new);
+			if (!last)
+				exit_error(g_error_array[0], MALLOC);
+			free(new);
+			free(tmp);
 		}
-		else if (!ft_strchr(str[i] + j, '$'))
-		{
-			last = ft_strjoin(last, ft_substr(str[i], j, ft_strlen(str[i])
-						- j));
+		else if (more_checks(str[i], &last, tmp, &j))
 			break ;
-		}
 	}
 	free(str[i]);
 	str[i] = ft_strdup(last);
@@ -89,13 +119,11 @@ char	**take_double(t_min *tk, t_env *first)
 	t_env	*tmp;
 	char	**env;
 
-	i = 0;
 	tmp = first;
-	while (first && ++i)
-		first = first->next;
+	i = count_double(first);
 	env = (char **)malloc(sizeof(char *) * (i + 1));
 	if (!env)
-		return (NULL);
+		exit_error(g_error_array[0], MALLOC);
 	i = 0;
 	while (tmp)
 	{
@@ -103,6 +131,8 @@ char	**take_double(t_min *tk, t_env *first)
 			env[i++] = ft_strjoin(tmp->name, "");
 		else
 			env[i++] = ft_strjoin(tmp->name, tmp->value);
+		if (!env[i])
+			exit_error(g_error_array[0], MALLOC);
 		tmp = tmp->next;
 	}
 	env[i] = NULL;

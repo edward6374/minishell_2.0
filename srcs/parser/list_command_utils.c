@@ -26,7 +26,7 @@ void	take_args(t_word *tmp_words, t_cmd *new)
 		{
 			new->args[n] = ft_strdup(tmp_words->str);
 			if (!new->args)
-				exit_error(g_error_array[MALLOC], MALLOC);
+				exit_error(g_error_array[0], MALLOC);
 			n++;
 		}
 		tmp_words = tmp_words->next;
@@ -65,10 +65,10 @@ static char	*take_full_path(char *pwd, char *str)
 
 	tmp = ft_strjoin(pwd, "/");
 	if (!tmp)
-		exit_error(g_error_array[MALLOC], MALLOC);
+		exit_error(g_error_array[0], MALLOC);
 	new = ft_strjoin(tmp, str);
 	if (!new)
-		exit_error(g_error_array[MALLOC], MALLOC);
+		exit_error(g_error_array[0], MALLOC);
 	free(tmp);
 	return (new);
 }

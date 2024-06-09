@@ -35,6 +35,8 @@ static void	add_to_list(t_word *tmp, t_word *new)
 	if (tmp->quote_after)
 	{
 		str_joined = ft_strjoin(tmp->str, new->str);
+		if (!str_joined)
+			exit_error(g_error_array[0], MALLOC);
 		free(tmp->str);
 		tmp->str = str_joined;
 		free(new->str);
@@ -54,8 +56,10 @@ void	put_word_list(t_word **list, char *word)
 
 	new = ft_calloc(1, sizeof(t_word));
 	if (!new)
-		exit_error(g_error_array[MALLOC], MALLOC);
+		exit_error(g_error_array[0], MALLOC);
 	new->str = ft_strtrim(word, " ");
+	if (!new->str)
+		exit_error(g_error_array[0], MALLOC);
 	if (!(*list))
 		*list = new;
 	else

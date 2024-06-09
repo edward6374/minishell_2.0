@@ -60,7 +60,11 @@ static void	check_oldpwd(t_env *env)
 	{
 		tmp = env->next->next->next->next->next->next->next;
 		new = ft_calloc(1, sizeof(t_env));
+		if (!new)
+			exit_error(g_error_array[0], MALLOC);
 		new->name = ft_strdup("OLDPWD=");
+		if (!new->name)
+			exit_error(g_error_array[0], MALLOC);
 		new->value = NULL;
 		new->next = tmp->next;
 		new->before = tmp;
@@ -74,7 +78,7 @@ static void	take_value(char *env, t_env *new)
 	{
 		new->value = ft_itoa(ft_atoi(ft_strrchr(env, '=') + 1) + 1);
 		if (!new->value)
-			exit_error(g_error_array[MALLOC], MALLOC);
+			exit_error(g_error_array[0], MALLOC);
 	}
 	else if (!ft_strncmp(env, "OLDPWD", 6))
 		new->value = NULL;
@@ -82,7 +86,7 @@ static void	take_value(char *env, t_env *new)
 	{
 		new->value = ft_strdup(ft_strrchr(env, '=') + 1);
 		if (!new->value)
-			exit_error(g_error_array[MALLOC], MALLOC);
+			exit_error(g_error_array[0], MALLOC);
 	}
 }
 
@@ -98,7 +102,7 @@ static void	create_new_env(t_min *tk)
 	{
 		new = ft_calloc(1, sizeof(t_env));
 		if (!new)
-			exit_error(g_error_array[MALLOC], MALLOC);
+			exit_error(g_error_array[0], MALLOC);
 		if (i == 0)
 			new->name = ft_strdup("OLDPWD=");
 		else if (i == 1)
@@ -110,7 +114,7 @@ static void	create_new_env(t_min *tk)
 		else if (i == 2)
 			new->value = ft_strdup("1");
 		if (!new->name || ((i == 1 || i == 2) && !new->value))
-			exit_error(g_error_array[MALLOC], MALLOC);
+			exit_error(g_error_array[0], MALLOC);
 		tmp = save_node(tk, new, tmp);
 	}
 }
@@ -132,11 +136,11 @@ int	take_env(t_min *tk, char *env[])
 	{
 		new = ft_calloc(1, sizeof(t_env));
 		if (!new)
-			exit_error(g_error_array[MALLOC], MALLOC);
+			exit_error(g_error_array[0], MALLOC);
 		new->name = ft_substr(env[i], 0, ft_strrchr(env[i], '=') - env[i] + 1);
+		if (!new->name)
+			exit_error(g_error_array[0], MALLOC);
 		take_value(env[i], new);
-		if (!new->name || (ft_strncmp(new->name, "OLDPWD=", 7) && !new->value))
-			return (free_env(new));
 		tmp = save_node(tk, new, tmp);
 	}
 	check_oldpwd(tk->env);

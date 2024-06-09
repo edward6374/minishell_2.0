@@ -48,7 +48,7 @@ void	take_exit_value(t_cmd *tmp)
 		if (!ft_strncmp(tmp->args[i], "$?", 3))
 		{
 			free(tmp->args[i]);
-			tmp->args[i] = ft_strdup(ft_itoa(g_exit));
+			tmp->args[i] = ft_itoa(g_exit);
 		}
 		else if (!ft_strncmp(tmp->args[i], "$?", 2))
 			take_more_exit(tmp->args, i);
@@ -66,7 +66,9 @@ static pid_t	child_exec(t_min *tk, t_cmd *tmp, int *p, int fd)
 	{
 		redirect_pipes(tmp, p, fd);
 		close_here_doc(tk);
-		if (is_builtin(tmp->cmd))
+		if (!tmp->cmd)
+			exit(0);
+		else if (is_builtin(tmp->cmd))
 		{
 			g_exit = run_builtin(tk, tmp);
 			exit(g_exit);
@@ -80,14 +82,13 @@ static pid_t	child_exec(t_min *tk, t_cmd *tmp, int *p, int fd)
 int	loop_commands(t_min *tk, pid_t *child_pid, int *p, int fd)
 {
 	t_cmd	*tmp;
-	char	**env;
 
-	env = take_double(tk, tk->env);
-	if (!env)
-		return (MALLOC);
 	tmp = tk->cmds;
-	if (!tmp)
+	if (!tmp->cmd)
+	{
+		free(child_pid);
 		return (0);
+	}
 	if (tk->num_cmds == 1 && !tk->cmds->ok && is_builtin(tk->cmds->cmd))
 		one_builtin(tk, tk->cmds, child_pid);
 	else
@@ -116,15 +117,17 @@ int	execute_commands(t_min *tk)
 	fd = -1;
 	p[0] = -1;
 	p[1] = -1;
-	child_pid = (pid_t *)malloc(sizeof(pid_t) * tk->num_cmds);
+	child_pid = ft_calloc(tk->num_cmds, sizeof(pid_t));
 	if (!child_pid)
-		return (MALLOC);
+		exit_error(g_error_array[0], MALLOC);
 	tmp = tk->cmds;
 	while (tmp)
 	{
 		run_here_doc(tmp);
 		tmp = tmp->next;
 	}
+	if (!tk->cmds)
+		return (0);
 	if (loop_commands(tk, child_pid, p, fd))
 		return (free_all(tk, MALLOC));
 	return (0);

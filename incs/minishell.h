@@ -36,22 +36,19 @@ int		end_program(char **line, int error);
 char	*ft_find_path(char *env[]);
 
 /* ---			Free_funcs.c			--- */
-void	free_err_f(char **line);
-int		free_pointer(void *pt, int out);
-int		free_double_int(char **old, int i);
+void	free_one_cmd(t_cmd *tmp);
 void	free_double_void(char **old);
-char	**free_double_char(char **old, int i);
+void	free_here_doc(t_here_doc *hd);
 
 /* ---			Free_structs.c			--- */
-int		free_env(t_env *first);
+void	free_env(t_env *first);
+void	free_commands(t_cmd **first);
 int		free_all(t_min *tk, int out);
 int		free_parser(t_pipe *pipe, int out);
-int		free_commands(t_cmd **first, int out);
 
 /* ---			init_pwd.c			--- */
 void	init_pwd(t_min *tk);
 
 /* ---          main.c              --- */
-void	free_one_cmd(t_cmd *tmp);
 
 #endif

@@ -12,45 +12,52 @@
 
 #include "parser.h"
 
-static int	check_syntax_pipe(int i, char *line, int q)
+static int	check_syntax_pipe(int i, char *line, char c)
 {
 	i = i + 1;
-	if (q % 2 == 0)
+	if (c == 0)
 	{
+		while ((line[i] == ' ' || line[i] == '\t') && line[i] != '\0')
+			i++;
 		if (line[i] == '|' || line[i] == '\0')
-			return (SYNTAX);
+			return (PIPE_FIRST);
 	}
 	return (0);
 }
 
-static int	check_syntax_red(int i, char *line, int q)
+static int	check_syntax_red(int i, char *line, char c)
 {
 	i++;
-	if (q % 2 == 0)
+	if (c == 0)
 	{
 		if (line[i] == '>' || line[i] == '<')
 			i++;
-		if (line[i] == '\0' || line[i] == '<' || line[i] == '>')
-			return (SYNTAX);
+		while ((line[i] == ' ' || line[i] == '\t') && line[i] != '\0')
+			i++;
+		if (line[i] == '\0' || line[i] == '<'
+			|| line[i] == '>' || line[i] == '|')
+			return (ONLY_REDIR);
 	}
 	return (0);
 }
 
 static int	check_redir(char *line)
 {
-	int	i;
-	int	q;
+	int		i;
+	char	c;
 
 	i = 0;
-	q = 0;
+	c = 0;
 	while (line[i] != '\0')
 	{
-		if (line[i] == '\"' || line[i] == '\'')
-			q++;
-		if ((line[i] == '>' || line[i] == '<') && check_syntax_red(i, line, q))
-			return (SYNTAX);
-		else if (line[i] == '|' && check_syntax_pipe(i, line, q))
-			return (SYNTAX);
+		if ((line[i] == '\"' || line[i] == '\'') && c == 0)
+			c = line[i];
+		else if (line[i] == c)
+			c = 0;
+		if ((line[i] == '>' || line[i] == '<') && check_syntax_red(i, line, c))
+			return (ONLY_REDIR);
+		else if (line[i] == '|' && check_syntax_pipe(i, line, c))
+			return (PIPE_FIRST);
 		i++;
 	}
 	return (0);

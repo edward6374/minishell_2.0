@@ -32,10 +32,8 @@ static void	put_list(t_pipe **list, char *div_str)
 
 	new = ft_calloc(1, sizeof(t_pipe));
 	if (!new)
-		exit_error(g_error_array[MALLOC], MALLOC);
+		exit_error(g_error_array[0], MALLOC);
 	new->str = div_str;
-	if (!new->str)
-		exit_error(g_error_array[MALLOC], MALLOC);
 	if (!(*list))
 		*list = new;
 	else
@@ -61,7 +59,9 @@ t_pipe	*dividing_pipe(char *input, int i)
 		count = 1;
 		while (input[count] != '|' && input[count] != '\0')
 			count++;
-		div_str = malloc((count + 1) * (sizeof(char)));
+		div_str = ft_calloc((count + 1), sizeof(char));
+		if (!div_str)
+			exit_error(g_error_array[0], MALLOC);
 		j = 0;
 		while (input[i] != '|' && input[i] != '\0')
 			div_str[j++] = input[i++];

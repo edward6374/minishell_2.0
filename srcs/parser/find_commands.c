@@ -55,5 +55,5 @@ void	find_command(t_min *tk, t_cmd *new, t_word *tmp_words)
 	else
 		new->ok = get_cmd_path(tk, new, tmp_words->str);
 	if (!new->cmd)
-		exit_error(g_error_array[MALLOC], MALLOC);
+		exit_error(g_error_array[0], MALLOC);
 }

@@ -63,6 +63,8 @@ static void	find_dollar(t_min *tk, t_word *tmp, char *var)
 			sin--;
 		if (tmp->str[i] == '$' && sin == 0 && tmp->str[i + 1] != '?')
 		{
+			if (!ft_isalpha(tmp->str[i + 1]) && tmp->str[i + 1] != '_')
+				continue ;
 			dollar_found(&tmp->str[++i], var);
 			send_variable(tk, var, value);
 			i += change_word(tmp, i, ft_strlen(var) - 1, value);

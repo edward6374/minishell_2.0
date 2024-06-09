@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "parser.h"
+#include "g_error.h"
 
 static void	take_out_quotes(t_word *tmp, char *str)
 {
@@ -53,6 +54,8 @@ void	deleting(t_pipe *list)
 			take_out_quotes(tmp, str);
 			free(tmp->str);
 			tmp->str = ft_strdup(str);
+			if (!tmp->str)
+				exit_error(g_error_array[0], MALLOC);
 			tmp = tmp->next;
 		}
 		list = list->next;
