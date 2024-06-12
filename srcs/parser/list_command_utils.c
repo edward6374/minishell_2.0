@@ -31,6 +31,11 @@ void	take_args(t_word *tmp_words, t_cmd *new)
 		}
 		tmp_words = tmp_words->next;
 	}
+	if (n == 0)
+	{
+		free(new->args);
+		new->args = NULL;
+	}
 }
 
 static t_env	*find_path_var(t_env *env)

@@ -84,7 +84,7 @@ int	loop_commands(t_min *tk, pid_t *child_pid, int *p, int fd)
 	t_cmd	*tmp;
 
 	tmp = tk->cmds;
-	if (!tmp->cmd)
+	if (!tmp->cmd && tmp->ok == 0 && !tmp->next)
 	{
 		free(child_pid);
 		return (0);
