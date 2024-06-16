@@ -6,7 +6,7 @@
 /*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 17:25:00 by vduchi            #+#    #+#             */
-/*   Updated: 2023/08/30 20:51:10 by nmota-bu         ###   ########.fr       */
+/*   Updated: 2024/06/16 17:18:49 by vduchi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,14 @@ static void	upgrade(t_min *tk, char *str)
 
 static int	return_value(t_min *tk, char *path)
 {
-	int	res;
+	int		res;
 
 	res = 0;
 	upgrade(tk, "OLDPWD");
-	res = change_directory(path);
+	if (!path)
+		res = change_directory(tk->home);
+	else
+		res = change_directory(path);
 	upgrade(tk, "PWD");
 	return (res);
 }
@@ -85,5 +88,5 @@ int	ft_cd(char **args, t_min *tk)
 			path = args[1];
 		return (return_value(tk, path));
 	}
-	return (return_value(tk, "/home/vduchi"));
+	return (return_value(tk, NULL));
 }

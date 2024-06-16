@@ -131,7 +131,7 @@ char	**take_double(t_min *tk, t_env *first)
 			env[i++] = ft_strjoin(tmp->name, "");
 		else
 			env[i++] = ft_strjoin(tmp->name, tmp->value);
-		if (!env[i])
+		if (!env[i - 1])
 			exit_error(g_error_array[0], MALLOC);
 		tmp = tmp->next;
 	}
