@@ -14,16 +14,18 @@
 #include "minishell.h"
 #include "struct.h"
 
-void	exit_err_arg(char *str, long long int *value, int mode)
+int	exit_err_arg(char *str, long long int *value, int mode)
 {
 	if (!mode)
 	{
 		printf("%s exit: %s: number argument required\n", TERROR, str);
 		exit(255);
+		return (0);
 	}
 	printf("%s exit: too many arguments\n", TERROR);
-	g_exit = 0;
+	g_exit = 1;
 	*value = 0;
+	return (1);
 }
 
 int	check_only_numbers(char *str)
@@ -56,7 +58,7 @@ int	ft_exit(t_cmd *cmd)
 			3))
 		exit_err_arg(cmd->args[1], &value, 0);
 	else if (cmd->args[2])
-		exit_err_arg(cmd->args[1], &value, 1);
+		return (exit_err_arg(cmd->args[1], &value, 1));
 	else
 		exit(value);
 	return (0);
