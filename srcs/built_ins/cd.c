@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mehernan <mehernan@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/22 17:25:00 by vduchi            #+#    #+#             */
-/*   Updated: 2024/06/16 17:18:49 by vduchi           ###   ########.fr       */
+/*   Created: 2024/06/17 12:27:06 by mehernan          #+#    #+#             */
+/*   Updated: 2024/06/17 13:40:27 by mehernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "g_error.h"
 #include "built_ins.h"
 #include "struct.h"
 
@@ -42,12 +43,16 @@ static void	upgrade(t_min *tk, char *str)
 		if (tk->pwd != NULL)
 			free(tk->pwd);
 		tk->pwd = ft_strdup(pwd);
+		if (!tk->pwd)
+			exit_error(g_error_array[MALLOC], MALLOC);
 	}
 	else
 	{
 		if (tk->oldpwd != NULL)
 			free(tk->oldpwd);
 		tk->oldpwd = ft_strdup(pwd);
+		if (!tk->oldpwd)
+			exit_error(g_error_array[MALLOC], MALLOC);
 	}
 }
 
@@ -67,10 +72,8 @@ static int	return_value(t_min *tk, char *path)
 
 int	ft_cd(char **args, t_min *tk)
 {
-	int		res;
 	char	*path;
 
-	res = 0;
 	if (args[1] != NULL)
 	{
 		if (!ft_strncmp("~", args[1], 1))
@@ -80,7 +83,7 @@ int	ft_cd(char **args, t_min *tk)
 			if (!tk->oldpwd)
 			{
 				printf("%s cd: OLDPWD not set\n", TERROR);
-				return (res);
+				return (0);
 			}
 			path = tk->oldpwd;
 		}
