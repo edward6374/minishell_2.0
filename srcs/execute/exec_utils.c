@@ -103,7 +103,7 @@ int	run_builtin(t_min *tk, t_cmd *tmp)
 	else if (!ft_strncmp("cd", tmp->cmd, 3))
 		return (ft_cd(tmp->args, tk));
 	else if (!ft_strncmp("pwd", tmp->cmd, 4))
-		return (ft_pwd());
+		return (ft_pwd(tk->pwd));
 	else if (!ft_strncmp("export", tmp->cmd, 7))
 		return (ft_export(tk, tmp));
 	else if (!ft_strncmp("unset", tmp->cmd, 6))

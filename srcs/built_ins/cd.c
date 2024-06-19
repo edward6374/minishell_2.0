@@ -14,6 +14,20 @@
 #include "built_ins.h"
 #include "struct.h"
 
+char	*get_my_pwd(char *old)
+{
+	char	*pwd;
+
+	pwd = getcwd(NULL, 0);
+	if (!pwd)
+	{
+		pwd = ft_strdup(old);
+		if (!pwd)
+			exit_error(g_error_array[MALLOC], MALLOC);
+	}
+	return (pwd);
+}
+
 static int	change_directory(const char *path)
 {
 	if (chdir(path) == 0)
@@ -30,7 +44,7 @@ static void	upgrade(t_min *tk, char *str, t_env *find)
 {
 	char	*pwd;
 
-	pwd = getcwd(NULL, 0);
+	pwd = get_my_pwd(tk->oldpwd);
 	find = env_find(tk->env, str, find_env);
 	if (find)
 	{

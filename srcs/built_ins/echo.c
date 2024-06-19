@@ -13,32 +13,30 @@
 #include "built_ins.h"
 #include <stdbool.h>
 
-int	is_n(char *args, int *i)
+static void	check_flag(char **args, int *i, int *no_newline)
 {
 	int	j;
+	int	l;
 
-	j = 2;
-	if (*i == 1 && args != NULL && !ft_strncmp(args, "-n", 2)
-		&& args[2] == '\0')
+	j = 1;
+	*no_newline = false;
+	while (42)
 	{
-		(*i)++;
-		return (TRUE);
-	}
-	else if (args[0] == '-' && args[1] == 'n')
-	{
-		while (args[j])
+		l = 0;
+		while (args[j][l])
 		{
-			if (args[j] != 'n')
-				return (FALSE);
-			j++;
+			if ((l == 0 && args[j][l] != '-')
+			|| (l != 0 && args[j][l] != 'n'))
+				return ;
+			l++;
 		}
-		(*i)++;
-		return (TRUE);
+		*i = *i + 1;
+		*no_newline = true;
+		j++;
 	}
-	return (FALSE);
 }
 
-void	print_echo(char *str)
+static void	print_echo(char *str)
 {
 	if (!ft_strncmp(str, "> ", 3) || !ft_strncmp(str, ">> ", 4)
 		|| !ft_strncmp(str, "< ", 3) || !ft_strncmp(str, "<< ", 4)
@@ -51,20 +49,14 @@ int	ft_echo(char **args, int i)
 {
 	int	no_newline;
 
-	if (args[1])
-		no_newline = is_n(args[1], &i);
-	else
+	if (!args[1])
 	{
 		printf("\n");
 		return (0);
 	}
+	check_flag(args, &i, &no_newline);
 	while (args[i] != NULL)
 	{
-		if (!ft_strncmp(args[i], "-n", 3) && no_newline)
-		{
-			i++;
-			continue ;
-		}
 		print_echo(args[i]);
 		if (args[i + 1])
 			printf(" ");

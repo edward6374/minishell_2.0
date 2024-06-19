@@ -41,7 +41,7 @@ typedef struct s_export
 }			t_export;
 
 int			ft_cd(char **args, t_min *tk);
-int			ft_pwd(void);
+int			ft_pwd(char *pwd);
 int			ft_echo(char **args, int i);
 int			ft_exit(t_cmd *temp);
 int			ft_unset(t_min *tk, t_cmd *temp);

@@ -12,12 +12,8 @@
 
 #include "built_ins.h"
 
-int	ft_pwd(void)
+int	ft_pwd(char *pwd)
 {
-	char	*pwd;
-
-	pwd = getcwd(NULL, 0);
 	printf("%s\n", pwd);
-	free(pwd);
 	return (0);
 }
