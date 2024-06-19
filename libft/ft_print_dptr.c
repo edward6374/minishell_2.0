@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_dptr.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mehernan <mehernan@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/14 18:45:47 by nmota-bu          #+#    #+#             */
-/*   Updated: 2023/08/14 19:20:31 by nmota-bu         ###   ########.fr       */
+/*   Created: 2024/06/19 12:33:04 by mehernan          #+#    #+#             */
+/*   Updated: 2024/06/19 12:33:06 by mehernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

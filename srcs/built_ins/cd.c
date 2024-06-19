@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehernan <mehernan@student.42barcelon      +#+  +:+       +#+        */
+/*   By: mehernan <mehernan@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 12:27:06 by mehernan          #+#    #+#             */
-/*   Updated: 2024/06/17 13:40:27 by mehernan         ###   ########.fr       */
+/*   Updated: 2024/06/19 12:53:02 by mehernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,9 @@ static int	change_directory(const char *path)
 	}
 }
 
-static void	upgrade(t_min *tk, char *str)
+static void	upgrade(t_min *tk, char *str, t_env *find)
 {
 	char	*pwd;
-	t_env	*find;
 
 	pwd = getcwd(NULL, 0);
 	find = env_find(tk->env, str, find_env);
@@ -59,14 +58,16 @@ static void	upgrade(t_min *tk, char *str)
 static int	return_value(t_min *tk, char *path)
 {
 	int		res;
+	t_env	*find;
 
 	res = 0;
-	upgrade(tk, "OLDPWD");
+	find = NULL;
+	upgrade(tk, "OLDPWD", find);
 	if (!path)
 		res = change_directory(tk->home);
 	else
 		res = change_directory(path);
-	upgrade(tk, "PWD");
+	upgrade(tk, "PWD", find);
 	return (res);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putstr_error.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdominic <gdominic@student.42barcelona.co  +#+  +:+       +#+        */
+/*   By: mehernan <mehernan@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/06 18:08:10 by gdominic          #+#    #+#             */
-/*   Updated: 2023/06/02 13:34:07 by vduchi           ###   ########.fr       */
+/*   Created: 2024/06/19 12:33:17 by mehernan          #+#    #+#             */
+/*   Updated: 2024/06/19 12:33:19 by mehernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

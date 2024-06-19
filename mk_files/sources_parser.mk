@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    sources_parser.mk                                  :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vduchi <vduchi@student.42barcelon>         +#+  +:+       +#+         #
+#    By: mehernan <mehernan@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/29 19:06:12 by vduchi            #+#    #+#              #
-#    Updated: 2024/06/02 17:22:13 by vduchi           ###   ########.fr        #
+#    Updated: 2024/06/19 12:48:06 by mehernan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_add.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mehernan <mehernan@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/11 14:25:41 by nmota-bu          #+#    #+#             */
-/*   Updated: 2024/06/17 18:01:36 by mehernan         ###   ########.fr       */
+/*   Created: 2024/06/19 12:48:26 by mehernan          #+#    #+#             */
+/*   Updated: 2024/06/19 12:48:31 by mehernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
