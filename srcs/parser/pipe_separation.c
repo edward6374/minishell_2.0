@@ -13,17 +13,32 @@
 #include "parser.h"
 #include "g_error.h"
 
-// static void	print_list(t_pipe **list)
-// {
-// 	t_pipe	*temp;
+static char	*take_div_str(char *input, int i, int *count)
+{
+	int		sin;
+	int		dbl;
+	char	*new_str;
 
-// 	temp = *list;
-// 	while (temp != NULL)
-//     {
-//         printf("Que hay en la lista: -%s-\n", temp->words->str);
-//         temp = temp->next;
-//     }
-// }
+	sin = 0;
+	dbl = 0;
+	while ((input[i + *count] != '|' || (input[i + *count] == '|'
+		&& (sin || dbl))) && input[i + *count] != '\0')
+	{
+		if (input[i + *count] == '\'' && sin == 0)
+			sin++;
+		else if (input[i + *count] == '\'' && sin == 1)
+			sin--;
+		if (input[i + *count] == '\"' && dbl == 0)
+			dbl++;
+		else if (input[i + *count] == '\"' && dbl == 1)
+			dbl--;
+		*count = *count + 1;
+	}
+	new_str = ft_calloc((*count + 1), sizeof(char));
+	if (!new_str)
+		exit_error(g_error_array[0], MALLOC);
+	return (new_str);
+}
 
 static void	put_list(t_pipe **list, char *div_str)
 {
@@ -56,14 +71,10 @@ t_pipe	*dividing_pipe(char *input, int i)
 	list = NULL;
 	while (input[i])
 	{
-		count = 1;
-		while (input[count] != '|' && input[count] != '\0')
-			count++;
-		div_str = ft_calloc((count + 1), sizeof(char));
-		if (!div_str)
-			exit_error(g_error_array[0], MALLOC);
+		count = 0;
+		div_str = take_div_str(input, i, &count);
 		j = 0;
-		while (input[i] != '|' && input[i] != '\0')
+		while (j < count)
 			div_str[j++] = input[i++];
 		div_str[j] = '\0';
 		put_list(&list, div_str);
@@ -73,4 +84,3 @@ t_pipe	*dividing_pipe(char *input, int i)
 	}
 	return (list);
 }
-// print_list(&list);

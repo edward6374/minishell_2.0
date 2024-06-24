@@ -12,6 +12,24 @@
 
 #include "built_ins.h"
 
+void	change_env_value(t_export *dt)
+{
+	char	*tmp;
+
+	if (dt->is_plus)
+	{
+		tmp = ft_strjoin(dt->find->value, dt->value);
+		free(dt->find->value);
+		free(dt->value);
+		dt->find->value = tmp;
+	}
+	else
+	{
+		free(dt->find->value);
+		dt->find->value = dt->value;
+	}
+}
+
 int	find_env(char *s1, char *s2, int mode)
 {
 	int	i;

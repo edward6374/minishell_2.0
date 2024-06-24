@@ -23,6 +23,8 @@ static void	check_flag(char **args, int *i, int *no_newline)
 	while (42)
 	{
 		l = 0;
+		if (!args[j])
+			return ;
 		while (args[j][l])
 		{
 			if ((l == 0 && args[j][l] != '-')

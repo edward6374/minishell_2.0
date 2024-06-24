@@ -44,21 +44,25 @@ static int	is_name(char *name)
 	return (1);
 }
 
-void	remove_plus(char *str)
+static void	remove_plus(t_export *dt)
 {
 	int	len;
 
-	len = strlen(str);
-	if (len > 0 && str[len - 1] == '+')
-		str[len - 1] = '\0';
+	len = strlen(dt->name);
+	if (len > 0 && dt->name[len - 1] == '+')
+	{
+		dt->is_plus = 1;
+		dt->name[len - 1] = '\0';
+	}
 }
 
-void	export_loop(t_env *env, char **args, t_export *dt)
+static void	export_loop(t_env *env, char **args, t_export *dt)
 {
 	if (!is_name(dt->name))
 	{
 		printf("%s export: `%s\': not valid identifier\n", TERROR, args[dt->i]);
 		dt->res = 1;
+		free(dt->name);
 		dt->name = NULL;
 	}
 	if (dt->name != NULL)
@@ -68,8 +72,7 @@ void	export_loop(t_env *env, char **args, t_export *dt)
 		else
 		{
 			dt->find = env_find(env, dt->name, find_env);
-			free(dt->find->value);
-			dt->find->value = dt->value;
+			change_env_value(dt);
 		}
 	}
 	if (ft_strlen(dt->value) == 0)
@@ -83,18 +86,16 @@ int	export_add(t_env *env, char **args)
 
 	dt.i = 1;
 	dt.res = 0;
+	dt.is_plus = 0;
 	dt.find = NULL;
-	if (args[0])
+	while (args[dt.i] != NULL)
 	{
-		while (args[dt.i] != NULL)
-		{
-			dt.name = ft_substr(args[dt.i], 0, ft_strcspn(args[dt.i], "="));
-			dt.value = ft_substr(args[dt.i], (ft_strlen(dt.name) + 1),
-					0xFFFFFFF);
-			remove_plus(dt.name);
-			export_loop(env, args, &dt);
-			dt.i++;
-		}
+		dt.name = ft_substr(args[dt.i], 0, ft_strcspn(args[dt.i], "="));
+		dt.value = ft_substr(args[dt.i], (ft_strlen(dt.name) + 1),
+				0xFFFFFFF);
+		remove_plus(&dt);
+		export_loop(env, args, &dt);
+		dt.i++;
 	}
 	return (dt.res);
 }
