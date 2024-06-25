@@ -111,7 +111,10 @@ int	do_open(t_pipe *node, t_cmd *new)
 	tmp_word = node->words;
 	while (tmp_word)
 	{
-		if (tmp_word->str[0] == '>' || tmp_word->str[0] == '<')
+		if (ft_strncmp(tmp_word->str, "<", 2) == 0
+			|| ft_strncmp(tmp_word->str, ">", 2) == 0
+			|| ft_strncmp(tmp_word->str, "<<", 3) == 0
+			|| ft_strncmp(tmp_word->str, ">>", 3) == 0)
 		{
 			sign = tmp_word->str[0];
 			if (tmp_word->str[0] == '>' && tmp_word->str[1] == '>')

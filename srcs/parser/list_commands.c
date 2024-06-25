@@ -51,7 +51,10 @@ static void	put_args(t_cmd *new, t_pipe *node)
 	tmp_words = node->words;
 	while (tmp_words)
 	{
-		if (tmp_words->str[0] != '<' && tmp_words->str[0] != '>')
+		if (ft_strncmp(tmp_words->str, "<", 2) != 0
+			&& ft_strncmp(tmp_words->str, ">", 2) != 0
+			&& ft_strncmp(tmp_words->str, "<<", 3) != 0
+			&& ft_strncmp(tmp_words->str, ">>", 3) != 0)
 			n++;
 		else
 			tmp_words = tmp_words->next;

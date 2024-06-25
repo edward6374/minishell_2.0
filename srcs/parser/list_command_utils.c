@@ -20,7 +20,10 @@ void	take_args(t_word *tmp_words, t_cmd *new)
 	n = 0;
 	while (tmp_words)
 	{
-		if (tmp_words->str[0] == '<' || tmp_words->str[0] == '>')
+		if (ft_strncmp(tmp_words->str, "<", 2) == 0
+			|| ft_strncmp(tmp_words->str, ">", 2) == 0
+			|| ft_strncmp(tmp_words->str, "<<", 3) == 0
+			|| ft_strncmp(tmp_words->str, ">>", 3) == 0)
 			tmp_words = tmp_words->next;
 		else
 		{

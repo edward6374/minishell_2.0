@@ -70,7 +70,7 @@ int	parser(t_min *tk, char *line)
 // Las dos comillas, entonces si hay simple y doble,
 // hay que contar las dos! ✍️
 //
-// Las redirecciones: estan mal si despues de un < o > o << o >> no 
+// Las redirecciones: estan mal si despues de un < o > o << o >> no
 // hay una palabra
 // pero hay otra redireccion o un pipe, y controlar
 // tambien que si antes de un pipe tienes otro pipe o no tienes palabras,
