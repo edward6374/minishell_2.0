@@ -6,7 +6,7 @@
 /*   By: mehernan <mehernan@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 12:50:06 by mehernan          #+#    #+#             */
-/*   Updated: 2024/06/19 12:50:15 by mehernan         ###   ########.fr       */
+/*   Updated: 2024/06/25 12:15:26 by mehernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	interact_handler(int sig)
 	}
 	else if (sig == SIGQUIT)
 	{
-		ft_putstr_fd("Quit: 3\n", 1);
+		ft_putstr_fd("Quit (core dumped)\n", 1);
 		g_exit = 131;
 	}
 	return ;
