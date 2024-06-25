@@ -22,7 +22,7 @@ static char	*take_div_str(char *input, int i, int *count)
 	sin = 0;
 	dbl = 0;
 	while ((input[i + *count] != '|' || (input[i + *count] == '|'
-		&& (sin || dbl))) && input[i + *count] != '\0')
+				&& (sin || dbl))) && input[i + *count] != '\0')
 	{
 		if (input[i + *count] == '\'' && sin == 0)
 			sin++;
