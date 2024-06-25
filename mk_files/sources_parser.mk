@@ -22,6 +22,7 @@ SRCS_PARSER	+=	srcs/parser/expand_variable.c
 SRCS_PARSER	+=	srcs/parser/pipe_separation.c
 SRCS_PARSER	+=	srcs/parser/list_word_detector.c
 SRCS_PARSER	+=	srcs/parser/list_command_utils.c
+SRCS_PARSER	+=	srcs/parser/expand_variable_utils.c
 
 OBJS_PARSER	=	$(patsubst $(SRC_DIR_PARSER)/%, $(OBJ_DIR_PARSER)/%, $(SRCS_PARSER:.c=.o))
 DEPS_PARSER	=	$(patsubst $(SRC_DIR_PARSER)/%, $(DEP_DIR_PARSER)/%, $(SRCS_PARSER:.c=.d))

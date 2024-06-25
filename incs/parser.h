@@ -29,6 +29,12 @@ void		deleting(t_pipe *list);
 //			EXPAND_VARIABLE			//
 void		check_dollar(t_min *tk, t_pipe *list);
 
+//			EXPAND_VARIABLE_UTILS			//
+int			check_quotes(char c, int *sin, int *dbl);
+t_word		*take_another_word(t_word *word, int *i);
+char		*change_first_word(t_word *word, char *mod, int i);
+void		add_new_word(t_word *word, t_word *next, t_word *tmp);
+
 //			FIND_COMMANDS			//
 void		find_command(t_min *tk, t_cmd *new, t_word *tmp_words);
 

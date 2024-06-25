@@ -13,6 +13,15 @@
 #include "parser.h"
 #include "g_error.h"
 
+// static void pr(char **args)
+// {
+// 	int i = -1;
+// 	if (!args)
+// 		return ;
+// 	while (args[++i])
+// 		printf("Arg %d: %s\n", i, args[i]);
+// }
+
 void	take_args(t_word *tmp_words, t_cmd *new)
 {
 	int	n;
@@ -40,6 +49,7 @@ void	take_args(t_word *tmp_words, t_cmd *new)
 		new->args = NULL;
 	}
 }
+	// pr(new->args);
 
 static t_env	*find_path_var(t_env *env)
 {
