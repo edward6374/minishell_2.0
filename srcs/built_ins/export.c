@@ -110,7 +110,7 @@ t_env	*new_env(char *str, char *value)
 	if (!name)
 		exit_error(g_error_array[0], MALLOC);
 	new->name = name;
-	if (ft_strlen(value) == 0)
+	if (!value || (value && ft_strlen(value) == 0))
 		new->value = NULL;
 	else
 		new->value = value;

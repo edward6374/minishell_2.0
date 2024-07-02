@@ -62,11 +62,11 @@ void	add_new_word(t_word *word, t_word *next, t_word *tmp)
 
 int	check_quotes(char c, int *sin, int *dbl)
 {
-	if (c == '\'' && *sin == 0)
+	if (c == '\'' && *sin == 0 && *dbl == 0)
 		*sin = *sin + 1;
 	else if (c == '\'' && *sin == 1)
 		*sin = *sin - 1;
-	else if (c == '\"' && *dbl == 0)
+	else if (c == '\"' && *dbl == 0 && *sin == 0)
 		*dbl = *dbl + 1;
 	else if (c == '\"' && *dbl == 1)
 		*dbl = *dbl - 1;

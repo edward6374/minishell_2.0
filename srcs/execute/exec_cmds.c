@@ -53,7 +53,6 @@ void	take_exit_value(t_cmd *tmp)
 		else if (!ft_strncmp(tmp->args[i], "$?", 2))
 			take_more_exit(tmp->args, i);
 	}
-	g_exit = 0;
 }
 
 static pid_t	child_exec(t_min *tk, t_cmd *tmp, int *p, int fd)
@@ -66,15 +65,19 @@ static pid_t	child_exec(t_min *tk, t_cmd *tmp, int *p, int fd)
 	{
 		redirect_pipes(tmp, p, fd);
 		close_here_doc(tk);
-		if (!tmp->cmd)
+		if (!tmp->cmd && !tmp->ok)
 			exit(0);
-		else if (is_builtin(tmp->cmd))
+		if (is_builtin(tmp->cmd))
 		{
 			g_exit = run_builtin(tk, tmp);
 			exit(g_exit);
 		}
 		else
+		{
 			execve(tmp->cmd, tmp->args, tk->pt_env);
+			perror("execve error: ");
+			exit(1);
+		}
 	}
 	return (pid);
 }
@@ -85,14 +88,12 @@ int	loop_commands(t_min *tk, pid_t *child_pid, int *p, int fd)
 
 	tmp = tk->cmds;
 	if (!tmp->cmd && tmp->ok == 0 && !tmp->next)
-	{
-		free(child_pid);
-		return (0);
-	}
+		return (free_pt((void **)&child_pid, 0));
 	if (tk->num_cmds == 1 && !tk->cmds->ok && is_builtin(tk->cmds->cmd))
 		one_builtin(tk, tk->cmds, child_pid);
 	else
 	{
+		take_double(tk, tk->env);
 		while (tmp)
 		{
 			take_exit_value(tmp);

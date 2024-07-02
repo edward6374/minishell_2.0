@@ -12,6 +12,7 @@
 
 #include "parser.h"
 #include "g_error.h"
+#include "errno.h"
 
 static int	access_cmd(char *str, t_cmd *new, char *tmp)
 {
@@ -40,9 +41,17 @@ static int	access_cmd(char *str, t_cmd *new, char *tmp)
 
 void	find_command(t_min *tk, t_cmd *new, t_word *tmp_words)
 {
+	int		fd;
 	char	*tmp;
 
-	if (is_builtin(tmp_words->str))
+	fd = open(tmp_words->str, O_RDWR);
+	if (fd == -1 && errno == EISDIR)
+	{
+		new->ok = IS_DIR;
+		new->cmd = ft_strdup(tmp_words->str);
+		return ;
+	}
+	else if (is_builtin(tmp_words->str))
 		new->cmd = ft_strdup(tmp_words->str);
 	else if (tmp_words->str[0] == '/')
 		new->ok = access_cmd(tmp_words->str, new, NULL);
@@ -56,4 +65,5 @@ void	find_command(t_min *tk, t_cmd *new, t_word *tmp_words)
 		new->ok = get_cmd_path(tk, new, tmp_words->str);
 	if (!new->cmd)
 		exit_error(g_error_array[0], MALLOC);
+	close(fd);
 }

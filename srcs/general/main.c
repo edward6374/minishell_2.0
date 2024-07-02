@@ -104,7 +104,7 @@ int	main(int argc, char *argv[], char *env[])
 			set_signals(0);
 			result = loop_main(tk);
 			if (result == 1)
-				exit(0);
+				exit(g_exit);
 		}
 	}
 	else

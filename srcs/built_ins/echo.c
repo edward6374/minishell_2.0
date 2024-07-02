@@ -51,7 +51,7 @@ int	ft_echo(char **args, int i)
 {
 	int	no_newline;
 
-	if (!args[1])
+	if (!args[1] || args[1][0] == '\0')
 	{
 		printf("\n");
 		return (0);

@@ -46,10 +46,10 @@ int	ft_exit(t_cmd *cmd)
 	long long int	value;
 
 	value = 0;
-	if (isatty(STDIN_FILENO) && write(2, "exit\n", 6) == 0)
+	if (isatty(STDIN_FILENO) && write(1, "exit\n", 6) == 0)
 		exit(1);
 	if (!cmd->args[1])
-		exit(0);
+		exit(g_exit);
 	else if ((!cmd->args[2] && !ft_strncmp(cmd->args[1], "", 1)))
 		exit_err_arg(cmd->args[1], &value, 0);
 	value = ft_atol(cmd->args[1]);

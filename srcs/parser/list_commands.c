@@ -81,8 +81,7 @@ static void	command_inside(t_min *tk, t_cmd *new, t_pipe *node)
 				&& tmp_words->str[0] != '<'
 				&& tmp_words->str[0] != '>'))
 		{
-			if (tmp_words->str[0] != '\0')
-				find_command(tk, new, tmp_words);
+			find_command(tk, new, tmp_words);
 			break ;
 		}
 		tmp_words = tmp_words->next;

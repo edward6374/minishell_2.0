@@ -95,16 +95,15 @@ static void	find_dollar(t_min *tk, t_word *tmp, char *var, int is_var)
 {
 	int		i;
 	int		sin;
+	int		dbl;
 	char	value[2000];
 
 	i = -1;
 	sin = 0;
+	dbl = 0;
 	while (tmp->str[++i])
 	{
-		if (tmp->str[i] == '\'' && sin == 0)
-			sin++;
-		else if (tmp->str[i] == '\'' && sin == 1)
-			sin--;
+		check_quotes(tmp->str[i], &sin, &dbl);
 		if (tmp->str[i] == '$' && sin == 0 && tmp->str[i + 1] != '?')
 		{
 			if (!ft_isalpha(tmp->str[i + 1]) && tmp->str[i + 1] != '_')

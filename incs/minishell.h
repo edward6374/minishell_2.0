@@ -36,6 +36,7 @@ int		end_program(char **line, int error);
 char	*ft_find_path(char *env[]);
 
 /* ---			Free_funcs.c			--- */
+int		free_pt(void **pt, int out);
 void	free_one_cmd(t_cmd *tmp);
 void	free_double_void(char **old);
 void	free_here_doc(t_here_doc *hd);

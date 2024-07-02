@@ -47,6 +47,7 @@ enum
 	FILE_NOT_FOUND,
 	FILE_NOT_READ,
 	FILE_NOT_WRITE,
+	IS_DIR,
 	NONE,
 };
 

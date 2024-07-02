@@ -75,7 +75,7 @@ static void	export_loop(t_env *env, char **args, t_export *dt)
 			change_env_value(dt);
 		}
 	}
-	if (ft_strlen(dt->value) == 0)
+	if (dt->value && ft_strlen(dt->value) == 0)
 		free(dt->value);
 	free(dt->name);
 }
@@ -91,8 +91,12 @@ int	export_add(t_env *env, char **args)
 	while (args[dt.i] != NULL)
 	{
 		dt.name = ft_substr(args[dt.i], 0, ft_strcspn(args[dt.i], "="));
-		dt.value = ft_substr(args[dt.i], (ft_strlen(dt.name) + 1),
-				0xFFFFFFF);
+		if (!ft_strchr(args[dt.i], '=') || (ft_strchr(args[dt.i], '=')
+			&& *(ft_strchr(args[dt.i], '=') + 1) == '\0'))
+			dt.value = NULL;
+		else
+			dt.value = ft_substr(args[dt.i], (ft_strlen(dt.name) + 1),
+					0xFFFFFFF);
 		remove_plus(&dt);
 		export_loop(env, args, &dt);
 		dt.i++;

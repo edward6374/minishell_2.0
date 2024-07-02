@@ -24,6 +24,7 @@ static const char		*g_error_array[] = {
 	"no such file or directory",
 	"file not readable",
 	"file not writeable",
+	"Is a directory",
 };
 
 #endif

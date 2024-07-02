@@ -12,6 +12,14 @@
 
 #include "minishell.h"
 
+int	free_pt(void **pt, int out)
+{
+	if (*pt)
+		free(*pt);
+	*pt = NULL;
+	return (out);
+}
+
 void	free_here_doc(t_here_doc *hd)
 {
 	t_hd_val	*tmp;

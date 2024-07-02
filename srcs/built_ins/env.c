@@ -18,6 +18,8 @@ void	change_env_value(t_export *dt)
 
 	if (dt->is_plus)
 	{
+		if (dt->find->value == NULL)
+			dt->find->value = ft_strdup("");
 		tmp = ft_strjoin(dt->find->value, dt->value);
 		free(dt->find->value);
 		free(dt->value);

@@ -40,7 +40,7 @@ void	set_g(int ok)
 {
 	if (ok == 6)
 		g_exit = 127;
-	else if (ok == 7)
+	else if (ok == 7 || ok == 11)
 		g_exit = 126;
 	else
 		g_exit = 1;
