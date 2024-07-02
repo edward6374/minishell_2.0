@@ -6,7 +6,7 @@
 /*   By: mehernan <mehernan@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 12:48:26 by mehernan          #+#    #+#             */
-/*   Updated: 2024/06/19 12:48:31 by mehernan         ###   ########.fr       */
+/*   Updated: 2024/07/02 18:14:46 by mehernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	export_add(t_env *env, char **args)
 	{
 		dt.name = ft_substr(args[dt.i], 0, ft_strcspn(args[dt.i], "="));
 		if (!ft_strchr(args[dt.i], '=') || (ft_strchr(args[dt.i], '=')
-			&& *(ft_strchr(args[dt.i], '=') + 1) == '\0'))
+				&& *(ft_strchr(args[dt.i], '=') + 1) == '\0'))
 			dt.value = NULL;
 		else
 			dt.value = ft_substr(args[dt.i], (ft_strlen(dt.name) + 1),
