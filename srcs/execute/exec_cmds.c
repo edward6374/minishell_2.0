@@ -39,20 +39,28 @@ int	check_before_exec(t_cmd **tmp, int *p, int *fd)
 void	take_exit_value(t_cmd *tmp)
 {
 	int	i;
+	int	check;
 
 	i = 0;
+	check = 0;
 	if (!tmp->args)
 		return ;
 	while (tmp->args[++i])
 	{
 		if (!ft_strncmp(tmp->args[i], "$?", 3))
 		{
+			check = 1;
 			free(tmp->args[i]);
 			tmp->args[i] = ft_itoa(g_exit);
 		}
 		else if (!ft_strncmp(tmp->args[i], "$?", 2))
+		{
+			check = 1;
 			take_more_exit(tmp->args, i);
+		}
 	}
+	if (check)
+		g_exit = 0;
 }
 
 static pid_t	child_exec(t_min *tk, t_cmd *tmp, int *p, int fd)
